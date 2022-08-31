@@ -32,11 +32,11 @@ Text Domain: event-management-system
 if (!defined('ABSPATH')) {
     exit;
 }
-if (!defined('ems_VERSION')) {
-    define('ems_VERSION', '1.0.0');
-    define('ems_MAIN_FILE', __FILE__);
-    define('ems_URL', plugin_dir_url(__FILE__));
-    define('ems_DIR', plugin_dir_path(__FILE__));
+if (!defined('EMS_VERSION')) {
+    define('EMS_VERSION', '1.0.0');
+    define('EMS_MAIN_FILE', __FILE__);
+    define('EMS_URL', plugin_dir_url(__FILE__));
+    define('EMS_DIR', plugin_dir_path(__FILE__));
     // define('EMS_DB_VERSION', 120);
 
 
@@ -56,6 +56,7 @@ if (!defined('ems_VERSION')) {
         {
 
             new \EMS\Includes\Classes\PostType();
+            new \EMS\Includes\Classes\Models();
             //Register Admin menu
             $menu = new \EMS\Includes\Classes\Menu();
             $menu->register();

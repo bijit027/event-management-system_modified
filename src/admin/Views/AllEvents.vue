@@ -5,23 +5,36 @@
     </div>
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
     <el-row>
-    <el-table :data="displayData" style="width: 100%">
-        <el-table-column label="Date" prop="post_date" />
-        <el-table-column label="Event" prop="post_title" />
-        <el-table-column align="right">
-            <template #default="scope">
-                <el-button size="small" type="primary" @click="showSingleData(scope.$index, scope.row)">View</el-button>
-                <el-button size="small" @click="editEventData(scope.$index, scope.row)">Edit</el-button>
-                <el-button size="small" type="danger" @click="deletEvent(scope.$index, scope.row)">Delete</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+        <el-table :data="displayData" style="width: 100%">
+            <el-table-column label="Date" prop="post_date" />
+            <el-table-column label="Event" prop="post_title" />
+            <el-table-column align="right">
+                <template #default="scope">
+                    <el-button size="small" type="primary" @click="showSingleData(scope.$index, scope.row)">View</el-button>
+                    <el-button size="small" @click="editEventData(scope.$index, scope.row)">Edit</el-button>
+                    <el-button size="small" type="danger" @click="confirmDeleteMessage(scope.row)">Delete</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
     </el-row>
     <el-row>
-    <div class="pagination-block">
-        <el-pagination background layout="total,sizes,prev, pager, next,jumper" @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-size="pageSize" :page-sizes="[10, 20, 30, 40]" :total="events.length" />
-    </div>
+        <div class="pagination-block">
+            <el-pagination background layout="total,sizes,prev, pager, next,jumper" @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-size="pageSize" :page-sizes="[10, 20, 30, 40]" :total="events.length" />
+        </div>
     </el-row>
+
+    <!--Delete form Confimation Modal-->
+    <el-dialog title="Are You Sure, You want to delete this form?" v-model="deleteDialogVisible" :show-close="false" width="40%">
+        <div class="modal_body">
+            <p>All the data assoscilate with this form will be deleted, including payment information and other
+                associate information</p>
+            <p>You are deleting form id: </p>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="danger" @click="deleteDialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="deletEvent(deleteingForm.ID)">Confirm</el-button>
+        </span>
+    </el-dialog>
 </el-main>
 </template>
 
@@ -42,7 +55,9 @@ export default {
             showSuccess: '',
             showError: '',
             page: 1,
-            pageSize: 10
+            pageSize: 10,
+            deleteingForm: {},
+            deleteDialogVisible: false,
         }
     },
 
@@ -63,19 +78,39 @@ export default {
         handleSizeChange(val) {
             this.pageSize = val;
         },
+        confirmDeleteMessage(form) {
+            this.deleteingForm = form;
+            this.deleteDialogVisible = true;
+        },
+
+        addEvent() {
+            this.$router.push({
+                path: `/addEvent`
+            })
+        },
         editEventData(index, row) {
             this.$router.push({
                 path: `/edit-event/${row.ID}`
             })
 
         },
-        addEvent() {
-            this.$router.push({
-                path: `/addEvent`
-            })
-        },
-        deletEvent(index, row) {
-            // const that = this;
+        deletEvent(id) {
+            const that = this;
+
+            EMS.adminPost({
+                    route: 'delete_event',
+                    id: id,
+                })
+                .then(response => {
+                    ElMessage({
+                        showClose: true,
+                        message: response.data.message,
+                        type: 'success',
+                    })
+                    this.fetchData();
+                })
+                .fail(error => {})
+
             // jQuery.ajax({
             //     type: "POST",
             //     url: ajax_url.ajaxurl,
@@ -106,30 +141,41 @@ export default {
 
         },
         fetchData() {
+            // const that = this;
+            // jQuery.ajax({
+            //     type: "GET",
+            //     url: ajax_url.ajaxurl,
+            //     dataType: 'json',
+            //     data: {
+            //         action: "ems_get_event_data",
+            //         type: 'fetch'
+            //     },
+            //     success: function (data) {
+            //         that.events = data.data;
+            //     }
+            // });
             const that = this;
-            jQuery.ajax({
-                type: "GET",
-                url: ajax_url.ajaxurl,
-                dataType: 'json',
-                data: {
-                    action: "ems_get_event_data",
-                    type: 'fetch'
-                },
-                success: function (data) {
-                    that.events = data.data;
-                }
-            });
+            EMS.adminGet({
+                    route: 'get_eventData',
+                })
+                .then(response => {
+                    that.events = response.data.event_data;
+
+                })
+                .fail(error => {
+
+                })
+
         },
     }
 }
 </script>
 
 <style>
-.pagination-block{
-margin-left: auto;
-margin-right: 0px;
-margin-top:20px;
+.pagination-block {
+    margin-left: auto;
+    margin-right: 0px;
+    margin-top: 20px;
 
 }
-
 </style>

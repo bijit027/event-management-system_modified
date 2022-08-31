@@ -8,16 +8,24 @@ import {
     ElMessage
 } from 'element-plus';
 import InputForm from "../components/InputForm.vue";
-// import EMS from "../../EMS.js";
 export default {
 
     data: function () {
         return {
-            // EMS,
             event: {
-
                 title: '',
                 details: '',
+                category: '',
+                organizer: '',
+                onlineEvent: '',
+                url: '',
+                startingDate: '',
+                startingTime: '',
+                endingDate: '',
+                endingTime: '',
+                location: '',
+                limit: '',
+                deadline: '',
                 button: 'Create',
             },
 
@@ -32,12 +40,23 @@ export default {
 
     methods: {
         onSubmit() {
-           const that = this
+            const that = this
             EMS.adminPost({
-                route: 'create_event',
-                title: that.event.title,
-                details: that.event.details,
-            })
+                    route: 'create_event',
+                    data: that.event
+                })
+                .then(response => {
+                    ElMessage({
+                        showClose: true,
+                        message: response.data.message,
+                        type: 'success',
+                    })
+
+                    that.$router.push({
+                        name: "AllEvents"
+                    });
+                })
+                .fail(error => {})
         }
     },
 }
