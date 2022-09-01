@@ -62,7 +62,7 @@ class Menu
             EMS_VERSION,
             true
         );
-        wp_enqueue_style('ems_admin_css', EMS_URL . 'assets/ElementPlus/index.css');
+        wp_enqueue_style('ems_element_plus_css', EMS_URL . 'assets/ElementPlus/index.css');
 
         wp_localize_script("ems_js", "ajax_url", [
             "ajaxurl" => admin_url("admin-ajax.php"),

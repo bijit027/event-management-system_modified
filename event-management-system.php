@@ -37,9 +37,6 @@ if (!defined('EMS_VERSION')) {
     define('EMS_MAIN_FILE', __FILE__);
     define('EMS_URL', plugin_dir_url(__FILE__));
     define('EMS_DIR', plugin_dir_path(__FILE__));
-  
-
-
 
     class EventManagementSystem
     {
@@ -79,7 +76,7 @@ if (!defined('EMS_VERSION')) {
         public function loadDependecies(){
             if (file_exists(__DIR__ . '/vendor/autoload.php')) {
                 require_once __DIR__ . '/vendor/autoload.php';
-              }
+            }
         }
     }
 
@@ -96,17 +93,17 @@ if (!defined('EMS_VERSION')) {
     });
 
     // disabled admin-notice on dashboard
-//     // add_action('admin_init', function () {
-//     //     $disablePages = [
-//     //         'event-management-system.php',
-//     //     ];
-//     //     if (isset($_GET['page']) && in_array($_GET['page'], $disablePages)) {
-//     //         remove_all_actions('admin_notices');
-//     //     }
-//     // } else {
-//     //     add_action('admin_init', function () {
-//     //         deactivate_plugins(plugin_basename(__FILE__));
-//     //     });
-//     // });
+//     add_action('admin_init', function () {
+//         $disablePages = [
+//             'event-management-system.php',
+//         ];
+//         if (isset($_GET['page']) && in_array($_GET['page'], $disablePages)) {
+//             remove_all_actions('admin_notices');
+//         }
+//     } else {
+//         add_action('admin_init', function () {
+//             deactivate_plugins(plugin_basename(__FILE__));
+//         });
+//     });
 
 // }

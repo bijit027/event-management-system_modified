@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 class Activator
 {
 
-
     public function addVersion()
     {
 

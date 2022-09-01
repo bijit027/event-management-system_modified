@@ -38,8 +38,6 @@ class Models
 
     public function fetchEventData()
     {
-        $val = wp_get_single_post($formId, ARRAY_A);
-        $content = json_decode($val['post_content']);
         $args = array(
             'numberposts' => -1,
             'orderby' => 'date',
@@ -51,9 +49,7 @@ class Models
         if (is_wp_error($data)) {
             return false;
         }
-        // wp_send_json_success($data, 200);
-
-        
+               
         wp_send_json_success(array(
             'event_data'     => $data,
         ), 200);

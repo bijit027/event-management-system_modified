@@ -14,7 +14,7 @@ class AdminAjaxHandler extends Models
         $route = sanitize_text_field($_REQUEST['route']);
 
         $validRoutes = array(
-            'get_data'    => 'getData',
+            
             'create_event' => 'createEvent',
             'get_eventData' => 'getEventData',
             'get_single_eventData' => 'getSingleEventData',
@@ -28,10 +28,6 @@ class AdminAjaxHandler extends Models
    
     }
 
-    protected function getData()
-    {
-
-    }
     protected function createEvent()
     {
         if (!wp_verify_nonce($_POST['ems_nonce'], 'ems_ajax_nonce')) {
@@ -105,7 +101,7 @@ class AdminAjaxHandler extends Models
     protected function deleteEvent(){
         if (!wp_verify_nonce($_POST['ems_nonce'], 'ems_ajax_nonce')) {
             return wp_send_json_error('Busted! Please login!', 400);
-          }
+        }
         $id = intval($_POST["id"]);
         parent::deleteEventData($id);
     }
@@ -116,11 +112,11 @@ class AdminAjaxHandler extends Models
         $data = [];
         foreach ($inputValue as $field_key) {
 
-                if(sanitize_text_field($_POST["data"][$field_key]) != '' ){
-                    $data[$field_key] = $_POST["data"][$field_key];
-                }else{
-                    $this->sanitizationError($field_key);
-                }
+            if(sanitize_text_field($_POST["data"][$field_key]) != '' ){
+                $data[$field_key] = $_POST["data"][$field_key];
+            }else{
+                $this->sanitizationError($field_key);
+            }
         
         }
         
