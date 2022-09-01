@@ -160,7 +160,7 @@ class Models
      );
      
      $formId =  wp_update_post($data);
-     if(!is_wp_error($formId)){
+     if($formId>0){
          return wp_send_json_success(
              [
                  "message" => __("Successfully updated Data", "event-management-system"),

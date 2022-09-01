@@ -17,7 +17,7 @@ export default {
             value: {
                 button: '',
             },
-            button:'Update',
+            button: 'Update',
             organizer: {},
             ID: '',
             errors: [],
@@ -41,7 +41,6 @@ export default {
                 .then(response => {
                     that.event = response.data.single_event_data;
                     that.value = JSON.parse(that.event.eventData);
-                    
 
                 })
                 .fail(error => {
@@ -73,7 +72,7 @@ export default {
                     id: that.eventID,
                     ems_nonce: ajax_url.ems_nonce,
                     data: that.value,
-                    
+
                 })
                 .then(response => {
                     ElMessage({
@@ -86,7 +85,12 @@ export default {
                         name: "AllEvents"
                     });
                 })
-                .fail(error => {})
+                .fail(error => {
+                    that.errors = error.responseJSON.data;
+                    if (error.responseJSON.data.error) {
+                        ElMessage.error(error.responseJSON.data.error)
+                    }
+                })
             // const that = this;
             // jQuery.ajax({
             //     type: "POST",

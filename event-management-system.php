@@ -88,23 +88,25 @@ if (!defined('EMS_VERSION')) {
     });
 }
 
-    // register_activation_hook(__FILE__, function ($newWorkWide) {
-    //     require_once(ems_DIR . 'includes/Classes/Activator.php');
-    //     $activator = new \EMS\Includes\Classes\Activator();
-    //     $activator->migrateDatabases($newWorkWide);
-    // });
+    register_activation_hook(__FILE__, function () {
+        require_once(EMS_DIR . 'includes/Classes/Activator.php');
+        $activator = new \EMS\Includes\Classes\Activator();
+        $activator->addVersion();
+       
+    });
 
     // disabled admin-notice on dashboard
-//     add_action('admin_init', function () {
-//         $disablePages = [
-//             'event-management-system.php',
-//         ];
-//         if (isset($_GET['page']) && in_array($_GET['page'], $disablePages)) {
-//             remove_all_actions('admin_notices');
-//         }
-//     });
-// } else {
-//     add_action('admin_init', function () {
-//         deactivate_plugins(plugin_basename(__FILE__));
-//     });
+//     // add_action('admin_init', function () {
+//     //     $disablePages = [
+//     //         'event-management-system.php',
+//     //     ];
+//     //     if (isset($_GET['page']) && in_array($_GET['page'], $disablePages)) {
+//     //         remove_all_actions('admin_notices');
+//     //     }
+//     // } else {
+//     //     add_action('admin_init', function () {
+//     //         deactivate_plugins(plugin_basename(__FILE__));
+//     //     });
+//     // });
+
 // }

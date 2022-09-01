@@ -6,7 +6,7 @@
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
     <el-row>
         <el-table :data="displayData" style="width: 100%">
-            <el-table-column label="Date" prop="post_date" />
+            <el-table-column label="ID" prop="ID" />
             <el-table-column label="Event" prop="post_title" />
             <el-table-column align="right">
                 <template #default="scope">
@@ -24,11 +24,11 @@
     </el-row>
 
     <!--Delete form Confimation Modal-->
-    <el-dialog title="Are You Sure, You want to delete this form?" v-model="deleteDialogVisible" :show-close="false" width="40%">
+    <el-dialog title="Are You Sure, You want to delete this event?" v-model="deleteDialogVisible" :show-close="false" width="40%">
         <div class="modal_body">
-            <p>All the data assoscilate with this form will be deleted, including payment information and other
-                associate information</p>
-            <p>You are deleting Event Title: </p>
+            <!-- <p>All the data assoscilate with this form will be deleted, including payment information and other
+                associate information</p> -->
+            <p>Event ID: {{ deleteingForm.ID }}? </p>
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button type="danger" @click="deleteDialogVisible = false">Cancel</el-button>

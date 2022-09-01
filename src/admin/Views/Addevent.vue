@@ -26,7 +26,7 @@ export default {
                 location: '',
                 limit: '',
                 deadline: '',
-                
+
             },
             button: 'Create',
 
@@ -58,7 +58,13 @@ export default {
                         name: "AllEvents"
                     });
                 })
-                .fail(error => {})
+                .fail(error => {
+                    that.errors = error.responseJSON.data;
+                    
+                    if (error.responseJSON.data.error) {
+                        ElMessage.error(error.responseJSON.data.error)
+                    }
+                })
         }
     },
 }

@@ -34,14 +34,6 @@ class AdminAjaxHandler extends Models
     }
     protected function createEvent()
     {
-        // if (!wp_verify_nonce($_POST["ems_nonce"], "ems_ajax_nonce")) {
-        //     return wp_send_json_error("Busted! Please login!", 400);
-        // }
-
-        // $value = $_POST["data"];
-
-        // extract($value);
-        // wp_send_json_success($value['title']);
         if (!wp_verify_nonce($_POST['ems_nonce'], 'ems_ajax_nonce')) {
             return wp_send_json_error('Busted! Please login!', 400);
           }
@@ -83,10 +75,6 @@ class AdminAjaxHandler extends Models
             
         }
 
-        // var_dump($eventData);
-
-       
-        // wp_send_json_success($eventData);
         if (isset($_POST["id"])) {
             $id = intval($_POST["id"]);
             parent::updateEventData($id, $eventData);
@@ -127,27 +115,13 @@ class AdminAjaxHandler extends Models
         $inputValue = $field_keys;
         $data = [];
         foreach ($inputValue as $field_key) {
-            // if($field_key == 'details'){
-            //     if(sanitize_textarea_field($_POST['data'][$field_key]) != '' ){
-            //     $data[$field_key] = sanitize_textarea_field($_POST["data"][$field_key]);
-            //     }else{
-            //         $this->sanitizationError($field_key);
-            //     }
-            // }
-            // if($field_key == 'url'){
-            //     if(sanitize_url($_POST["data"][$field_key]) != '' ){
-            //         $data[$field_key] = sanitize_url($_POST["data"][$field_key]);
-            //     }else{
-            //         $this->sanitizationError($field_key);
-            //     }
-            // }
-            // else{
+
                 if(sanitize_text_field($_POST["data"][$field_key]) != '' ){
                     $data[$field_key] = $_POST["data"][$field_key];
                 }else{
                     $this->sanitizationError($field_key);
                 }
-            // }
+        
         }
         
         return $data;

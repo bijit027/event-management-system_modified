@@ -46,10 +46,7 @@ class Menu
         );
     }
 
-    public function initHooks()
-    {
-        // add_action('admin_enqueue_scripts', array($this, 'enqueueAssets'));
-    }
+
     public function render() {
         do_action('ems/render_admin_app');
     }
@@ -57,7 +54,7 @@ class Menu
     public function enqueueAssets()
     {
         if(isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {
-
+            
         wp_enqueue_script(
             'ems_js',
             EMS_URL . 'assets/Admin/admin.js',
