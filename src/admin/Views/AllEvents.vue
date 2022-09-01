@@ -17,7 +17,7 @@
             </el-table-column>
         </el-table>
     </el-row>
-    <el-row>
+    <el-row v-if="events.length>10">
         <div class="pagination-block">
             <el-pagination background layout="total,sizes,prev, pager, next,jumper" @current-change="handleCurrentChange" @size-change="handleSizeChange" :page-size="pageSize" :page-sizes="[10, 20, 30, 40]" :total="events.length" />
         </div>
@@ -28,7 +28,7 @@
         <div class="modal_body">
             <p>All the data assoscilate with this form will be deleted, including payment information and other
                 associate information</p>
-            <p>You are deleting form id: </p>
+            <p>You are deleting Event Title: </p>
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button type="danger" @click="deleteDialogVisible = false">Cancel</el-button>
@@ -100,8 +100,10 @@ export default {
             EMS.adminPost({
                     route: 'delete_event',
                     id: id,
+                    ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
+                    this.deleteDialogVisible = false;
                     ElMessage({
                         showClose: true,
                         message: response.data.message,
@@ -157,6 +159,7 @@ export default {
             const that = this;
             EMS.adminGet({
                     route: 'get_eventData',
+                    ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
                     that.events = response.data.event_data;

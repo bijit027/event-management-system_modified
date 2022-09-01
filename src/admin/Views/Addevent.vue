@@ -1,5 +1,5 @@
 <template>
-<InputForm v-bind:event="event" v-bind:errors="errors" @form-submit="onSubmit" />
+<EventInputView v-bind:event="event" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import {
     ElButton,
     ElMessage
 } from 'element-plus';
-import InputForm from "../components/InputForm.vue";
+import EventInputView from "../components/EventInputView.vue";
 export default {
 
     data: function () {
@@ -26,8 +26,9 @@ export default {
                 location: '',
                 limit: '',
                 deadline: '',
-                button: 'Create',
+                
             },
+            button: 'Create',
 
             showSuccess: '',
             showError: '',
@@ -35,7 +36,7 @@ export default {
         }
     },
     components: {
-        InputForm
+        EventInputView
     },
 
     methods: {
@@ -43,6 +44,7 @@ export default {
             const that = this
             EMS.adminPost({
                     route: 'create_event',
+                    ems_nonce: ajax_url.ems_nonce,
                     data: that.event
                 })
                 .then(response => {

@@ -7,7 +7,7 @@ class Menu
     public function register()
     {
         add_action('admin_menu', array($this, 'addMenus'));
-        // add_action('admin_enqueue_scripts', array($this, 'enqueueAssets'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueueAssets'));
     }
 
     public function addMenus()
@@ -24,7 +24,7 @@ class Menu
             $title,
             $menuPermission,
             'event-management-system.php',
-            array($this, 'enqueueAssets'),
+            array($this, 'render'),
             'dashicons-admin-site',
             25
         );
@@ -51,13 +51,12 @@ class Menu
         // add_action('admin_enqueue_scripts', array($this, 'enqueueAssets'));
     }
     public function render() {
-        do_action('wppayform/render_admin_app');
+        do_action('ems/render_admin_app');
     }
 
     public function enqueueAssets()
     {
         if(isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {
-        do_action('event-management-system/render_admin_app');
 
         wp_enqueue_script(
             'ems_js',
@@ -67,8 +66,6 @@ class Menu
             true
         );
         wp_enqueue_style('ems_admin_css', EMS_URL . 'assets/ElementPlus/index.css');
-       
-
 
         wp_localize_script("ems_js", "ajax_url", [
             "ajaxurl" => admin_url("admin-ajax.php"),

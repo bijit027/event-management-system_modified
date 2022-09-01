@@ -43,7 +43,8 @@ export default {
             const that = this;
             EMS.adminGet({
                     route: 'get_single_eventData',
-                    id: that.eventID
+                    id: that.eventID,
+                    ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
                     that.event = response.data.single_event_data;

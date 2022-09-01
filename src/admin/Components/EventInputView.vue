@@ -98,7 +98,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">{{ event.button }}</el-button>
+                    <el-button type="primary" @click="onSubmit">{{ button }}</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -109,7 +109,7 @@
 <script>
 export default {
 
-    props: ['event', 'errors'],
+    props: ['event', 'errors','button'],
     emits: ["form-submit"],
 
     data() {

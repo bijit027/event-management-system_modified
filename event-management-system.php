@@ -37,7 +37,7 @@ if (!defined('EMS_VERSION')) {
     define('EMS_MAIN_FILE', __FILE__);
     define('EMS_URL', plugin_dir_url(__FILE__));
     define('EMS_DIR', plugin_dir_path(__FILE__));
-    // define('EMS_DB_VERSION', 120);
+  
 
 
 
@@ -61,12 +61,11 @@ if (!defined('EMS_VERSION')) {
             $menu = new \EMS\Includes\Classes\Menu();
             $menu->register();
 
-            // Top Level Ajax Handlers
-            // $ajaxHandler = 
+            // Top Level Ajax Handlers 
             $ajaxHandler = new \EMS\Includes\Classes\AdminAjaxHandler();
             $ajaxHandler->registerEndpoints();
 
-            add_action('event-management-system/render_admin_app', function () {
+            add_action('ems/render_admin_app', function () {
                 $adminApp = new \EMS\Includes\Classes\AdminApp();
                 $adminApp->bootView();
             });
