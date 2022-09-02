@@ -3,7 +3,10 @@
     <div>
         <h2>ALL Events</h2>
     </div>
+
+    
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
+ 
     <el-row>
         <el-table :data="displayData" style="width: 100%">
             <el-table-column label="ID" prop="ID" />
@@ -23,11 +26,9 @@
         </div>
     </el-row>
 
-    <!--Delete form Confimation Modal-->
+    <!--Delete event Confimation Modal-->
     <el-dialog title="Are You Sure, You want to delete this event?" v-model="deleteDialogVisible" :show-close="false" width="40%">
         <div class="modal_body">
-            <!-- <p>All the data assoscilate with this form will be deleted, including payment information and other
-                associate information</p> -->
             <p>Event ID: {{ deleteingForm.ID }}? </p>
         </div>
         <span slot="footer" class="dialog-footer">
@@ -181,4 +182,9 @@ export default {
     margin-top: 20px;
 
 }
+.el-button{
+    margin-bottom: 10px;
+}
+
+
 </style>

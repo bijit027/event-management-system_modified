@@ -5,7 +5,7 @@
     "license": "GPLv2",
     "autoload": {
         "psr-4": {
-            "EMS\\Includes\\Classes": "includes/Classes"
+            "EMS\\Includes\\Classes\\": "includes/Classes"
         }
     },
     "authors": [

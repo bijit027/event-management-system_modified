@@ -1,6 +1,7 @@
 <?php
 
-namespace EMS\Includes\Classes;
+
+namespace EMS\Classes;
 
 class AccessControl
 {

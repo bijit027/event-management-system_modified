@@ -4,7 +4,7 @@
 Plugin Name: Event Management System
 Plugin URI: https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
 Description: This awesome plugin can helps you to manage your goals and activities!
-Version: 1.11.0
+Version: 1.12.0
 Author: Bijit
 Author URI: Author URI: https://bijit.netlify.app/
 License:GPL v2 or later
@@ -52,18 +52,18 @@ if (!defined('EMS_VERSION')) {
         public function adminHooks()
         {
 
-            new \EMS\Includes\Classes\PostType();
-            new \EMS\Includes\Classes\Models();
+            new \EMS\Classes\PostType();
+            new \EMS\Classes\Models();
             //Register Admin menu
-            $menu = new \EMS\Includes\Classes\Menu();
+            $menu = new \EMS\Classes\Menu();
             $menu->register();
 
             // Top Level Ajax Handlers 
-            $ajaxHandler = new \EMS\Includes\Classes\AdminAjaxHandler();
+            $ajaxHandler = new \EMS\Classes\AdminAjaxHandler();
             $ajaxHandler->registerEndpoints();
 
             add_action('ems/render_admin_app', function () {
-                $adminApp = new \EMS\Includes\Classes\AdminApp();
+                $adminApp = new \EMS\Classes\AdminApp();
                 $adminApp->bootView();
             });
         }
@@ -74,9 +74,7 @@ if (!defined('EMS_VERSION')) {
         }
 
         public function loadDependecies(){
-            if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-                require_once __DIR__ . '/vendor/autoload.php';
-            }
+            require_once(EMS_DIR . 'includes/autoload.php');
         }
     }
 

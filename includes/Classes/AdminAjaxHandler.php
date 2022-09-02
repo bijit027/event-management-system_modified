@@ -1,6 +1,6 @@
 <?php
 
-namespace EMS\Includes\Classes;
+namespace EMS\Classes;
 
 class AdminAjaxHandler extends Models
 {

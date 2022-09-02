@@ -87,7 +87,7 @@
                 <el-form-item label="Limit" prop="limit">
                     <el-col :span="8">
                         <el-input-number :min="1" v-model="event.limit" />
-                        <small class="danger" v-if="errors.limit">{{ errors.limit }}</small>
+                        <small class="danger"  v-if="errors.limit">{{ errors.limit }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Deadline" prop="deadline">
