@@ -85,7 +85,7 @@ if (!defined('EMS_VERSION')) {
 
     register_activation_hook(__FILE__, function () {
         require_once(EMS_DIR . 'includes/Classes/Activator.php');
-        $activator = new \EMS\Includes\Classes\Activator();
+        $activator = new \EMS\Classes\Activator();
         $activator->addVersion();
        
     });

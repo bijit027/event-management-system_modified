@@ -38,7 +38,6 @@ class AdminAjaxHandler extends Models
                  "startingDate","startingTime","endingDate","endingTime",
                 "location","deadline"];
         $field_keys = $this->handleEmptyField($value);
-        // array_push($field_keys,"category","organizer");
         $eventData = $this->senitizeInputValue($field_keys);
 
         if (!empty($_POST['data']['limit'])) {

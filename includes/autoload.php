@@ -8,7 +8,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-// include 'global_functions.php';
 if ( ! function_exists( 'EMSAutoload' ) ) {
     /**
      * Plugin autoloader.
@@ -38,7 +37,7 @@ if ( ! function_exists( 'EMSAutoload' ) ) {
         $file_path = str_replace( '\\', DIRECTORY_SEPARATOR, $unprefixed );
 
 
-        $file      = dirname( __FILE__ ) . $file_path . '.php';
+        $file = dirname( __FILE__ ) . $file_path . '.php';
         if ( file_exists( $file ) ) {
             require $file;
         }
