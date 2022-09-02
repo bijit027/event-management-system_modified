@@ -104,15 +104,18 @@ export default {
                     ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
-                    this.deleteDialogVisible = false;
+                    this.fetchData();
                     ElMessage({
                         showClose: true,
                         message: response.data.message,
                         type: 'success',
                     })
-                    this.fetchData();
+                    this.deleteDialogVisible = false;
                 })
-                .fail(error => {})
+                .fail(error => {
+                    ElMessage.error(error.responseJSON.data.error);
+                    this.deleteDialogVisible = false;
+                })
 
             // jQuery.ajax({
             //     type: "POST",

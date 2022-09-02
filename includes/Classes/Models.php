@@ -47,12 +47,17 @@ class Models
         );
         $data = get_posts($args);
         if (is_wp_error($data)) {
-            return false;
-        }
-               
-        wp_send_json_success(array(
+            return wp_send_json_error(
+                [
+                    "error" => __("Error while inserting data", " event-management-system"),
+                ],
+                500
+            );
+        }else{     
+            return wp_send_json_success(array(
             'event_data'     => $data,
         ), 200);
+    }
     }
 
     public function fetchSingleEventData($id)

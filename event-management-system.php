@@ -40,6 +40,7 @@ if (!defined('EMS_VERSION')) {
 
     class EventManagementSystem
     {
+        
         public function boot()
         {
             $this->textDomain();
@@ -51,7 +52,6 @@ if (!defined('EMS_VERSION')) {
 
         public function adminHooks()
         {
-
             new \EMS\Classes\PostType();
             new \EMS\Classes\Models();
             //Register Admin menu

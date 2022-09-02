@@ -14,7 +14,6 @@ class AdminAjaxHandler extends Models
         $route = sanitize_text_field($_REQUEST['route']);
 
         $validRoutes = array(
-            
             'create_event' => 'createEvent',
             'get_eventData' => 'getEventData',
             'get_single_eventData' => 'getSingleEventData',
@@ -92,8 +91,6 @@ class AdminAjaxHandler extends Models
             return wp_send_json_error('Busted! Please login!', 400);
           }
         $id = intval($_GET["id"]);
-      
-       
         parent::fetchSingleEventData($id);
     }
 

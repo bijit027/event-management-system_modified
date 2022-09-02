@@ -7,16 +7,19 @@ class AccessControl
 {
     public static function hasTopLevelMenuPermission()
     {
-        $menuPermissions = array(
+        $menuPermissions = array(          
             'manage_options',
-            'ems_full_access',
-            'ems_can_view_menus'
+            'delete_users',
+            'edit_users',
         );
         foreach ($menuPermissions as $menuPermission) {
             if (current_user_can($menuPermission)) {
                 return $menuPermission;
             }
+            else{
+                return false;
+            }
         }
-        return false;
+
     }
 }

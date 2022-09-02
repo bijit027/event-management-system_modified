@@ -52,23 +52,8 @@ export default {
 
                 })
                 .fail(error => {
-
+                     ElMessage.error(error.responseJSON.data.error)
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_single_event_data",
-            //         id: that.eventID
-            //     },
-            //     success: function (data) {
-            //         that.event = data.data;
-            //         that.value = JSON.parse(that.event.eventData);
-            //         // console.log(that.event);
-            //     }
-            // });
 
         }
     }

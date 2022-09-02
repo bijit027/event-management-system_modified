@@ -9,6 +9,4 @@ export default class EMS {
         options.action = 'ems_events_admin_ajax';
         return window.jQuery.get(window.ajax_url.ajaxurl, options);
     }
-
-
 }
