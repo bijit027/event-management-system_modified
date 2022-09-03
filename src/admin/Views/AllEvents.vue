@@ -4,7 +4,6 @@
         <h2>ALL Events</h2>
     </div>
 
-    
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
  
     <el-row>
@@ -147,19 +146,7 @@ export default {
 
         },
         fetchData() {
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_event_data",
-            //         type: 'fetch'
-            //     },
-            //     success: function (data) {
-            //         that.events = data.data;
-            //     }
-            // });
+
             const that = this;
             EMS.adminGet({
                     route: 'get_eventData',

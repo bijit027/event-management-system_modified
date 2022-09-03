@@ -9,8 +9,6 @@ class AccessControl
     {
         $menuPermissions = array(          
             'manage_options',
-            'delete_users',
-            'edit_users',
         );
         foreach ($menuPermissions as $menuPermission) {
             if (current_user_can($menuPermission)) {

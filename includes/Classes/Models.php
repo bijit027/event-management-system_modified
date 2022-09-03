@@ -77,26 +77,6 @@ class Models
         }
     }
 
-    public function deleteEventData($id){
-        $delete =wp_delete_post($id);
-
-        if (!empty($delete)) {
-            return wp_send_json_success(
-            [
-                "message" => __("Successfully deleted data", " event-management-system"),
-            ],
-            200
-        );
-        }else{
-            return wp_send_json_error(
-            [
-                "error" => __("Error while deleting data", " event-management-system"),
-            ],
-            500
-        );
-       }
-    }
-
     public function addOrganizerData($organizerData)
     {
         extract($organizerData); //extract $name and $details
@@ -179,7 +159,7 @@ class Models
 
      public function addCategoryData($categoryData)
      { 
-        extract($categoryData);
+        extract($categoryData); //It will extract $title
         $id = wp_insert_term($title,'eventCategory');
         if(!is_wp_error( $id)){
             return wp_send_json_success(
@@ -201,6 +181,21 @@ class Models
     public function getSingleOrganizer($id)
     {    
         $data = get_term($id);
+        if(!is_wp_error( $data)){
+            return wp_send_json_success(
+                [
+                    'single_organizer_data' => $data,
+                ],
+                200
+            );
+        }else{
+            return wp_send_json_error(
+                [
+                    "error" => __("Error while fetching data", " event-management-system"),
+                ],
+                500
+            );
+        }
         wp_send_json_success($data, 200);
     }
 
@@ -235,16 +230,25 @@ class Models
         ));
           
         if (is_wp_error($data)) {
-            return false;
-        }
-        wp_send_json_success($data, 200);
+            return  wp_send_json_error(
+                [
+                    "error" => __("Error while updating data", "event-management-system"),
+                ],
+                500);
+        }else{
+        return wp_send_json_success(array(
+            'category_data'     => $data,
+        ), 200);
+    }
     }
 
     public function fetchSingleCategory($id)
     {
         $data = get_term($id);
         if($data){
-            return wp_send_json_success($data,200);
+            return wp_send_json_success(array(
+                'single_category_data'     => $data,
+            ), 200);
         
             }
             else{
@@ -263,38 +267,26 @@ class Models
             'hide_empty' => false,
         ));
         if (is_wp_error($data)) {
-            return false;
+            return wp_send_json_error(
+                [
+                    "error" => __("Error while fetching data", "event-management-system"),
+                ],
+                500);
+        }else{
+            return wp_send_json_success(array(
+                'organizers_data'     => $data,
+            ), 200);
         }
-        wp_send_json_success($data, 200);
     }
 
-    public function deleteOrganizerData($id)
-    {
-        
-       $delete = wp_delete_term( $id, 'eventOrganizer');
+    public function deleteData($id,$taxonomy){
 
-        if(!is_wp_error($delete)){
-        return wp_send_json_success(
-            [
-                "message" => __("successfully deleted data", "event-management-system"),
-            ],
-            200
-        );
-       }else{
-        return wp_send_json_error(
-            [
-                "error" => __("Error while deleting data", "event-management-system"),
-            ],
-            500
-        );
-       }
-    }
-
-     public function deleteCategoryData($id)
-     {
-
-        $delete = wp_delete_term( $id, 'eventCategory');
-        if(!is_wp_error($delete)){
+        if($taxonomy == ""){
+            $delete =wp_delete_post($id);
+        }else{
+            $delete = wp_delete_term( $id, $taxonomy);
+        }
+        if($delete){
          return wp_send_json_success(
             [
                 "message" => __("Successfully deleted data", "contact-manager"),
@@ -309,6 +301,7 @@ class Models
             500
          );
         }
+
 
     }
 

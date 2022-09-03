@@ -5,8 +5,6 @@ namespace EMS\Classes;
 if (!defined('ABSPATH')) {
     exit;
 }
-
-
 class Activator
 {
 

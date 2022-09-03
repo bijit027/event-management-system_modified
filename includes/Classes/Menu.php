@@ -37,12 +37,12 @@ class Menu
         $submenu['event-management-system.php']['categories'] = array(
             __('Categories', 'event-management-system'),
             $menuPermission,
-            'admin.php?page=event-management-system.php#/categories',
+            'admin.php?page=event-management-system.php#/eventCategory',
         );
         $submenu['event-management-system.php']['organizers'] = array(
             __('Organizers', 'event-management-system'),
             $menuPermission,
-            'admin.php?page=event-management-system.php#/organizers',
+            'admin.php?page=event-management-system.php#/eventOrganizer',
         );
     }
 
@@ -53,8 +53,7 @@ class Menu
 
     public function enqueueAssets()
     {
-        if(isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {
-            
+        if(isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {            
         wp_enqueue_script(
             'ems_js',
             EMS_URL . 'assets/Admin/admin.js',

@@ -14,10 +14,19 @@ class AdminAjaxHandler extends Models
         $route = sanitize_text_field($_REQUEST['route']);
 
         $validRoutes = array(
-            'create_event' => 'createEvent',
-            'get_eventData' => 'getEventData',
-            'get_single_eventData' => 'getSingleEventData',
-            'delete_event' => 'deleteEvent'
+            'create_event'          => 'createEvent',
+            'get_eventData'         => 'getEventData',
+            'get_single_eventData'  => 'getSingleEventData',
+            'delete_event'          => 'deleteEvent',
+            'get_category_Data'     => 'getEventCategoryData',
+            'add_event_category'    => 'insertEventCategoryData',
+            'get_single_category_data' => 'getSingleCategoryData',
+            'delete_category'       => 'deleteCategory',
+            'get_organizer_Data'    => 'getOrganizerData',
+            'add_event_organizer'   => 'insertEventOrganizerData',
+            'get_single_organizer_data' => 'getSingleOrganizerData',
+            'delete_organizer' => 'deleteOrganizer',
+            
         );
 
         if (isset($validRoutes[$route])) {
@@ -27,13 +36,12 @@ class AdminAjaxHandler extends Models
    
     }
 
-    protected function createEvent()
+    public function createEvent()
     {
-        if (!wp_verify_nonce($_POST['ems_nonce'], 'ems_ajax_nonce')) {
-            return wp_send_json_error('Busted! Please login!', 400);
-          }
+        $nonce = $this->validateNonce();
+        if($nonce){
 
-        $value = ["title",  "onlineEvent",
+        $value = ["title",  "onlineEvent","category",
                  "startingDate","startingTime","endingDate","endingTime",
                 "location","deadline"];
         $field_keys = $this->handleEmptyField($value);
@@ -65,8 +73,7 @@ class AdminAjaxHandler extends Models
             }
             else{
                 $eventData['url'] = $url;
-            }
-            
+            }   
         }
 
         if (isset($_POST["id"])) {
@@ -75,32 +82,141 @@ class AdminAjaxHandler extends Models
         } else {
             parent::addEventData($eventData);
         }
+    }
 
 
     }
-    protected function getEventData(){
-        if (!wp_verify_nonce($_GET['ems_nonce'], 'ems_ajax_nonce')) {
-            return wp_send_json_error('Busted! Please login!', 400);
-          }
+    public function getEventData(){
+        $nonce = $this->validateNonce();
+        if($nonce){
         parent::fetchEventData();
+        }
     }
 
-    protected function getSingleEventData()
+    public function getSingleEventData()
     {
-        if (!wp_verify_nonce($_GET['ems_nonce'], 'ems_ajax_nonce')) {
-            return wp_send_json_error('Busted! Please login!', 400);
-          }
+        $nonce = $this->validateNonce();
+        if($nonce){
         $id = intval($_GET["id"]);
         parent::fetchSingleEventData($id);
+        }
     }
 
-    protected function deleteEvent(){
-        if (!wp_verify_nonce($_POST['ems_nonce'], 'ems_ajax_nonce')) {
-            return wp_send_json_error('Busted! Please login!', 400);
-        }
+    public function deleteEvent(){
+        $nonce = $this->validateNonce();
+        if($nonce){
         $id = intval($_POST["id"]);
-        parent::deleteEventData($id);
+        $taxonomy = '';
+        parent::deleteData( $id,$taxonomy);
+        }
     }
+
+    public function getEventCategoryData()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        parent::getAllCategoryData();
+        }
+    }
+
+    public function insertEventCategoryData()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+
+        $value = ["title"];
+        $field_keys = $this->handleEmptyField($value);
+        $categoryData = $this->senitizeInputValue($field_keys);
+
+        if (isset($_POST["id"])) {
+            $id = $_POST["id"];
+            parent::updateCategoryData($id, $categoryData);
+        } else {
+            parent::addCategoryData($categoryData);
+        }
+    }
+
+    }
+    public function getSingleCategoryData()
+    {
+        
+        $nonce = $this->validateNonce();
+        if($nonce){
+        $id = intval($_GET["id"]);
+        parent::fetchSingleCategory($id);
+        }
+    }
+    public function getOrganizerData()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        parent::getAllOrganizerData();
+        }
+    }
+
+    public function getSingleOrganizerData()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        $id = intval($_GET["id"]);
+        parent::getSingleOrganizer($id);
+        }
+    }
+
+    public function deleteCategory()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        $id = intval($_POST["id"]);
+        $taxonomy = 'eventCategory';
+        parent::deleteData($id,$taxonomy);
+        }
+    }
+
+    public function insertEventOrganizerData()
+    {
+
+        $nonce = $this->validateNonce();
+        if($nonce){
+
+        $value = ["name","details"];
+        $field_keys = $this->handleEmptyField($value);
+        $organizerData = $this->senitizeInputValue($field_keys);
+        if (isset($_POST["id"])) {
+            $id = $_POST["id"];
+            parent::updateOrganizerData($id, $organizerData);
+        } else {
+            parent::addOrganizerData($organizerData);
+        }
+    }
+    }
+    public function deleteOrganizer()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        $id = intval($_POST["id"]);
+        $taxonomy = 'eventOrganizer';
+        parent::deleteData($id,$taxonomy);
+        }
+    }
+
+    public function validateNonce(){
+        $value  = $_REQUEST["ems_nonce"];
+        if (!wp_verify_nonce($value, "ems_ajax_nonce")) {
+            return wp_send_json_error(
+                [
+                    "error" => __("Busted! Please login!", "event-management-system"),
+                ],
+                400
+             );
+        }else{
+            return true;
+        }
+
+    }
+
+
+
 
     public function senitizeInputValue($field_keys)
     {

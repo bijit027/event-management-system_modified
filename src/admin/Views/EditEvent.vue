@@ -15,7 +15,7 @@ export default {
             eventID: this.$route.params.eventID,
             events: {},
             value: {
-                button: '',
+               
             },
             button: 'Update',
             organizer: {},

@@ -129,6 +129,17 @@ export default {
 
     methods: {
         fetchCategory() {
+                        const that = this;
+            EMS.adminGet({
+                    route: 'get_category_Data',
+                    ems_nonce: ajax_url.ems_nonce,
+                })
+                .then(response => {
+                    that.category = response.data.category_data;
+                })
+                .fail(error => {
+                    ElMessage.error(error.responseJSON.data.error)
+                })
             // const that = this;
             // jQuery.ajax({
             //     type: "GET",
