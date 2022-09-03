@@ -45,8 +45,6 @@ export default {
 
     methods: {
         onSubmit() {
-
-
             const that = this
             EMS.adminPost({
                     route: 'add_event_category',
@@ -71,33 +69,6 @@ export default {
                         ElMessage.error(error.responseJSON.data.error)
                     }
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_insert_event_category_data",
-            //         title: that.eventCategory.title,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: 'success',
-            //         })
-
-            //     },
-            //     error: function (error) {
-            //         // ElMessage.error(error.responseJSON.data.error)
-            //         that.errors = error.responseJSON.data;
-            //         if(error.responseJSON.data.error){
-            //             ElMessage.error(error.responseJSON.data.error)
-            //         }
-
-            //     }
-            // });
         },
     }
 }

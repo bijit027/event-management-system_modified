@@ -11,10 +11,9 @@
                         </el-col>
                     </el-form-item>
                 </div>
-                <el-form-item label="Event Details" prop="details" >
+                <el-form-item label="Event Details" prop="details">
                     <el-col>
                         <el-input type="textarea" v-model="event.details" />
-                        <small class="danger" v-if="errors.details">{{ errors.details }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Category" prop="category">
@@ -44,7 +43,6 @@
                 <el-form-item label="Banner Url" prop="url">
                     <el-col :span="8">
                         <el-input v-model="event.url" />
-                        <small class="danger" v-if="errors.url">{{ errors.url }}</small>
                     </el-col>
                 </el-form-item>
 
@@ -81,13 +79,12 @@
                 <el-form-item label="Location" prop="location">
                     <el-col :span="8">
                         <el-input type="text" v-model="event.location" />
-                        <small class="danger" v-if="errors.llocation">{{ errors.location }}</small>
+                        <small class="danger" v-if="errors.location">{{ errors.location }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Limit" prop="limit">
                     <el-col :span="8">
                         <el-input-number :min="1" v-model="event.limit" />
-                        <small class="danger"  v-if="errors.limit">{{ errors.limit }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Deadline" prop="deadline">
@@ -109,7 +106,7 @@
 <script>
 export default {
 
-    props: ['event', 'errors','button'],
+    props: ['event', 'errors', 'button'],
     emits: ["form-submit"],
 
     data() {
@@ -129,43 +126,30 @@ export default {
 
     methods: {
         fetchCategory() {
-                        const that = this;
+            const that = this;
             EMS.adminGet({
                     route: 'get_category_Data',
                     ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
-                    that.category = response.data.category_data;
+                    that.category = response.data.term_data;
                 })
                 .fail(error => {
                     ElMessage.error(error.responseJSON.data.error)
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_event_category_data",
-            //     },
-            //     success: function (data) {
-            //         that.category = data.data;
-            //     }
-            // });
         },
         fetchOrganizer() {
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_organizer_data",
-            //     },
-            //     success: function (data) {
-            //         that.organizer = data.data;
-            //     }
-            // });
+            const that = this;
+            EMS.adminGet({
+                    route: 'get_organizer_Data',
+                    ems_nonce: ajax_url.ems_nonce,
+                })
+                .then(response => {
+                    that.organizer = response.data.term_data;
+                })
+                .fail(error => {
+                    ElMessage.error(error.responseJSON.data.error)
+                })
 
         },
         onSubmit() {

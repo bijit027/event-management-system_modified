@@ -110,25 +110,11 @@ export default {
                     ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
-                    that.organizers = response.data.organizers_data;
+                    that.organizers = response.data.term_data;
                 })
                 .fail(error => {
-
+                    ElMessage.error(error.responseJSON.data.error);
                 })
-
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_organizer_data",
-            //     },
-            //     success: function (data) {
-            //         that.organizers = data.data;
-
-            //     }
-            // });
 
         },
 
@@ -152,30 +138,7 @@ export default {
                     ElMessage.error(error.responseJSON.data.error);
                     this.deleteDialogVisible = false;
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_delete_organizer",
-            //         id: row.term_id,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
 
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: 'success',
-            //         })
-
-            //     },
-            //     error: function (error) {
-            //         ElMessage.error(error.responseJSON.data.error)
-
-            //     },
-            // });
         },
     }
 }

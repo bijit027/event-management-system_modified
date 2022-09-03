@@ -14,26 +14,24 @@ class AdminAjaxHandler extends Models
         $route = sanitize_text_field($_REQUEST['route']);
 
         $validRoutes = array(
-            'create_event'          => 'createEvent',
-            'get_eventData'         => 'getEventData',
-            'get_single_eventData'  => 'getSingleEventData',
-            'delete_event'          => 'deleteEvent',
-            'get_category_Data'     => 'getEventCategoryData',
-            'add_event_category'    => 'insertEventCategoryData',
-            'get_single_category_data' => 'getSingleCategoryData',
-            'delete_category'       => 'deleteCategory',
-            'get_organizer_Data'    => 'getOrganizerData',
-            'add_event_organizer'   => 'insertEventOrganizerData',
+            'create_event'              => 'createEvent',
+            'get_event_data'            => 'getEventData',
+            'get_single_eventData'      => 'getSingleEventData',
+            'delete_event'              => 'deleteEvent',
+            'get_category_Data'         => 'getEventCategoryData',
+            'add_event_category'        => 'insertEventCategoryData',
+            'get_single_category_data'  => 'getSingleCategoryData',
+            'delete_category'           => 'deleteCategory',
+            'get_organizer_Data'        => 'getOrganizerData',
+            'add_event_organizer'       => 'insertEventOrganizerData',
             'get_single_organizer_data' => 'getSingleOrganizerData',
-            'delete_organizer' => 'deleteOrganizer',
+            'delete_organizer'          => 'deleteOrganizer',
             
         );
 
         if (isset($validRoutes[$route])) {
             return $this->{$validRoutes[$route]}();
         }
-        
-   
     }
 
     public function createEvent()
@@ -41,7 +39,7 @@ class AdminAjaxHandler extends Models
         $nonce = $this->validateNonce();
         if($nonce){
 
-        $value = ["title",  "onlineEvent","category",
+        $value = ["title",  "onlineEvent","category","organizer",
                  "startingDate","startingTime","endingDate","endingTime",
                 "location","deadline"];
         $field_keys = $this->handleEmptyField($value);
@@ -87,6 +85,7 @@ class AdminAjaxHandler extends Models
 
     }
     public function getEventData(){
+
         $nonce = $this->validateNonce();
         if($nonce){
         parent::fetchEventData();
@@ -115,7 +114,8 @@ class AdminAjaxHandler extends Models
     {
         $nonce = $this->validateNonce();
         if($nonce){
-        parent::getAllCategoryData();
+        $taxonomy = 'eventCategory';
+        parent::fetchTermData($taxonomy);
         }
     }
 
@@ -150,7 +150,8 @@ class AdminAjaxHandler extends Models
     {
         $nonce = $this->validateNonce();
         if($nonce){
-        parent::getAllOrganizerData();
+        $taxonomy = 'eventOrganizer';
+        parent::fetchTermData($taxonomy);
         }
     }
 

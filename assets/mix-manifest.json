@@ -1,4 +1,6 @@
 {
     "/Admin/admin.js": "/Admin/admin.js",
-    "/ElementPlus/index.css": "/ElementPlus/index.css"
+    "/js/ems_frontend.js": "/js/ems_frontend.js",
+    "/ElementPlus/index.css": "/ElementPlus/index.css",
+    "/Bootstrap/bootstrap.min.css": "/Bootstrap/bootstrap.min.css"
 }

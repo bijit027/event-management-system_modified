@@ -115,29 +115,6 @@ export default {
                     ElMessage.error(error.responseJSON.data.error);
                     this.deleteDialogVisible = false;
                 })
-
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_delete_event",
-            //         id: row.ID,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
-
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: 'success',
-            //         })
-            //     },
-            //     error: function (error) {
-            //         ElMessage.error(error.responseJSON.data.error)
-
-            //     },
-            // });
         },
         showSingleData(index, row) {
             this.$router.push({
@@ -149,15 +126,14 @@ export default {
 
             const that = this;
             EMS.adminGet({
-                    route: 'get_eventData',
+                    route: 'get_event_data',
                     ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
                     that.events = response.data.event_data;
-
                 })
                 .fail(error => {
-
+                    ElMessage.error(error.responseJSON.data.error)
                 })
 
         },

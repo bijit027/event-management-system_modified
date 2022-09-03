@@ -119,29 +119,6 @@ export default {
                     ElMessage.error(error.responseJSON.data.error);
                     this.deleteDialogVisible = false;
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_delete_category",
-            //         id: row.term_id,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: 'success',
-            //         })
-
-            //     },
-            //     error: function (error) {
-            //         ElMessage.error(error.responseJSON.data.error)
-
-            //     },
-            // });
         },
         fetchData() {
             const that = this;
@@ -150,25 +127,12 @@ export default {
                     ems_nonce: ajax_url.ems_nonce,
                 })
                 .then(response => {
-                    that.category = response.data.category_data;
+                    that.category = response.data.term_data;
 
                 })
                 .fail(error => {
-
+                    ElMessage.error(error.responseJSON.data.error);
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_event_category_data",
-            //     },
-            //     success: function (data) {
-            //         that.category = data.data;
-            //     }
-            // });
-
         },
     }
 

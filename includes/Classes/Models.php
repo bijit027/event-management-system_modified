@@ -11,10 +11,18 @@ class Models
         $metaArray = array(
             'eventData' =>  $finalData,
         );
+
         $data = array(
             'post_title'    =>  $eventData['title'],
             'post_type'     =>  'ems_event_data',
             'meta_input'    =>  $metaArray,
+            'post_category' =>  [$eventData['category']],
+            'tax_query' => array(
+                array(
+                'taxonomy' => 'eventCategory',
+                'terms' => $eventData['category']
+                 )
+              )
         );
 
         $formId =  wp_insert_post($data);
@@ -46,10 +54,10 @@ class Models
             'post_status' => 'any',
         );
         $data = get_posts($args);
-        if (is_wp_error($data)) {
+        if (empty($data)) {
             return wp_send_json_error(
                 [
-                    "error" => __("Error while inserting data", " event-management-system"),
+                    "error" => __("Error while fetching data", " event-management-system"),
                 ],
                 500
             );
@@ -222,26 +230,6 @@ class Models
         }
     }
 
-    public function getAllCategoryData()
-    {
-        $data = get_terms( array(
-            'taxonomy' => 'eventCategory',
-            'hide_empty' => false,
-        ));
-          
-        if (is_wp_error($data)) {
-            return  wp_send_json_error(
-                [
-                    "error" => __("Error while updating data", "event-management-system"),
-                ],
-                500);
-        }else{
-        return wp_send_json_success(array(
-            'category_data'     => $data,
-        ), 200);
-    }
-    }
-
     public function fetchSingleCategory($id)
     {
         $data = get_term($id);
@@ -260,10 +248,11 @@ class Models
             }    
     }
 
-    public function getAllOrganizerData()
-    {
+
+    public function fetchTermData($taxonomy){
+ 
         $data = get_terms( array(
-            'taxonomy' => 'eventOrganizer',
+            'taxonomy' => $taxonomy,
             'hide_empty' => false,
         ));
         if (is_wp_error($data)) {
@@ -273,10 +262,13 @@ class Models
                 ],
                 500);
         }else{
-            return wp_send_json_success(array(
-                'organizers_data'     => $data,
-            ), 200);
+            return wp_send_json_success(
+                [
+                    'term_data'     => $data,
+                ],
+                 200);
         }
+    
     }
 
     public function deleteData($id,$taxonomy){
@@ -301,8 +293,6 @@ class Models
             500
          );
         }
-
-
     }
 
     public function addRegistrationData($registrationData)

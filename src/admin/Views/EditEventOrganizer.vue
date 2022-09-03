@@ -96,32 +96,6 @@ export default {
                         ElMessage.error(error.responseJSON.data.error)
                     }
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: "json",
-            //     data: {
-            //         action: "ems_insert_event_organizer_data",
-            //         id: that.eventCategoryID,
-            //         name: that.value.name,
-            //         details: that.value.details,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: "success",
-            //         });
-            //     },
-            //     error: function (error) {
-            //         that.errors = error.responseJSON.data;
-            //         if (error.responseJSON.data.error) {
-            //             ElMessage.error(error.responseJSON.data.error)
-            //         }
-            //     },
-            // });
         },
     },
 };

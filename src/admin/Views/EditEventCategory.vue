@@ -48,21 +48,6 @@ export default {
                 .fail(error => {
                     ElMessage.error(error.responseJSON.data.error)
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_get_single_category_data",
-            //         id: that.eventCategoryID
-            //     },
-            //     success: function (data) {
-            //         that.eventCategory = data.data;
-            //         that.value.title = that.eventCategory.name;
-            //         that.value.button = 'Update';
-            //     }
-            // })
         },
         onSubmit() {
                         const that = this
