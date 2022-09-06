@@ -128,6 +128,7 @@ export default {
             EMS.adminGet({
                     route: 'get_event_data',
                     ems_nonce: ajax_url.ems_nonce,
+                    category: '',
                 })
                 .then(response => {
                     that.events = response.data.event_data;

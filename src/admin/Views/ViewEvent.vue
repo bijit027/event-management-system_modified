@@ -48,6 +48,7 @@ export default {
                 })
                 .then(response => {
                     that.event = response.data.single_event_data;
+                    console.log(that.event);
                     that.value = JSON.parse(that.event.eventData);
 
                 })

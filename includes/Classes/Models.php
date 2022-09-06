@@ -9,23 +9,25 @@ class Models
         
         $finalData = json_encode($eventData);
         $metaArray = array(
-            'eventData' =>  $finalData,
+            "eventData" =>  $finalData,
         );
 
         $data = array(
             'post_title'    =>  $eventData['title'],
             'post_type'     =>  'ems_event_data',
             'meta_input'    =>  $metaArray,
-            'post_category' =>  [$eventData['category']],
-            'tax_query' => array(
-                array(
-                'taxonomy' => 'eventCategory',
-                'terms' => $eventData['category']
-                 )
-              )
+            'post_category' => [ $eventData['category']],
+            // 'post_content'  =>  $eventData['category'],
+            // 'tax_input' => array( 
+            //     'eventCategory' => array( 
+            //         $eventData['category'],
+            //     ))
+                
         );
 
         $formId =  wp_insert_post($data);
+
+
 
         if($formId>0){
             return wp_send_json_success(
@@ -43,7 +45,6 @@ class Models
             );
         }
     }
-
     public function fetchEventData()
     {
         $args = array(
@@ -54,6 +55,49 @@ class Models
             'post_status' => 'any',
         );
         $data = get_posts($args);
+
+       $var =  get_the_category(219);
+       var_dump($var);
+
+        if (empty($data)) {
+            return wp_send_json_error(
+                [
+                    "error" => __("Error while fetching data", " event-management-system"),
+                ],
+                500
+            );
+        }else{     
+            return wp_send_json_success(array(
+            'event_data'     => $data,
+        ), 200);
+    }
+    }
+
+    public function fetchEventDataForUser($eventCategory,$orderBy,$order)
+    {
+        // var_dump($eventCategory);
+        
+        $args = array(
+            'numberposts' => -1,
+            'orderby' => $orderBy,
+            'order' => $order,
+            'post_type'=>'ems_event_data',
+            'post_status' => 'any',
+            // 'meta_key'         => 'eventData',
+            
+           // 'post_category' => 37,
+            // 'meta_value'       => $eventCategory, 
+            // 'meta_query' => array(
+            //     array(
+            //         'key'   => 'eventData',
+            //         // 'value' => 'yes',
+            //     )
+            // )   
+        );
+        $data = get_posts($args);
+    //   $terms =  get_the_category(214);
+    //   var_dump($terms);
+
         if (empty($data)) {
             return wp_send_json_error(
                 [
@@ -70,7 +114,7 @@ class Models
 
     public function fetchSingleEventData($id)
     {
-        $singleEvent = get_post_meta($id);
+        $singleEvent = get_post_meta($id,'',true);
         if (wp_validate_boolean($singleEvent)) {
             return wp_send_json_success(array(
                 'single_event_data'     => $singleEvent,
@@ -296,7 +340,7 @@ class Models
     }
 
     public function addRegistrationData($registrationData)
-    {
+    {   
         $finalData = json_encode($registrationData);
         extract($registrationData); // we will find $eventId, $eventName, $name, $email
         $metaArray = array(

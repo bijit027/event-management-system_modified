@@ -37,6 +37,7 @@ if (!defined('EMS_VERSION')) {
     define('EMS_MAIN_FILE', __FILE__);
     define('EMS_URL', plugin_dir_url(__FILE__));
     define('EMS_DIR', plugin_dir_path(__FILE__));
+    define("EMS_CONTACTS_PATH", __DIR__);
 
     class EventManagementSystem
     {
@@ -48,6 +49,7 @@ if (!defined('EMS_VERSION')) {
             if (is_admin()) {
                 $this->adminHooks();
             }
+            $this->registerShortcodes();
         }
 
         public function adminHooks()
@@ -75,6 +77,11 @@ if (!defined('EMS_VERSION')) {
 
         public function loadDependecies(){
             require_once(EMS_DIR . 'includes/autoload.php');
+        }
+
+        public function registerShortcodes()
+        {
+            new \EMS\Classes\Shortcode();
         }
     }
 

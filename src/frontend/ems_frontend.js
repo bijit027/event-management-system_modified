@@ -8,7 +8,8 @@
             url: ajax_url.ajaxurl,
             dataType: "json",
             data: {
-                action: "ems_get_event_data",
+                action: "ems_events_admin_ajax",
+                route: 'get_event_data',
             },
             success: function (data) {
                 events =  data.data;

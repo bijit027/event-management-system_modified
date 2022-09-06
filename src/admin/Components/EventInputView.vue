@@ -19,7 +19,7 @@
                 <el-form-item label="Category" prop="category">
                     <el-col :span="8">
                         <el-select placeholder="Please select your category" v-model="event.category">
-                            <el-option v-for="value in category" :key="value.term_id" :label="value.name" :value="value.name" />
+                            <el-option v-for="value in category" :key="value.term_id" :label="value.name" :value="value.term_id" />
                         </el-select>
                         <small class="danger" v-if="errors.category">{{ errors.category }}</small>
                     </el-col>

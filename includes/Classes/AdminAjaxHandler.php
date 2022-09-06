@@ -17,6 +17,7 @@ class AdminAjaxHandler extends Models
             'create_event'              => 'createEvent',
             'get_event_data'            => 'getEventData',
             'get_single_eventData'      => 'getSingleEventData',
+            'get_data_for_user'         => 'getDataForUser',
             'delete_event'              => 'deleteEvent',
             'get_category_Data'         => 'getEventCategoryData',
             'add_event_category'        => 'insertEventCategoryData',
@@ -26,6 +27,7 @@ class AdminAjaxHandler extends Models
             'add_event_organizer'       => 'insertEventOrganizerData',
             'get_single_organizer_data' => 'getSingleOrganizerData',
             'delete_organizer'          => 'deleteOrganizer',
+            'insert_registration_data'  => 'insertRegistrationData',
             
         );
 
@@ -85,10 +87,28 @@ class AdminAjaxHandler extends Models
 
     }
     public function getEventData(){
-
         $nonce = $this->validateNonce();
         if($nonce){
         parent::fetchEventData();
+        }
+    }
+
+    public function getDataForUser(){
+        $eventCategory = '';
+        $orderBy =  '';
+        $order = ''; 
+        $nonce = $this->validateNonce();
+        if($nonce){
+            if (!empty($_GET['category'])) {
+                $eventCategory = sanitize_text_field($_GET['category']);
+            }
+            if (!empty($_GET['orderBy'])) {
+                $orderBy = sanitize_text_field($_GET['orderBy']);
+            }
+            if (!empty($_GET['order'])) {
+                $order = sanitize_text_field($_GET['order']);
+            }
+        parent::fetchEventDataForUser($eventCategory,$orderBy,$order);
         }
     }
 
@@ -162,6 +182,17 @@ class AdminAjaxHandler extends Models
         $id = intval($_GET["id"]);
         parent::getSingleOrganizer($id);
         }
+    }
+
+    public function insertRegistrationData()
+    {
+        $nonce = $this->validateNonce();
+        if($nonce){
+        $value = ["eventId", "eventTitle", "name","email"];
+        $field_keys = $this->handleEmptyField($value);
+        $registrationData = $this->senitizeInputValue($field_keys);
+        parent::addRegistrationData($registrationData); 
+        }   
     }
 
     public function deleteCategory()
