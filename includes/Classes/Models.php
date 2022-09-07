@@ -94,7 +94,8 @@ class Models
             'post_status' => 'publish',
             'include'   => $eventsId   
         );
-        $data = get_posts($args);
+        // $data = get_posts($args);
+        $data = "";
 
         if (empty($data)) {
             return wp_send_json_error(
@@ -284,9 +285,10 @@ class Models
     {
         $data = get_term($id);
         if($data){
-            return wp_send_json_success(array(
-                'single_category_data'     => $data,
-            ), 200);
+            return wp_send_json_success(
+                [
+                    'single_category_data'     => $data,
+                ], 200);
         
             }
             else{

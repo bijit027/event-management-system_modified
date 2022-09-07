@@ -81,7 +81,13 @@ if (!defined('EMS_VERSION')) {
 
         public function registerShortcodes()
         {
-            new \EMS\Classes\Shortcode();
+            add_shortcode("event-management",  function (){
+
+                $build =  new \EMS\Classes\Builder\Render();
+                    return $build->render();
+            });
+
+            
         }
     }
 

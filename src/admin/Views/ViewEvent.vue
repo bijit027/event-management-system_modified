@@ -1,6 +1,5 @@
 <template>
 <div class="container">
-    <!-- <el-row> -->
         <div class="description">
             <el-card>
                 <div class="image">
@@ -22,7 +21,6 @@
                 </el-descriptions>
             </el-card>
         </div>
-    <!-- </el-row> -->
 </div>
 </template>
 
@@ -82,7 +80,7 @@ export default {
 }
 
 .image img {
-    max-width: 100%;
+    width: 100%;
     max-height: 100%;
 }
 

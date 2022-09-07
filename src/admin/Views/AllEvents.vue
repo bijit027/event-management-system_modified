@@ -3,9 +3,14 @@
     <div>
         <h2>ALL Events</h2>
     </div>
+    <el-row>
+      <p class="message">
+       For view all events use shortcode <code>[event-management]</code> 
+      </p>
+    </el-row>
 
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
- 
+
     <el-row>
         <el-table :data="displayData" style="width: 100%">
             <el-table-column label="ID" prop="ID" />
@@ -149,9 +154,12 @@ export default {
     margin-top: 20px;
 
 }
-.el-button{
+
+.el-button {
     margin-bottom: 10px;
 }
-
-
+.message{
+    background-color: white;
+    border: 1px solid black;
+}
 </style>

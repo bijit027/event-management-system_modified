@@ -1,24 +1,23 @@
 <div class="container">
-<form action="">
-  <label >Category:</label>
-  <select name="" class="category">
-  <option value="" selected>All</option>
-  </select>
-  <label >OrderBy:</label>
-  <select name="" class="orderBy">
-  <option value="" selected>None</option>
-  <option value="date" select>Date</option>
-  <option value="title" select>Title</option>
-  <option value="id" select>ID</option>
-  </select>
-  <label >Order:</label>
-  <select name="" class="order">
-  <option value="" selected>None</option>
-  <option value="ASC" select>ASC</option>
-  <option value="DESC" select>DESC</option>
-  
-  </select>
-</form>
+    <form action="">
+        <label >Category:</label>
+        <select name="" class="category">
+            <option value="" selected>All</option>
+        </select>
+        <label >OrderBy:</label>
+        <select name="" class="orderBy">
+            <option value="" selected>None</option>
+            <option value="date" select>Date</option>
+            <option value="title" select>Title</option>
+            <option value="id" select>ID</option>
+        </select>
+        <label >Order:</label>
+        <select name="" class="order">
+            <option value="" selected>None</option>
+            <option value="ASC" select>ASC</option>
+            <option value="DESC" select>DESC</option>
+        </select>
+    </form>
     <div class="row"></div>
 </div>
 
@@ -37,9 +36,6 @@
        <div class="modal-body" id="getCode" style="overflow-x: scroll;">
           //ajax success content here.
        </div>
-       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
    </div>
  </div>
