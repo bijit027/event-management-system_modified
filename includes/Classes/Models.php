@@ -94,8 +94,8 @@ class Models
             'post_status' => 'publish',
             'include'   => $eventsId   
         );
-        // $data = get_posts($args);
-        $data = "";
+        $data = get_posts($args);
+        // $data = "";
 
         if (empty($data)) {
             return wp_send_json_error(
