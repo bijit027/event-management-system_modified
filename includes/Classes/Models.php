@@ -19,6 +19,7 @@ class Models
             'post_title'    =>  $eventData['title'],
             'post_type'     =>  'ems_event_data',
             'meta_input'    =>  $metaArray,
+            'post_status'   =>  'publish'
         );
 
         $eventId =  wp_insert_post($data);
@@ -50,7 +51,7 @@ class Models
             'orderby' => 'date',
             'order' => 'ASC',
             'post_type'=>'ems_event_data',
-            'post_status' => 'any',
+            'post_status' => 'publish',
             
         );
         $data = get_posts($args);
@@ -90,7 +91,7 @@ class Models
             'orderby' => $orderBy,
             'order' => $order,
             'post_type'=>'ems_event_data',
-            'post_status' => 'any',
+            'post_status' => 'publish',
             'include'   => $eventsId   
         );
         $data = get_posts($args);

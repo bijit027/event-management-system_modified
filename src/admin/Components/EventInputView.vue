@@ -2,7 +2,7 @@
 <el-card class="box-card">
     <div class="container">
         <div class="wrap">
-            <el-form label-width="100px" :rules="rules" ref="ruleForm">
+            <el-form label-width="100px">
                 <div class="form-item">
                     <el-form-item label="Event Title" class="required" prop="title" show-message="false">
                         <el-col>

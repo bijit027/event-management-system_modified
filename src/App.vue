@@ -52,4 +52,9 @@ export default {
     color: red;
     margin-right: 5px;
 }
+.el-descriptions__cell .el-descriptions__label{
+        color: black;
+    font-weight: bold;
+
+}
 </style>

@@ -1,11 +1,13 @@
 <template>
 <div class="container">
-    <el-row>
+    <!-- <el-row> -->
         <div class="description">
             <el-card>
-                <img :src="value.url" class="image" />
+                <div class="image">
+                    <img :src="value.url"  />
+                </div>
                 <el-descriptions title="Event Information">
-                    <el-descriptions-item label="Title:"><span class="event_value">{{value.title}}</span></el-descriptions-item>
+                    <el-descriptions-item calss="label" label="Title:"><span class="event_value">{{value.title}}</span></el-descriptions-item>
                     <el-descriptions-item label="Details:"><span class="event_value">{{value.details}}</span></el-descriptions-item>
                     <el-descriptions-item label="Category:"><span class="event_value">{{value.category}}</span></el-descriptions-item>
                     <el-descriptions-item label="Organizer:"><span class="event_value">{{value.organizer}}</span></el-descriptions-item>
@@ -20,7 +22,7 @@
                 </el-descriptions>
             </el-card>
         </div>
-    </el-row>
+    <!-- </el-row> -->
 </div>
 </template>
 
@@ -79,28 +81,27 @@ export default {
     min-height: auto;
 }
 
-.image {
-    width: 100%;
-    display: block;
+.image img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .container {
-    margin-left: 25%;
-    margin-top: 100px
+    width:60%;
+    height:30%;
+    margin: auto;
+    margin-top: 50px
 }
 
 .title {
     float: left;
-
 }
 
 .event_value {
     color: black;
-    font-weight: bold;
     margin-left: auto;
 }
 
-.description {
-    width: 60%
-}
+
+
 </style>
