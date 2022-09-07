@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import OrganizerInputForm from "../components/OrganizerInputForm.vue";
+import OrganizerInputForm from "../Components/OrganizerInputForm.vue";
 import {
     ElButton,
     ElMessage

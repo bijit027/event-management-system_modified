@@ -108,7 +108,7 @@ class AdminAjaxHandler extends Models
             if (!empty($_GET['order'])) {
                 $order = sanitize_text_field($_GET['order']);
             }
-        parent::fetchEventDataForUser($eventCategory,$orderBy,$order);
+        parent::fetchEventDataForUser((int)$eventCategory,$orderBy,$order);
         }
     }
 

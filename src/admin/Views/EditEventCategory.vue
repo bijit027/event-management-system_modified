@@ -2,7 +2,7 @@
 <div class="wrap">
 <h2>Edit Category</h2>
     <el-card class="box-card">
-        <CategoryInpuView v-bind:eventCategory="value" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
+        <CategoryInputView v-bind:eventCategory="value" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
     </el-card>
 </div>
 </template>
@@ -12,7 +12,7 @@ import {
     ElButton,
     ElMessage
 } from 'element-plus';
-import CategoryInpuView from "../Components/CategoryInpuView.vue";
+import CategoryInputView from "../Components/CategoryInputView.vue";
 export default {
     data() {
         return {
@@ -27,7 +27,7 @@ export default {
         }
     },
     components: {
-        CategoryInpuView
+        CategoryInputView
     },
     mounted() {
         this.fetchData();

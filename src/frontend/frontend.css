@@ -46,3 +46,8 @@
 .required {
     color: red;
 }
+
+#getCodeModal,
+#exampleModal {
+    max-width: 100%;
+}

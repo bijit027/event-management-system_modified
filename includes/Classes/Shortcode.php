@@ -21,9 +21,6 @@ class Shortcode
         wp_enqueue_script("ems_frontend_script", EMS_URL . "assets/frontend/js/ems_frontend.js",  ['jquery'], true);
         wp_enqueue_style("ems_frontend_bootstrap", EMS_URL . "assets/Bootstrap/bootstrap.min.css");
         wp_enqueue_script("ems_frontend_bootstrap_script", EMS_URL ."assets/Bootstrap/bootstrap.min1.js");
-       
-        
-       
 
         wp_localize_script("ems_frontend_script", "ajax_url", [
             "ajaxurl" => admin_url("admin-ajax.php"),

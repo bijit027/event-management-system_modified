@@ -2,7 +2,7 @@
 <div>
     <el-form label-width="100px">
         <div class="form-item">
-            <el-form-item label="Title">
+            <el-form-item label="Title" class="required">
                 <el-col>
                     <el-input type="text" size="large" v-model="eventCategory.title" />
                     <small class="danger" v-if="errors.title">{{ errors.title }}</small>

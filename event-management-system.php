@@ -4,7 +4,7 @@
 Plugin Name: Event Management System
 Plugin URI: https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
 Description: This awesome plugin can helps you to manage your goals and activities!
-Version: 1.12.0
+Version: 1.12123.0
 Author: Bijit
 Author URI: Author URI: https://bijit.netlify.app/
 License:GPL v2 or later

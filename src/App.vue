@@ -45,5 +45,11 @@ export default {
     color: white;
     margin-right: 30px;
     margin-top: 20px;
-    }
+    }    
+
+.required .el-form-item__label::before {
+    content: '*';
+    color: red;
+    margin-right: 5px;
+}
 </style>

@@ -6,6 +6,9 @@ class Models
 {
     public function addEventData($eventData)
     {
+        $categoryId = (int)$eventData['category'];
+        $term = get_term($eventData['category']);
+        $eventData["category"] = $term->name;
         
         $finalData = json_encode($eventData);
         $metaArray = array(
@@ -16,20 +19,14 @@ class Models
             'post_title'    =>  $eventData['title'],
             'post_type'     =>  'ems_event_data',
             'meta_input'    =>  $metaArray,
-            'post_category' => [ $eventData['category']],
-            // 'post_content'  =>  $eventData['category'],
-            // 'tax_input' => array( 
-            //     'eventCategory' => array( 
-            //         $eventData['category'],
-            //     ))
-                
         );
 
-        $formId =  wp_insert_post($data);
+        $eventId =  wp_insert_post($data);
+
+        wp_set_object_terms($eventId,[$categoryId],'eventCategory');
 
 
-
-        if($formId>0){
+        if($eventId>0){
             return wp_send_json_success(
                 [
                     "message" => __("Successfully inserted data", " event-management-system"),
@@ -45,6 +42,7 @@ class Models
             );
         }
     }
+
     public function fetchEventData()
     {
         $args = array(
@@ -53,11 +51,9 @@ class Models
             'order' => 'ASC',
             'post_type'=>'ems_event_data',
             'post_status' => 'any',
+            
         );
         $data = get_posts($args);
-
-       $var =  get_the_category(219);
-       var_dump($var);
 
         if (empty($data)) {
             return wp_send_json_error(
@@ -67,36 +63,37 @@ class Models
                 500
             );
         }else{     
-            return wp_send_json_success(array(
-            'event_data'     => $data,
-        ), 200);
-    }
+            return wp_send_json_success(
+                [
+                    'event_data'     => $data,
+                ], 
+                200);
+        }
     }
 
     public function fetchEventDataForUser($eventCategory,$orderBy,$order)
     {
-        // var_dump($eventCategory);
-        
+
+        $eventsId =  get_objects_in_term($eventCategory,'eventCategory');
+
+        if(empty($eventsId) && !empty($eventCategory)){
+            return wp_send_json_error(
+                [
+                    "error" => __("No events were found for this category", " event-management-system"),
+                ],
+                500
+            );
+
+        }
         $args = array(
             'numberposts' => -1,
             'orderby' => $orderBy,
             'order' => $order,
             'post_type'=>'ems_event_data',
             'post_status' => 'any',
-            // 'meta_key'         => 'eventData',
-            
-           // 'post_category' => 37,
-            // 'meta_value'       => $eventCategory, 
-            // 'meta_query' => array(
-            //     array(
-            //         'key'   => 'eventData',
-            //         // 'value' => 'yes',
-            //     )
-            // )   
+            'include'   => $eventsId   
         );
         $data = get_posts($args);
-    //   $terms =  get_the_category(214);
-    //   var_dump($terms);
 
         if (empty($data)) {
             return wp_send_json_error(
@@ -106,19 +103,23 @@ class Models
                 500
             );
         }else{     
-            return wp_send_json_success(array(
-            'event_data'     => $data,
-        ), 200);
-    }
+            return wp_send_json_success(
+                [
+                    'event_data'     => $data,
+                ], 
+                200);
+        }
     }
 
     public function fetchSingleEventData($id)
     {
         $singleEvent = get_post_meta($id,'',true);
         if (wp_validate_boolean($singleEvent)) {
-            return wp_send_json_success(array(
-                'single_event_data'     => $singleEvent,
-            ), 200);
+            return wp_send_json_success(
+                [
+                    'single_event_data'     => $singleEvent,
+                ],
+                 200);
         }else{
             return wp_send_json_error(
                 [
@@ -170,17 +171,20 @@ class Models
                 200
         );
        }else{
-        return wp_send_json_error(
-            [
-                "error" => __("Error while editing data", " event-management-system"),
-            ],
-            500
-        );
+            return wp_send_json_error(
+                [
+                    "error" => __("Error while editing data", " event-management-system"),
+                ],
+                500
+            );
        }
     }
 
     public function updateEventData($id,$eventData)
     {
+        $categoryId = (int)$eventData['category'];
+        $term = get_term($eventData['category']);
+        $eventData["category"] = $term->name;
         $postContent = json_encode($eventData);
         extract($eventData); //Extract $id, $title , $postContent, $metaArray
         $metaArray = array(
@@ -192,8 +196,9 @@ class Models
          'meta_input' => $metaArray,        
      );
      
-     $formId =  wp_update_post($data);
-     if($formId>0){
+     $eventId =  wp_update_post($data);
+     wp_set_object_terms($eventId,[$categoryId],'eventCategory');
+     if($eventId>0){
          return wp_send_json_success(
              [
                  "message" => __("Successfully updated Data", "event-management-system"),
@@ -202,15 +207,15 @@ class Models
          }
          else{
             return wp_send_json_error(
-                 [
-                     "error" => __("Error while updating data", "event-management-system"),
-                 ],
-                 500);
-         }
-     }
+                [
+                    "error" => __("Error while updating data", "event-management-system"),
+                ],
+                500);
+        }
+    }
 
-     public function addCategoryData($categoryData)
-     { 
+    public function addCategoryData($categoryData)
+    { 
         extract($categoryData); //It will extract $title
         $id = wp_insert_term($title,'eventCategory');
         if(!is_wp_error( $id)){
@@ -228,7 +233,7 @@ class Models
                 500
             );
         }
-     }
+    }
 
     public function getSingleOrganizer($id)
     {    
@@ -293,7 +298,8 @@ class Models
     }
 
 
-    public function fetchTermData($taxonomy){
+    public function fetchTermData($taxonomy)
+    {
  
         $data = get_terms( array(
             'taxonomy' => $taxonomy,
@@ -315,7 +321,8 @@ class Models
     
     }
 
-    public function deleteData($id,$taxonomy){
+    public function deleteData($id,$taxonomy)
+    {
 
         if($taxonomy == ""){
             $delete =wp_delete_post($id);

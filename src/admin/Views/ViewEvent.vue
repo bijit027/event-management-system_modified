@@ -3,7 +3,6 @@
     <el-row>
         <div class="description">
             <el-card>
-
                 <img :src="value.url" class="image" />
                 <el-descriptions title="Event Information">
                     <el-descriptions-item label="Title:"><span class="event_value">{{value.title}}</span></el-descriptions-item>
@@ -48,12 +47,11 @@ export default {
                 })
                 .then(response => {
                     that.event = response.data.single_event_data;
-                    console.log(that.event);
                     that.value = JSON.parse(that.event.eventData);
 
                 })
                 .fail(error => {
-                     ElMessage.error(error.responseJSON.data.error)
+                    ElMessage.error(error.responseJSON.data.error)
                 })
 
         }

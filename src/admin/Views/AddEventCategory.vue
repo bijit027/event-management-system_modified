@@ -3,14 +3,14 @@
     <div class="wrap">
         <h2>Add Category</h2>
         <el-card class="box-card">
-            <CategoryInpuView v-bind:eventCategory="eventCategory" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
+            <CategoryInputView v-bind:eventCategory="eventCategory" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
         </el-card>
     </div>
 </el-main>
 </template>
 
 <script>
-import CategoryInpuView from "../Components/CategoryInpuView.vue";
+import CategoryInputView from "../Components/CategoryInputView.vue";
 import {
     ElButton,
     ElMessage
@@ -23,7 +23,7 @@ export default {
 
     },
     components: {
-        CategoryInpuView
+        CategoryInputView
     },
 
     data() {

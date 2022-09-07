@@ -7,7 +7,7 @@ import {
     ElButton,
     ElMessage
 } from 'element-plus';
-import EventInputView from "../components/EventInputView.vue";
+import EventInputView from "../Components/EventInputView.vue";
 export default {
 
     data: function () {

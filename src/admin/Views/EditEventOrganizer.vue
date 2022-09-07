@@ -11,7 +11,7 @@ import {
     ElButton,
     ElMessage
 } from "element-plus";
-import OrganizerInputForm from "../components/OrganizerInputForm.vue";
+import OrganizerInputForm from "../Components/OrganizerInputForm.vue";
 export default {
     data() {
         return {
@@ -52,22 +52,6 @@ export default {
                 .fail(error => {
                     ElMessage.error(error.responseJSON.data.error)
                 })
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "GET",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: "json",
-            //     data: {
-            //         action: "ems_get_single_organizer_data",
-            //         id: that.eventCategoryID,
-            //     },
-            //     success: function (data) {
-            //         that.eventOrganizer = data.data;
-            //         that.value.name = that.eventOrganizer.name;
-            //         that.value.details = that.eventOrganizer.description,
-            //             that.value.button = "Update";
-            //     },
-            // });
         },
         onSubmit() {
 

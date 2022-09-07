@@ -3,13 +3,13 @@
     <!-- <el-card class="box-card"> -->
     <el-form label-width="100px">
         <div class="form-item">
-            <el-form-item label="Name">
+            <el-form-item label="Name" class="required">
                 <el-col>
-                    <el-input type="text" size="large" v-model="eventOrganizer.name" />
+                    <el-input type="text" size="large"  v-model="eventOrganizer.name" />
                     <small class="danger" v-if="errors.name">{{ errors.name }}</small>
                 </el-col>
             </el-form-item>
-            <el-form-item label="Details">
+            <el-form-item label="Details" class="required">
                 <el-col>
                     <el-input type="textarea" v-model="eventOrganizer.details" />
                     <small class="danger" v-if="errors.details">{{ errors.details }}</small>
