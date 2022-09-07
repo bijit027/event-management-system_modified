@@ -1,0 +1,60 @@
+.card-image {
+    height: 160px;
+    overflow: hidden;
+
+}
+
+.card-image img {
+    max-width: 100%;
+    height: 160px;
+}
+
+.card {
+
+    background: #fff;
+    width: 200px;
+    margin: 25px;
+    box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+
+.image {
+    height: auto;
+    overflow: hidden;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.viewEvent {
+    margin-bottom: 5px;
+}
+
+.name-error {
+    color: red;
+}
+
+.email-error {
+    color: red;
+}
+
+.required {
+    color: red;
+}
+
+#getCodeModal,
+#exampleModal {
+    max-width: 100%;
+}
+
+.button {
+    text-align: right;
+}
+
+.event_id {
+    display: none;
+}
