@@ -3,17 +3,20 @@
     <div>
         <h2>ALL Events</h2>
     </div>
-    <el-col :span="7" :offset="16">
-      <p class="message">
-       For view all events use shortcode: <code>[event-management]</code> 
-      </p>
-    </el-col>
-
-    <el-button type="primary" @click="addEvent()">Add Event</el-button>
-
+    <el-row :gutter="30">
+        <el-col :span="6">
+            <el-button type="primary" @click="addEvent()">Add Event</el-button>
+        </el-col>
+        <el-col :span="10" :offset="8">
+            <div class="message">
+                For view all events use shortcode: <code>[event-management]</code>
+            </div>
+        </el-col>
+    </el-row>
     <el-row>
         <el-table :data="displayData" style="width: 100%">
             <el-table-column label="ID" prop="ID" />
+            <el-table-column label="Date" prop="post_date" />
             <el-table-column label="Event" prop="post_title" />
             <el-table-column align="right">
                 <template #default="scope">
@@ -137,6 +140,7 @@ export default {
                 })
                 .then(response => {
                     that.events = response.data.event_data;
+                    console.log(that.events);
                 })
                 .fail(error => {
                     ElMessage.error(error.responseJSON.data.error)
@@ -158,9 +162,11 @@ export default {
 .el-button {
     margin-bottom: 10px;
 }
-.message{
+
+.message {
     background-color: white;
     border: 1px solid black;
     display: inline;
+    margin-left: 40px;
 }
 </style>

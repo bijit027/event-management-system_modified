@@ -20,7 +20,8 @@
     </form> 
     <div class="row ems_row">
         
-    </div>
+    </div><br>
+    <h3 class="ems_category_error"></h3>
 </div>
 
 

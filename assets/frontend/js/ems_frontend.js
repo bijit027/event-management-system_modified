@@ -27,6 +27,7 @@
                 this.orderBy    =  $(".ems_orderBy").val();
                 this.eventCategory    =  $(".ems_category").val();
                 this.order    =  $(".ems_order").val();
+                $(".ems_category_error").empty();
                 fetchEventData(this.eventCategory,this.orderBy,this.order);
             });
         })
@@ -47,8 +48,7 @@
                     renderEventCards(events);             
                 }).fail(function(error) {
                     $(".ems_row").empty();
-                    alert(error.responseJSON.data.error); 
-                    
+                    $(".ems_category_error").text(error.responseJSON.data.error).css("color","red"); 
                 });
 
             }
@@ -106,7 +106,6 @@
                     ems_nonce: ajax_url.ems_nonce,
                 },
                 function (data) {
-                    console.log(data.data.single_event_data);
                     that.singleEvent =  data.data.single_event_data;
                     var value = JSON.parse(that.singleEvent.eventData);
                     var html = '';
