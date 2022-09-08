@@ -25,7 +25,7 @@ class Render
         $this->loadAssets();
         //Load Shortcode View Page
         ob_start();
-        include EMS_CONTACTS_PATH . "/includes/Views/AttributeRender.php";
+        include EMS_CONTACTS_PATH . "/includes/views/attributeRender.php";
         $content = ob_get_clean();
         return $content;
     }

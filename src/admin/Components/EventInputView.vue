@@ -48,7 +48,7 @@
 
                 <el-form-item label="Start Date" class="required" prop="startingDate">
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a date" style="width: 100%" v-model="event.startingDate" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.startingDate" />
                         <small class="danger" v-if="errors.startingDate">{{ errors.startingDate }}</small>
                     </el-col>
 
@@ -57,7 +57,7 @@
                 <el-form-item label="Start Time" class="required" prop="startingTime">
 
                     <el-col :span="8">
-                        <el-time-picker type="time" placeholder="Pick a time" style="width: 100%" v-model="event.startingTime" />
+                        <el-time-picker type="time" placeholder="Pick a time" format="HH:mm:ss" value-format="HH:mm:ss" style="width: 100%" v-model="event.startingTime" />
                         <small class="danger" v-if="errors.startingTime">{{ errors.startingTime }}</small>
                     </el-col>
 
@@ -65,13 +65,13 @@
 
                 <el-form-item label="End Date" class="required" prop="endingDate">
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a date" style="width: 100%" v-model="event.endingDate" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.endingDate" />
                         <small class="danger" v-if="errors.endingDate">{{ errors.endingDate }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="End Time" class="required" prop="endingTime">
                     <el-col :span="8">
-                        <el-time-picker type="time" placeholder="Pick a time" style="width: 100%" v-model="event.endingTime" />
+                        <el-time-picker type="time" placeholder="Pick a time" format="HH:mm:ss" value-format="HH:mm:ss" style="width: 100%" v-model="event.endingTime" />
                         <small class="danger" v-if="errors.endingTime">{{ errors.endingTime }}</small>
                     </el-col>
 
@@ -89,7 +89,7 @@
                 </el-form-item>
                 <el-form-item label="Deadline" class="required" prop="deadline">
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a date" style="width: 100%" v-model="event.deadline" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.deadline" />
                         <small class="danger" v-if="errors.deadline">{{ errors.deadline }}</small>
                     </el-col>
                 </el-form-item>

@@ -1,30 +1,32 @@
 <div class="container">
     <form action="">
         <label >Category:</label>
-        <select name="" class="category">
+        <select name="" class="ems_category">
             <option value="" selected>All</option>
         </select>
         <label >OrderBy:</label>
-        <select name="" class="orderBy">
+        <select name="" class="ems_orderBy">
             <option value="" selected>None</option>
             <option value="date" select>Date</option>
             <option value="title" select>Title</option>
             <option value="id" select>ID</option>
         </select>
         <label >Order:</label>
-        <select name="" class="order">
+        <select name="" class="ems_order">
             <option value="" selected>None</option>
             <option value="ASC" select>ASC</option>
             <option value="DESC" select>DESC</option>
         </select>
-    </form>
-    <div class="row"></div>
+    </form> 
+    <div class="row ems_row">
+        
+    </div>
 </div>
 
 
 
  <!-- Modal -->
- <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <div class="modal fade" id="ems_event_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
       <div class="modal-header">
@@ -33,7 +35,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-       <div class="modal-body" id="getCode" style="overflow-x: scroll;">
+       <div class="modal-body" id="ems_event_data" style="overflow-x: scroll;">
           //ajax success content here.
        </div>
     </div>
@@ -41,31 +43,33 @@
  </div>
 
  <!--Registration for event-->
- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal fade" id="ems_registration_view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Register For Event</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Register For Event</h5></br>
+        
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="registrationForm">
+        <form id="ems_registration_form">
+            <b>Event: </b><p class="ems_event_title"></p>
           <div class="form-group">
             <span class="required">*</span>
             <label for="recipient-name" class="col-form-label">Name:</label>
             <input type="text" name="name" class="form-control" id="recipient-name">
-            <p class="name-error"></p>
+            <p class="ems_name_error"></p>
           </div>
           <div class="form-group">
             <span class="required">*</span>
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <p class="email-error"></p>
+            <p class="ems_email_error"></p>
           </div>
-          <div id="success"></div>
-          <div id="error" ></div>
+          <div id="ems_success"></div>
+          <div id="ems_error" ></div>
           <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Register</button>

@@ -15,18 +15,18 @@
                 $.each(that.category, function (index, value) {
                     html += `<option value="${value.term_id}">${value.name}</option>`;
                 })
-                $(".category").append(html);          
+                $(".ems_category").append(html);          
             }
         );
         var eventCategory = "";
         var orderBy = "";
         var order = "";
 
-        $(".category,.orderBy,.order").each(function(){
+        $(".ems_category,.ems_orderBy,.ems_order").each(function(){
             $(this).on("change",function(){
-                this.orderBy    =  $(".orderBy").val();
-                this.eventCategory    =  $(".category").val();
-                this.order    =  $(".order").val();
+                this.orderBy    =  $(".ems_orderBy").val();
+                this.eventCategory    =  $(".ems_category").val();
+                this.order    =  $(".ems_order").val();
                 fetchEventData(this.eventCategory,this.orderBy,this.order);
             });
         })
@@ -46,7 +46,7 @@
                     events =  data.data.event_data;
                     renderEventCards(events);             
                 }).fail(function(error) {
-                    $(".row").empty();
+                    $(".ems_row").empty();
                     alert(error.responseJSON.data.error); 
                     
                 });
@@ -55,10 +55,10 @@
 
         async function renderEventCards(events)
         {
-            $(".row").empty();
+            $(".ems_row").empty();
             $(".card-content").html('');
             var url = window.location.href;
-            $(".row").append('');
+            $(".ems_row").append('');
             $.each(events, async function (index, value) {
                 var html = '';
 
@@ -80,14 +80,15 @@
                 html += `<div class="card-image"><img class="" src="${event.url}" alt=""></div>`;
                 html += `<div class="card-body card-info">`;
                 html += `<div class="card-text event_id">${Id}</div>`;
-                html += `<div class="card-text event_title"><b>Title:</b> ${title}</div>`;
-                html += `<div class="card-text event_category"><b>Category:</b> ${event.category}</div>`;
+                html += `<div class="card-text event_title"><b> ${title}</b></div>`;
+                html += `<div class="card-text ems_location"><small><b>Location: </b>${event.location}</small></div>`;
+                html += `<div class="card-text ems_startingDate"><small><b>Date: </b>${event.startingDate}</small></div>`;
                 html += `<div><button type="button" class="btn btn-primary viewEvent">View</button></div>`
                 html += `</div>`;
                 html += `</div>`;
                 html += `</div>`;
                 
-                $(".row").append(html);
+                $(".ems_row").append(html);
             });
         }
 
@@ -129,8 +130,8 @@
     
                     html += `</div>`;
                     html += `</div>`;
-                    $("#getCodeModal").modal("show");
-                    $("#getCode").html(html).show();
+                    $("#ems_event_view").modal("show");
+                    $("#ems_event_data").html(html).show();
     
                 }).fail(function(error) {
                     alert(error.responseJSON.data.error);   
@@ -150,9 +151,10 @@
             user.eventId = $(this).closest('.wrap').find('.event_id').attr('id');
             user.eventTitle = $(this).closest('.wrap').find('.event_title').attr('title');
            
-            $('#getCodeModal').modal('hide');
-            $("#exampleModal").modal("show");
-            $('#registrationForm').on('submit', function(e) {
+            $('#ems_event_view').modal('hide');
+            $("#ems_registration_view").modal("show");
+            $(".ems_event_title").text(user.eventTitle);
+            $('#ems_registration_form').on('submit', function(e) {
                 e.preventDefault();
                 user.name = $('input[name="name"]').val();
                 user.email = $('input[name="email"]').val();
@@ -165,20 +167,20 @@
                     },
                    function(data) {
 
-                        $('#success').html(data.data.message).fadeIn('slow').css("color","green");
-                        $("#registrationForm").trigger("reset");
-                        $('.name-error').hide();
-                        $('.email-error').hide();
+                        $('#ems_success').html(data.data.message).fadeIn('slow').css("color","green");
+                        $("#ems_registration_form").trigger("reset");
+                        $('.ems_name_error').hide();
+                        $('.ems_email_error').hide();
                     
                     }).fail(function(error) {
-                        $('#error').html(error.responseJSON.data.error).fadeIn('slow').css("color","red");
-                        $('#success').hide();
+                        $('#ems_error').html(error.responseJSON.data.error).fadeIn('slow').css("color","red");
+                        $('#ems_success').hide();
                         if(error.responseJSON.data.name != ""){
-                            $('.name-error').html(error.responseJSON.data.name).fadeIn('slow');
+                            $('.ems_name_error').html(error.responseJSON.data.name).fadeIn('slow');
                             
                         }if(error.responseJSON.data.email !="" ){
                             
-                            $('.email-error').html(error.responseJSON.data.email).fadeIn('slow');
+                            $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
                             
                         }
                     })

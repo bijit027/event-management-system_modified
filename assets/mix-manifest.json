@@ -1,5 +1,3 @@
 {
-    "/Admin/admin.js": "/Admin/admin.js",
-    "/ElementPlus/index.css": "/ElementPlus/index.css",
-    "/frontend/css/frontend.css": "/frontend/css/frontend.css"
+    "/admin/admin.js": "/admin/admin.js"
 }

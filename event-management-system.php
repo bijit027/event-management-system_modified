@@ -4,7 +4,7 @@
 Plugin Name: Event Management System
 Plugin URI: https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
 Description: This awesome plugin can helps you to manage your goals and activities!
-Version: 1.12123.0
+Version: 1.121231.0
 Author: Bijit
 Author URI: Author URI: https://bijit.netlify.app/
 License:GPL v2 or later
@@ -84,10 +84,8 @@ if (!defined('EMS_VERSION')) {
             add_shortcode("event-management",  function (){
 
                 $build =  new \EMS\Classes\Builder\Render();
-                    return $build->render();
-            });
-
-            
+                return $build->render();
+            });  
         }
     }
 
@@ -99,8 +97,7 @@ if (!defined('EMS_VERSION')) {
     register_activation_hook(__FILE__, function () {
         require_once(EMS_DIR . 'includes/Classes/Activator.php');
         $activator = new \EMS\Classes\Activator();
-        $activator->addVersion();
-       
+        $activator->addVersion(); 
     });
 
     // disabled admin-notice on dashboard

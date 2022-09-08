@@ -34,20 +34,21 @@
     margin-bottom: 5px;
 }
 
-.name-error {
+.ems_name_error,
+.ems_email_error {
     color: red;
 }
 
-.email-error {
+/* .email-error {
     color: red;
-}
+} */
 
 .required {
     color: red;
 }
 
-#getCodeModal,
-#exampleModal {
+#ems_event_view,
+#ems_registration_view {
     max-width: 100%;
 }
 
@@ -57,4 +58,8 @@
 
 .event_id {
     display: none;
+}
+
+.ems_event_title {
+    display: inline;
 }

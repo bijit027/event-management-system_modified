@@ -92,7 +92,7 @@ class Models
             'order' => $order,
             'post_type'=>'ems_event_data',
             'post_status' => 'publish',
-            'include'   => $eventsId   
+            'include'   => $eventsId,  
         );
         $data = get_posts($args);
         // $data = "";
