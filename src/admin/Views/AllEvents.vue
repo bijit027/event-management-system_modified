@@ -3,11 +3,11 @@
     <div>
         <h2>ALL Events</h2>
     </div>
-    <el-row>
+    <el-col :span="7" :offset="16">
       <p class="message">
-       For view all events use shortcode <code>[event-management]</code> 
+       For view all events use shortcode: <code>[event-management]</code> 
       </p>
-    </el-row>
+    </el-col>
 
     <el-button type="primary" @click="addEvent()">Add Event</el-button>
 
