@@ -9,6 +9,7 @@ class Models
         $categoryId = (int)$eventData['category'];
         $term = get_term($eventData['category']);
         $eventData["category"] = $term->name;
+        $eventData["categoryID"] = $categoryId;
         
         $finalData = json_encode($eventData);
         $metaArray = array(
@@ -186,6 +187,7 @@ class Models
         $categoryId = (int)$eventData['category'];
         $term = get_term($eventData['category']);
         $eventData["category"] = $term->name;
+        $eventData["categoryID"] = $categoryId;
         $postContent = json_encode($eventData);
         extract($eventData); //Extract $id, $title , $postContent, $metaArray
         $metaArray = array(

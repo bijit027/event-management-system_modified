@@ -21,6 +21,7 @@ export default {
             organizer: {},
             ID: '',
             errors: [],
+            categoryID: '',
         }
     },
     components: {
@@ -40,7 +41,11 @@ export default {
                 })
                 .then(response => {
                     that.event = response.data.single_event_data;
+                    
                     that.value = JSON.parse(that.event.eventData);
+                    that.categoryID = that.value.categoryID;
+                    console.log(that.value.categoryID);
+                    console.log(that.categoryID);
 
                 })
                 .fail(error => {
@@ -49,6 +54,10 @@ export default {
         },
 
         onSubmit() {
+
+            if(typeof this.value.category === 'string'){
+                this.value.category = this.categoryID;
+            }
 
             const that = this
             EMS.adminPost({
