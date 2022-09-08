@@ -54,7 +54,6 @@ export default {
                 })
         },
         onSubmit() {
-
             const that = this
             EMS.adminPost({
                     route: 'add_event_organizer',

@@ -95,7 +95,6 @@ class Models
             'include'   => $eventsId,  
         );
         $data = get_posts($args);
-        // $data = "";
 
         if (empty($data)) {
             return wp_send_json_error(
