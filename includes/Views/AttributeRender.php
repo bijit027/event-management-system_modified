@@ -55,7 +55,7 @@
       </div>
       <div class="modal-body">
         <form id="ems_registration_form">
-            <b>Event : </b><p class="ems_event_title"></p>
+            <b>Event: </b><p class="ems_event_title"></p>
           <div class="form-group">
             <span class="required">*</span>
             <label for="recipient-name" class="col-form-label">Name:</label>
