@@ -99,19 +99,3 @@ if (!defined('EMS_VERSION')) {
         $activator = new \EMS\Classes\Activator();
         $activator->addVersion(); 
     });
-
-    // disabled admin-notice on dashboard
-//     add_action('admin_init', function () {
-//         $disablePages = [
-//             'event-management-system.php',
-//         ];
-//         if (isset($_GET['page']) && in_array($_GET['page'], $disablePages)) {
-//             remove_all_actions('admin_notices');
-//         }
-//     } else {
-//         add_action('admin_init', function () {
-//             deactivate_plugins(plugin_basename(__FILE__));
-//         });
-//     });
-
-// }
