@@ -15,8 +15,5 @@ class Activator
             update_option('EMS_VERSION', EMS_VERSION, false);
         }
         update_option('EMS_VERSION', EMS_VERSION, false);
-      
     }
-
-
 }

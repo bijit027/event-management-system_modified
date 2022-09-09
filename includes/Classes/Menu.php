@@ -47,27 +47,27 @@ class Menu
     }
 
 
-    public function render() {
+    public function render()
+    {
         do_action('ems/render_admin_app');
     }
 
     public function enqueueAssets()
     {
-        if(isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {            
-        wp_enqueue_script(
-            'ems_js',
-            EMS_URL . 'assets/admin/admin.js',
-            array('jquery'),
-            EMS_VERSION,
-            true
-        );
-        wp_enqueue_style('ems_element_plus_css', EMS_URL . 'assets/elementPlus/index.css');
+        if (isset($_GET['page']) && $_GET['page'] == 'event-management-system.php') {
+            wp_enqueue_script(
+                'ems_js',
+                EMS_URL . 'assets/admin/admin.js',
+                array('jquery'),
+                EMS_VERSION,
+                true
+            );
+            wp_enqueue_style('ems_element_plus_css', EMS_URL . 'assets/elementPlus/index.css');
 
-        wp_localize_script("ems_js", "ajax_url", [
-            "ajaxurl" => admin_url("admin-ajax.php"),
-            "ems_nonce" => wp_create_nonce("ems_ajax_nonce"),
-        ]);
-    }
-        
+            wp_localize_script("ems_js", "ajax_url", [
+                "ajaxurl" => admin_url("admin-ajax.php"),
+                "ems_nonce" => wp_create_nonce("ems_ajax_nonce"),
+            ]);
+        }
     }
 }

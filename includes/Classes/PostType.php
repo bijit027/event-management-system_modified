@@ -16,7 +16,6 @@ class PostType
     public function __construct()
     {
         add_action('init', array($this, 'register'));
-        
     }
     public function register()
     {
@@ -25,19 +24,17 @@ class PostType
             'public'          => false,
             'show_ui'         => false,
         );
-        register_post_type( 'ems_event_data', $args );
+        register_post_type('ems_event_data', $args);
 
-        register_taxonomy('eventCategory',array('ems_event_data'), array(
+        register_taxonomy('eventCategory', array('ems_event_data'), array(
             'hierarchical' => true,
             'show_ui' => false,
         ));
 
-        register_taxonomy('eventOrganizer',array('ems_event_data'), array(
+        register_taxonomy('eventOrganizer', array('ems_event_data'), array(
             'hierarchical' => true,
             'show_ui' => false,
 
         ));
-
     }
-
 }

@@ -2,13 +2,13 @@
 
 namespace EMS\Classes;
 
-class AdminAjaxHandler extends Models
+class UserAjaxHandler extends Models
 {
 
     public function registerEndpoints()
     {
-        add_action('wp_ajax_ems_events_admin_ajax', array($this, 'handleEndPoint'));
-        add_action('wp_ajax_nopriv_ems_events_admin_ajax', array($this, 'handleEndPoint'));
+
+        add_action('wp_ajax_nopriv_ems_events_user_ajax', array($this, 'handleEndPoint'));
     }
     public function handleEndPoint()
     {

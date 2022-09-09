@@ -41,11 +41,12 @@ if (!defined('EMS_VERSION')) {
 
     class EventManagementSystem
     {
-        
+
         public function boot()
         {
             $this->textDomain();
             $this->loadDependecies();
+            $this->commonActions();
             if (is_admin()) {
                 $this->adminHooks();
             }
@@ -70,22 +71,29 @@ if (!defined('EMS_VERSION')) {
             });
         }
 
+        public function commonActions()
+        {
+            $userAjaxHandler = new \EMS\Classes\UserAjaxHandler();
+            $userAjaxHandler->registerEndpoints();
+        }
+
         public function textDomain()
         {
             load_plugin_textdomain('event-management-system', false, basename(dirname(__FILE__)) . '/languages');
         }
 
-        public function loadDependecies(){
+        public function loadDependecies()
+        {
             require_once(EMS_DIR . 'includes/autoload.php');
         }
 
         public function registerShortcodes()
         {
-            add_shortcode("event-management",  function (){
+            add_shortcode("event-management",  function () {
 
                 $build =  new \EMS\Classes\Builder\Render();
                 return $build->render();
-            });  
+            });
         }
     }
 
@@ -94,8 +102,8 @@ if (!defined('EMS_VERSION')) {
     });
 }
 
-    register_activation_hook(__FILE__, function () {
-        require_once(EMS_DIR . 'includes/Classes/Activator.php');
-        $activator = new \EMS\Classes\Activator();
-        $activator->addVersion(); 
-    });
+register_activation_hook(__FILE__, function () {
+    require_once(EMS_DIR . 'includes/Classes/Activator.php');
+    $activator = new \EMS\Classes\Activator();
+    $activator->addVersion();
+});

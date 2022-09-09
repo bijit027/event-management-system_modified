@@ -1,14 +1,15 @@
 <?php
+
 /**
  * Autoloader
  *
  * @package EMS
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
-if ( ! function_exists( 'EMSAutoload' ) ) {
+if (!function_exists('EMSAutoload')) {
     /**
      * Plugin autoloader.
      *
@@ -20,28 +21,29 @@ if ( ! function_exists( 'EMSAutoload' ) ) {
      *
      * @param $class
      */
-    function EMSAutoload( $class ) {
+    function EMSAutoload($class)
+    {
 
         // Do not load unless in plugin domain.
         $namespace = 'EMS';
-        if ( strpos( $class, $namespace ) !== 0 ) {
+        if (strpos($class, $namespace) !== 0) {
             return;
         }
 
         // Converts Class_Name (class convention) to class-name (file convention).
 
         // Remove the root namespace.
-        $unprefixed = substr( $class, strlen( $namespace ) );
+        $unprefixed = substr($class, strlen($namespace));
 
         // Build the file path.
-        $file_path = str_replace( '\\', DIRECTORY_SEPARATOR, $unprefixed );
+        $file_path = str_replace('\\', DIRECTORY_SEPARATOR, $unprefixed);
 
 
-        $file = dirname( __FILE__ ) . $file_path . '.php';
-        if ( file_exists( $file ) ) {
+        $file = dirname(__FILE__) . $file_path . '.php';
+        if (file_exists($file)) {
             require $file;
         }
     }
     // Register the autoloader.
-    spl_autoload_register( 'EMSAutoload' );
+    spl_autoload_register('EMSAutoload');
 }

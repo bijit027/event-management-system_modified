@@ -75,29 +75,6 @@ export default {
                         ElMessage.error(error.responseJSON.data.error)
                     }
                 })
-
-            // const that = this;
-            // jQuery.ajax({
-            //     type: "POST",
-            //     url: ajax_url.ajaxurl,
-            //     dataType: 'json',
-            //     data: {
-            //         action: "ems_insert_event_category_data",
-            //         id: that.eventCategoryID,
-            //         title: that.value.title,
-            //         ems_nonce: ajax_url.ems_nonce,
-            //     },
-            //     success: function (data) {
-            //         ElMessage({
-            //             showClose: true,
-            //             message: data.data.message,
-            //             type: 'success',
-            //         })
-            //     },
-            //     error: function (error) {
-            //         that.errors = error.responseJSON.data;
-            //     }
-            // });
         },
     }
 }
