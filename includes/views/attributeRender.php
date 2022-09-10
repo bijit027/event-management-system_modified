@@ -75,7 +75,7 @@
           <div id="ems_success"></div>
           <div id="ems_error"></div>
           <div class="modal-footer">
-            <button type="submit" id="ems_register_submit" class="btn btn-primary btn-block">Register</button>
+            <button type="submit" id="ems_register_submit" class="btn btn-primary btn-block ems_register_submit">Register</button>
             <button type="button" class="btn btn-secondary btn-block ems_register_close" data-dismiss="modal">Close</button>
           </div>
         </form>

@@ -398,78 +398,85 @@ class Models
 
     public function addRegistrationData($registrationData)
     {
-        extract($registrationData);
-        // we will find $eventId, $eventName, $name, $email
-        // $args = array(
-        //     'numberposts' => -1,
-        //     'orderby' => 'date',
-        //     'order' => 'ASC',
-        //     'post_type' => 'ems_reg_data',
-        // );
+        extract($registrationData); //It will extract $eventId, $eventTitle, $name, $email
+
         $postData = $this->fetchRegistrationData();
 
+        $authenticatedEmail = $this->emailAuthentication($postData, $email, $eventId);
+
+        if ($authenticatedEmail == true) {
+
+            $this->updateAvailableRegistration($singleEvent, $eventId);
+            // $singleEvent = get_post_meta($eventId, '', true);
+            // $previousData = json_decode($singleEvent["eventData"][0]);
+            // $previousData->limit = $previousData->limit - 1;
+            // $updatedMetaDataLimit = json_encode($previousData);
+            // $updatedMeta =  update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
 
 
-        foreach ($postData as $value) {
-            $metaData = get_post_meta($value->ID, '', true);
-            $registeredEmail = json_decode($metaData["registrationData"][0]);
-            if ($registeredEmail->email == $email) {
 
+            $finalData = json_encode($registrationData);
+
+
+            $metaArray = array(
+                'registrationData' =>  $finalData,
+            );
+
+            $data = array(
+                'post_title'    =>  $name,
+                'post_type'     =>  'ems_reg_data',
+                'meta_input'    =>  $metaArray,
+            );
+
+            $formId =  wp_insert_post($data);
+
+            if ($formId > 0) {
+                return wp_send_json_success(
+                    [
+                        "message" => __("Successfully inserted data", " event-management-system"),
+                    ],
+                    200
+                );
+            } else {
                 return wp_send_json_error(
                     [
-                        "email" => __("Already registered by this email", " event-management-system"),
+                        "error" => __("Error while inserting data", " event-management-system"),
                     ],
                     500
                 );
-                die();
             }
-
-
-
-            // if ($meta) {
-            //     $value->meta_value = $meta['eventData'];
-            // } else {
-            //     $value->meta_value = null;
-            // }
-
-        }
-        $singleEvent = get_post_meta($eventId, '', true);
-        $prevData = json_decode($singleEvent["eventData"][0]);
-        $prevData->limit = $prevData->limit - 1;
-        $updatedMetaDataLimit = json_encode($prevData);
-        $updatedMeta =  update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
-        var_dump($updatedMeta);
-
-        $finalData = json_encode($registrationData);
-
-
-        $metaArray = array(
-            'registrationData' =>  $finalData,
-        );
-
-        $data = array(
-            'post_title'    =>  $name,
-            'post_type'     =>  'ems_reg_data',
-            'meta_input'    =>  $metaArray,
-        );
-
-        $formId =  wp_insert_post($data);
-
-        if ($formId > 0) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully inserted data", " event-management-system"),
-                ],
-                200
-            );
         } else {
             return wp_send_json_error(
                 [
-                    "error" => __("Error while inserting data", " event-management-system"),
+                    "email" => __("Already registered by this email", " event-management-system"),
                 ],
                 500
             );
         }
+    }
+
+    public function updateAvailableRegistration($singleEvent, $eventId)
+    {
+        $singleEvent = get_post_meta($eventId, '', true);
+        $previousData = json_decode($singleEvent["eventData"][0]);
+        $previousData->limit = $previousData->limit - 1;
+        $updatedMetaDataLimit = json_encode($previousData);
+        $updatedMeta =  update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
+    }
+
+    public function emailAuthentication($postData, $email, $eventId)
+    {
+
+        foreach ($postData as $value) {
+
+            $metaData = get_post_meta($value->ID, '', true);
+            $registeredData = json_decode($metaData["registrationData"][0]);
+            if ($registeredData->email == $email && $registeredData->eventId == $eventId) {
+                return false;
+                die();
+            }
+        }
+        return true;
     }
 
     public function fetchRegistrationData()

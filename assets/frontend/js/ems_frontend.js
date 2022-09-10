@@ -1,6 +1,13 @@
+;
+
+
 (function ($) {
 
     $(document).ready(function () {
+
+        // let emsClose = '.ems_register_close';
+
+        // $(emsClose).on('click', )
 
         var that = this;
         var category = [];
@@ -62,24 +69,29 @@
 
             $.each(events, function (index, value) {
 
+
+
                 var Id = value.ID;
                 var title = value.post_title;
                 var content = JSON.parse(value.meta_value);
 
+                console.log(content.limit);
 
-                html += `<div class="col-sm-4">`;
-                html += `<div class="card">`;
-                html += `<div class="card-image"><img class="" src="${content.url}" alt=""></div>`;
-                html += `<div class="card-body card-info">`;
-                html += `<div class="card-text event_id">${Id}</div>`;
-                html += `<div class="card-text event_title"><b> ${title} </b></div>`;
-                html += `<div class="card-text ems_startingDate"><small><i class="fa fa-calendar" aria-hidden="true"></i> ${content.startingDate}</small></div>`;
-                html += `<div class="card-text ems_location"><small><i class="fas fa-map-marker-alt"></i> ${content.location}</small></div>`;
+                if (content.limit > 0) {
+                    html += `<div class="col-sm-4">`;
+                    html += `<div class="card">`;
+                    html += `<div class="card-image"><img class="" src="${content.url}" alt=""></div>`;
+                    html += `<div class="card-body card-info">`;
+                    html += `<div class="card-text event_id">${Id}</div>`;
+                    html += `<div class="card-text event_title"><b> ${title} </b></div>`;
+                    html += `<div class="card-text ems_startingDate"><small><i class="fa fa-calendar" aria-hidden="true"></i> ${content.startingDate}</small></div>`;
+                    html += `<div class="card-text ems_location"><small><i class="fas fa-map-marker-alt"></i> ${content.location}</small></div>`;
 
-                html += `<div><button type="button" class="btn btn-primary float-right btn-sm  viewEvent">View</button></div>`
-                html += `</div>`;
-                html += `</div>`;
-                html += `</div>`;
+                    html += `<div><button type="button" class="btn btn-primary float-right btn-sm  viewEvent">View</button></div>`
+                    html += `</div>`;
+                    html += `</div>`;
+                    html += `</div>`;
+                }
             });
             $(".row").append(html);
 
@@ -129,74 +141,84 @@
                 }).fail(function (error) {
                     alert(error.responseJSON.data.error);
                 });
-
-
-            //Register Event
-            $(document).on("click", ".registerEvent", function () {
-                var user = {
-                    eventId: '',
-                    eventTitle: '',
-                    name: '',
-                    email: '',
-
-                };
-                user.eventId = $(this).closest('.wrap').find('.event_id').attr('id');
-                user.eventTitle = $(this).closest('.wrap').find('.ems_title').attr('title');
-
-                $('#ems_event_view').modal('hide');
-                $("#ems_registration_view").modal("show");
-                $(".ems_event_title").text(user.eventTitle);
-                $('#ems_registration_form').on('submit', function (e) {
-                    e.preventDefault();
-                    user.name = $('input[name="name"]').val();
-                    user.email = $('input[name="email"]').val();
-
-                    $.post(ajax_url.ajaxurl, {
-                        action: 'ems_events_user_ajax',
-                        route: "insert_registration_data",
-                        data: user,
-                        ems_nonce: ajax_url.ems_nonce,
-                    },
-                        function (data) {
-
-                            $('#ems_success').html(data.data.message).fadeIn('slow').css("color", "green");
-                            $("#ems_registration_form").trigger("reset");
-                            $('.ems_name_error').hide();
-                            $('.ems_email_error').hide();
-
-                        }).fail(function (error) {
-
-                            $('#ems_error').html(error.responseJSON.data.error).fadeIn('slow').css("color", "red");
-                            $('#ems_success').hide();
-                            $('.ems_name_error').hide();
-                            $('.ems_email_error').hide();
-                            if (error.responseJSON.data.name != "" && error.responseJSON.data.email != "") {
-                                $('.ems_name_error').html(error.responseJSON.data.name).fadeIn('slow');
-                                $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
-                            } else {
-                                if (error.responseJSON.data.name != "") {
-                                    $('.ems_name_error').html(error.responseJSON.data.name).fadeIn('slow');
-                                } else {
-                                    $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
-                                }
-                            }
-                            // if (error.responseJSON.data.email != "") {
-
-                            //     $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
-
-                            // }
-                        })
-                });
-
-            });
-            $(document).on("click", ".ems_register_close", function () {
-                $("#ems_registration_form").trigger("reset");
-                $('.ems_name_error').hide();
-                $('.ems_email_error').hide();
-                $('#ems_success').hide()
-            })
         });
 
+        $(document).on("click", ".registerEvent", function (e) {
+            e.preventDefault();
+
+            $('#ems_event_view').modal('hide');
+            $("#ems_registration_view").modal("show");
+        });
+
+
+        $('#ems_registration_form').on('submit', function (e) {
+            e.preventDefault();
+            var user = {};
+
+            user.eventId = $(".registerEvent").closest('.wrap').find('.event_id').attr('id');
+            user.eventTitle = $(".registerEvent").closest('.wrap').find('.ems_title').attr('title');
+
+            $(".ems_event_title").text(user.eventTitle);
+            user.name = $('input[name="name"]').val();
+            user.email = $('input[name="email"]').val();
+            handleRegisterEvent(user)
+
+        });
+
+
+        $(document).on("click", ".ems_register_close", handleModelClose)
+
     });
+
+    function handleRegisterEvent(user) {
+
+        $.post(ajax_url.ajaxurl, {
+            action: 'ems_events_user_ajax',
+            route: "insert_registration_data",
+            data: user,
+            ems_nonce: ajax_url.ems_nonce,
+        },
+            function (data) {
+                // $('input[name="name"]').val("");
+                // $('input[name="email"]').val("");
+                $('#ems_success').html(data.data.message).fadeIn('slow').css("color", "green");
+                handleModelClose();
+                // $("#ems_registration_form").trigger("reset");
+                // $('.ems_name_error').hide();
+                // $('.ems_email_error').hide();
+
+            }).fail(function (error) {
+                // $('input[name="name"]').val("");
+                // $('input[name="email"]').val("");
+                $('#ems_error').html(error.responseJSON.data.error).fadeIn('slow').css("color", "red");
+                $('#ems_success').hide();
+                $('.ems_name_error').hide();
+                $('.ems_email_error').hide();
+                if (error.responseJSON.data.name != "" && error.responseJSON.data.email != "") {
+                    $('.ems_name_error').html(error.responseJSON.data.name).fadeIn('slow');
+                    $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
+                } else {
+                    if (error.responseJSON.data.name != "") {
+                        $('.ems_name_error').html(error.responseJSON.data.name).fadeIn('slow');
+                    } else {
+                        $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
+                    }
+                }
+                // if (error.responseJSON.data.email != "") {
+
+                //     $('.ems_email_error').html(error.responseJSON.data.email).fadeIn('slow');
+
+                // }
+            })
+
+    }
+
+    function handleModelClose(event) {
+        event.preventDefault();
+        $('.ems_name_error').hide();
+        $('.ems_email_error').hide();
+        $('#ems_success').hide()
+    }
+
 
 })(jQuery);

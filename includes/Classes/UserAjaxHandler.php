@@ -7,8 +7,11 @@ class UserAjaxHandler extends Models
 
     public function registerEndpoints()
     {
-
-        add_action('wp_ajax_nopriv_ems_events_user_ajax', array($this, 'handleEndPoint'));
+        if (is_user_logged_in()) {
+            add_action('wp_ajax_ems_events_user_ajax', array($this, 'handleEndPoint'));
+        } else {
+            add_action('wp_ajax_nopriv_ems_events_user_ajax', array($this, 'handleEndPoint'));
+        }
     }
     public function handleEndPoint()
     {
@@ -85,6 +88,7 @@ class UserAjaxHandler extends Models
             }
         }
     }
+
     public function getEventData()
     {
         $nonce = $this->validateNonce();
