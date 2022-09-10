@@ -50,12 +50,14 @@ if (!defined('EMS_VERSION')) {
             if (is_admin()) {
                 $this->adminHooks();
             }
+
+
             $this->registerShortcodes();
         }
 
         public function adminHooks()
         {
-            new \EMS\Classes\PostType();
+            // new \EMS\Classes\PostType();
             new \EMS\Classes\Models();
             //Register Admin menu
             $menu = new \EMS\Classes\Menu();
@@ -73,6 +75,7 @@ if (!defined('EMS_VERSION')) {
 
         public function commonActions()
         {
+            new \EMS\Classes\PostType();
             $userAjaxHandler = new \EMS\Classes\UserAjaxHandler();
             $userAjaxHandler->registerEndpoints();
         }

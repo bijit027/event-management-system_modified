@@ -8,7 +8,6 @@ class AdminAjaxHandler extends Models
     public function registerEndpoints()
     {
         add_action('wp_ajax_ems_events_admin_ajax', array($this, 'handleEndPoint'));
-        // add_action('wp_ajax_nopriv_ems_events_admin_ajax', array($this, 'handleEndPoint'));
     }
     public function handleEndPoint()
     {
@@ -18,7 +17,6 @@ class AdminAjaxHandler extends Models
             'create_event'              => 'createEvent',
             'get_event_data'            => 'getEventData',
             'get_single_eventData'      => 'getSingleEventData',
-            'get_data_for_user'         => 'getDataForUser',
             'delete_event'              => 'deleteEvent',
             'get_category_Data'         => 'getEventCategoryData',
             'add_event_category'        => 'insertEventCategoryData',
@@ -39,198 +37,154 @@ class AdminAjaxHandler extends Models
 
     public function createEvent()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
+        $this->validateNonce();
 
-            $value = [
-                "title",  "onlineEvent", "category", "organizer",
-                "startingDate", "startingTime", "endingDate", "endingTime",
-                "location", "deadline"
-            ];
-            $field_keys = $this->handleEmptyField($value);
-            $eventData = $this->senitizeInputValue($field_keys);
 
-            if (!empty($_POST['data']['limit'])) {
-                $limit = sanitize_text_field($_POST['data']['limit']);
-                if (empty($limit)) {
-                    $this->sanitizationError('limit');
-                } else {
-                    $eventData['limit'] = $limit;
-                }
-            }
+        $value = [
+            "title",  "onlineEvent", "category", "organizer",
+            "startingDate", "startingTime", "endingDate", "endingTime",
+            "location", "deadline"
+        ];
+        $field_keys = $this->handleEmptyField($value);
+        $eventData = $this->senitizeInputValue($field_keys);
 
-            if (!empty($_POST['data']['details'])) {
-                $details = sanitize_textarea_field($_POST['data']['details']);
-                if (empty($details)) {
-                    $this->sanitizationError('details');
-                } else {
-                    $eventData['details'] = $details;
-                }
-            }
-
-            if (!empty($_POST['data']['url'])) {
-                $url = sanitize_url($_POST['data']['url']);
-                if (empty($url)) {
-                    $this->sanitizationError('url');
-                } else {
-                    $eventData['url'] = $url;
-                }
-            }
-
-            if (isset($_POST["id"])) {
-                $id = intval($_POST["id"]);
-                parent::updateEventData($id, $eventData);
+        if (!empty($_POST['data']['limit'])) {
+            $limit = sanitize_text_field($_POST['data']['limit']);
+            if (empty($limit)) {
+                $this->sanitizationError('limit');
             } else {
-                parent::addEventData($eventData);
+                $eventData['limit'] = $limit;
             }
+        }
+
+        if (!empty($_POST['data']['details'])) {
+            $details = sanitize_textarea_field($_POST['data']['details']);
+            if (empty($details)) {
+                $this->sanitizationError('details');
+            } else {
+                $eventData['details'] = $details;
+            }
+        }
+
+        if (!empty($_POST['data']['url'])) {
+            $url = sanitize_url($_POST['data']['url']);
+            if (empty($url)) {
+                $this->sanitizationError('url');
+            } else {
+                $eventData['url'] = $url;
+            }
+        }
+
+        if (isset($_POST["id"])) {
+            $id = intval($_POST["id"]);
+            parent::updateEventData($id, $eventData);
+        } else {
+            parent::addEventData($eventData);
         }
     }
     public function getEventData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            parent::fetchEventData();
-        }
+        $this->validateNonce();
+
+        parent::fetchEventData();
     }
 
-    public function getDataForUser()
-    {
-        $eventCategory = '';
-        $orderBy =  '';
-        $order = '';
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            if (!empty($_GET['category'])) {
-                $eventCategory = sanitize_text_field($_GET['category']);
-            }
-            if (!empty($_GET['orderBy'])) {
-                $orderBy = sanitize_text_field($_GET['orderBy']);
-            }
-            if (!empty($_GET['order'])) {
-                $order = sanitize_text_field($_GET['order']);
-            }
-            parent::fetchEventDataForUser((int)$eventCategory, $orderBy, $order);
-        }
-    }
+
 
     public function getSingleEventData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_GET["id"]);
-            parent::fetchSingleEventData($id);
-        }
+        $this->validateNonce();
+        $id = intval($_GET["id"]);
+        parent::fetchSingleEventData($id);
     }
 
     public function deleteEvent()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_POST["id"]);
-            $taxonomy = '';
-            parent::deleteData($id, $taxonomy);
-        }
+        $this->validateNonce();
+        $id = intval($_POST["id"]);
+        $taxonomy = '';
+        parent::deleteData($id, $taxonomy);
     }
 
     public function getEventCategoryData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $taxonomy = 'eventCategory';
-            parent::fetchTermData($taxonomy);
-        }
+        $this->validateNonce();
+        $taxonomy = 'eventCategory';
+        parent::fetchTermData($taxonomy);
     }
 
     public function insertEventCategoryData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
+        $this->validateNonce();
+        $value = ["title"];
+        $field_keys = $this->handleEmptyField($value);
+        $categoryData = $this->senitizeInputValue($field_keys);
 
-            $value = ["title"];
-            $field_keys = $this->handleEmptyField($value);
-            $categoryData = $this->senitizeInputValue($field_keys);
-
-            if (isset($_POST["id"])) {
-                $id = $_POST["id"];
-                parent::updateCategoryData($id, $categoryData);
-            } else {
-                parent::addCategoryData($categoryData);
-            }
+        if (isset($_POST["id"])) {
+            $id = $_POST["id"];
+            parent::updateCategoryData($id, $categoryData);
+        } else {
+            parent::addCategoryData($categoryData);
         }
     }
+
     public function getSingleCategoryData()
     {
-
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_GET["id"]);
-            parent::fetchSingleCategory($id);
-        }
+        $this->validateNonce();
+        $id = intval($_GET["id"]);
+        parent::fetchSingleCategory($id);
     }
+
     public function getOrganizerData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $taxonomy = 'eventOrganizer';
-            parent::fetchTermData($taxonomy);
-        }
+        $this->validateNonce();
+        $taxonomy = 'eventOrganizer';
+        parent::fetchTermData($taxonomy);
     }
 
     public function getSingleOrganizerData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_GET["id"]);
-            parent::getSingleOrganizer($id);
-        }
+        $this->validateNonce();
+        $id = intval($_GET["id"]);
+        parent::getSingleOrganizer($id);
     }
 
     public function insertRegistrationData()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $value = ["eventId", "eventTitle", "name", "email"];
-            $field_keys = $this->handleEmptyField($value);
-            $registrationData = $this->senitizeInputValue($field_keys);
-            parent::addRegistrationData($registrationData);
-        }
+        $this->validateNonce();
+        $value = ["eventId", "eventTitle", "name", "email"];
+        $field_keys = $this->handleEmptyField($value);
+        $registrationData = $this->senitizeInputValue($field_keys);
+        parent::addRegistrationData($registrationData);
     }
 
     public function deleteCategory()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_POST["id"]);
-            $taxonomy = 'eventCategory';
-            parent::deleteData($id, $taxonomy);
-        }
+        $this->validateNonce();
+        $id = intval($_POST["id"]);
+        $taxonomy = 'eventCategory';
+        parent::deleteData($id, $taxonomy);
     }
 
     public function insertEventOrganizerData()
     {
-
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-
-            $value = ["name", "details"];
-            $field_keys = $this->handleEmptyField($value);
-            $organizerData = $this->senitizeInputValue($field_keys);
-            if (isset($_POST["id"])) {
-                $id = $_POST["id"];
-                parent::updateOrganizerData($id, $organizerData);
-            } else {
-                parent::addOrganizerData($organizerData);
-            }
+        $this->validateNonce();
+        $value = ["name", "details"];
+        $field_keys = $this->handleEmptyField($value);
+        $organizerData = $this->senitizeInputValue($field_keys);
+        if (isset($_POST["id"])) {
+            $id = $_POST["id"];
+            parent::updateOrganizerData($id, $organizerData);
+        } else {
+            parent::addOrganizerData($organizerData);
         }
     }
     public function deleteOrganizer()
     {
-        $nonce = $this->validateNonce();
-        if ($nonce) {
-            $id = intval($_POST["id"]);
-            $taxonomy = 'eventOrganizer';
-            parent::deleteData($id, $taxonomy);
-        }
+        $this->validateNonce();
+        $id = intval($_POST["id"]);
+        $taxonomy = 'eventOrganizer';
+        parent::deleteData($id, $taxonomy);
     }
 
     public function validateNonce()

@@ -4,6 +4,25 @@
       <label>Category:</label>
       <select name="" class="ems_category">
         <option value="" selected>All</option>
+        <?php
+        $taxonomy = 'eventCategory';
+        $data = get_terms(array(
+          'taxonomy' => $taxonomy,
+          'hide_empty' => false,
+        ));
+        foreach ($data as $termData) : ?>
+
+          <option value="<?php esc_html_e($termData->term_id) ?>"><?php esc_html_e($termData->name) ?></option>
+
+        <?php endforeach; ?>
+
+
+
+
+
+
+
+
       </select>
       <label>OrderBy:</label>
       <select name="" class="ems_orderBy">

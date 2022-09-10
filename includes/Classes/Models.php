@@ -23,26 +23,24 @@ class Models
             'post_status'   =>  'publish'
         );
 
-        $eventId =  wp_insert_post($data);
+        $eventId =  wp_insert_post($data, true);
 
-        wp_set_object_terms($eventId, [$categoryId], 'eventCategory');
+        if (is_wp_error($eventId)) {
 
-
-        if ($eventId > 0) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully inserted data", " event-management-system"),
-                ],
-                200
-            );
-        } else {
             return wp_send_json_error(
                 [
                     "error" => __("Error while inserting data", " event-management-system"),
                 ],
-                500
+                423
             );
         }
+        wp_set_object_terms($eventId, [$categoryId], 'eventCategory');
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully inserted data", " event-management-system"),
+            ],
+            200
+        );
     }
 
     public function fetchEventData()
@@ -57,21 +55,21 @@ class Models
         );
         $data = get_posts($args);
 
-        if (empty($data)) {
+
+        if (!$data) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", " event-management-system"),
                 ],
                 500
             );
-        } else {
-            return wp_send_json_success(
-                [
-                    'event_data'     => $data,
-                ],
-                200
-            );
         }
+        return wp_send_json_success(
+            [
+                'event_data'     => $data,
+            ],
+            200
+        );
     }
 
     public function fetchEventDataForUser($eventCategory, $orderBy, $order)
@@ -97,79 +95,53 @@ class Models
             'include'   => $eventsId,
         );
         $data = get_posts($args);
-        // var_dump($data);
-        $metaData = [];
+
+        //Bind post_meta_data with post_data
         foreach ($data as $value) {
-
-
-
-
-
-
-
             $meta = get_post_meta($value->ID, '', true);
-
-
-
             if ($meta) {
                 $value->meta_value = $meta['eventData'];
             } else {
                 $value->meta_value = null;
             }
-
-            //var_dump($value->meta_value)
-
-
-            // var_dump($meta);
-            // if($meta){
-            // $data["metaData"] = $meta->eventData;
-            // }else{
-            //     $data["metaData"] = null;
-            // }
-            // var_dump();
-            // array_push($metaData,get_post_meta($value->ID,'',true));
-            // array_push($metaData["eventID"],$value->ID);
-
-            // $metaData->get_post_meta($value->ID,'',true);
         }
-        //  print_r($data);
 
 
 
-        if (empty($data)) {
+
+        if (!$data) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", " event-management-system"),
                 ],
                 500
             );
-        } else {
-            return wp_send_json_success(
-                [
-                    'event_data'        => $data,
-                    // 'event_meta_data'   => $metaData,
-                ],
-                200
-            );
         }
+        return wp_send_json_success(
+            [
+                'event_data'        => $data,
+            ],
+            200
+        );
     }
 
     public function fetchSingleEventData($id)
     {
         $singleEvent = get_post_meta($id, '', true);
-        if (wp_validate_boolean($singleEvent)) {
-            return wp_send_json_success(
-                [
-                    'single_event_data'     => $singleEvent,
-                ],
-                200
-            );
-        } else {
+        if (!$singleEvent) {
+
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", " event-management-system"),
                 ],
                 500
+            );
+        } else {
+            return wp_send_json_success(
+                [
+                    'single_event_data'     => $singleEvent,
+                ],
+                200
             );
         }
     }
@@ -181,14 +153,7 @@ class Models
             "description" => $details
         ));
 
-        if (!is_wp_error($id)) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully inserted data", " event-management-system"),
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($id)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while inserting data", " event-management-system"),
@@ -196,6 +161,12 @@ class Models
                 500
             );
         }
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully inserted data", " event-management-system"),
+            ],
+            200
+        );
     }
 
     public function updateOrganizerData($id, $organizerData)
@@ -207,19 +178,19 @@ class Models
             "description"  => $details
 
         ));
-        if (!is_wp_error($formId)) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully edited data", " event-management-system"),
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($formId)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while editing data", " event-management-system"),
                 ],
                 500
+            );
+        } else {
+            return wp_send_json_success(
+                [
+                    "message" => __("Successfully edited data", " event-management-system"),
+                ],
+                200
             );
         }
     }
@@ -241,16 +212,8 @@ class Models
             'meta_input' => $metaArray,
         );
 
-        $eventId =  wp_update_post($data);
-        wp_set_object_terms($eventId, [$categoryId], 'eventCategory');
-        if ($eventId > 0) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully updated Data", "event-management-system"),
-                ],
-                200
-            );
-        } else {
+        $eventId =  wp_update_post($data, true);
+        if (is_wp_error($eventId)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while updating data", "event-management-system"),
@@ -258,20 +221,22 @@ class Models
                 500
             );
         }
+
+        wp_set_object_terms($eventId, [$categoryId], 'eventCategory');
+
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully updated Data", "event-management-system"),
+            ],
+            200
+        );
     }
 
     public function addCategoryData($categoryData)
     {
         extract($categoryData); //It will extract $title
         $id = wp_insert_term($title, 'eventCategory');
-        if (!is_wp_error($id)) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully inserted data", " event-management-system"),
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($id)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while inserting data", " event-management-system"),
@@ -279,19 +244,18 @@ class Models
                 500
             );
         }
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully inserted data", " event-management-system"),
+            ],
+            200
+        );
     }
 
     public function getSingleOrganizer($id)
     {
         $data = get_term($id);
-        if (!is_wp_error($data)) {
-            return wp_send_json_success(
-                [
-                    'single_organizer_data' => $data,
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($data)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", " event-management-system"),
@@ -299,7 +263,12 @@ class Models
                 500
             );
         }
-        wp_send_json_success($data, 200);
+        return wp_send_json_success(
+            [
+                'single_organizer_data' => $data,
+            ],
+            200
+        );
     }
 
     public function updateCategoryData($id, $categoryData)
@@ -309,14 +278,7 @@ class Models
             "name" => $title,
             "slug" => $title,
         ));
-        if (!is_wp_error($termID)) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully Edited Data", "event-management-system"),
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($termID)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while updating data", "event-management-system"),
@@ -324,24 +286,30 @@ class Models
                 500
             );
         }
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully Edited Data", "event-management-system"),
+            ],
+            200
+        );
     }
 
     public function fetchSingleCategory($id)
     {
         $data = get_term($id);
-        if ($data) {
-            return wp_send_json_success(
-                [
-                    'single_category_data'     => $data,
-                ],
-                200
-            );
-        } else {
+        if (is_wp_error($data)) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", "event-management-system"),
                 ],
                 500
+            );
+        } else {
+            return wp_send_json_success(
+                [
+                    'single_category_data'     => $data,
+                ],
+                200
             );
         }
     }
@@ -379,14 +347,7 @@ class Models
         } else {
             $delete = wp_delete_term($id, $taxonomy);
         }
-        if ($delete) {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully deleted data", "contact-manager"),
-                ],
-                200
-            );
-        } else {
+        if (!$delete) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while deleting data", "event-management-system"),
@@ -394,6 +355,12 @@ class Models
                 500
             );
         }
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully deleted data", "contact-manager"),
+            ],
+            200
+        );
     }
 
     public function addRegistrationData($registrationData)
@@ -407,13 +374,6 @@ class Models
         if ($authenticatedEmail == true) {
 
             $this->updateAvailableRegistration($singleEvent, $eventId);
-            // $singleEvent = get_post_meta($eventId, '', true);
-            // $previousData = json_decode($singleEvent["eventData"][0]);
-            // $previousData->limit = $previousData->limit - 1;
-            // $updatedMetaDataLimit = json_encode($previousData);
-            // $updatedMeta =  update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
-
-
 
             $finalData = json_encode($registrationData);
 
@@ -428,31 +388,29 @@ class Models
                 'meta_input'    =>  $metaArray,
             );
 
-            $formId =  wp_insert_post($data);
+            $formId =  wp_insert_post($data, true);
 
-            if ($formId > 0) {
-                return wp_send_json_success(
-                    [
-                        "message" => __("Successfully inserted data", " event-management-system"),
-                    ],
-                    200
-                );
-            } else {
+            if (is_wp_error($formId)) {
                 return wp_send_json_error(
                     [
                         "error" => __("Error while inserting data", " event-management-system"),
                     ],
-                    500
+                    423
                 );
             }
-        } else {
-            return wp_send_json_error(
+            return wp_send_json_success(
                 [
-                    "email" => __("Already registered by this email", " event-management-system"),
+                    "message" => __("Successfully inserted data", " event-management-system"),
                 ],
-                500
+                200
             );
         }
+        return wp_send_json_error(
+            [
+                "email" => __("Already registered by this email", " event-management-system"),
+            ],
+            500
+        );
     }
 
     public function updateAvailableRegistration($singleEvent, $eventId)
@@ -488,26 +446,25 @@ class Models
             'post_type' => 'ems_reg_data',
             'post_status' => 'any',
         );
-        $data =   get_posts($args);
+        $data =  get_posts($args);
         if (is_wp_error($data)) {
             return false;
         }
         return $data;
-        // wp_send_json_success($data, 200);
     }
 
     public function fetchSingleRegistrationData($id)
     {
         $singleEvent = get_post_meta($id);
-        if (wp_validate_boolean($singleEvent)) {
-            return wp_send_json_success($singleEvent, 200);
-        } else {
+        if (!$singleEvent) {
             return wp_send_json_error(
                 [
                     "error" => __("Error while fetching data", " event-management-system"),
                 ],
                 500
             );
+            return wp_send_json_success($singleEvent, 200);
         }
+        return wp_send_json_success($singleEvent, 200);
     }
 }

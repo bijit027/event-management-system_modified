@@ -9,22 +9,23 @@
 
         // $(emsClose).on('click', )
 
-        var that = this;
-        var category = [];
-        $.get(ajax_url.ajaxurl, {
-            ems_nonce: ajax_url.ems_nonce,
-            action: 'ems_events_user_ajax',
-            route: 'get_category_Data',
-        }, function (data) {
-            that.category = data.data.term_data;
-            fetchEventData();
-            var html = '';
-            $.each(that.category, function (index, value) {
-                html += `<option value="${value.term_id}">${value.name}</option>`;
-            })
-            $(".ems_category").append(html);
-        }
-        );
+        // var that = this;
+        // var category = [];
+        // $.get(ajax_url.ajaxurl, {
+        //     ems_nonce: ajax_url.ems_nonce,
+        //     action: 'ems_events_user_ajax',
+        //     route: 'get_category_Data',
+        // }, function (data) {
+        //     that.category = data.data.term_data;
+        //     fetchEventData();
+        //     var html = '';
+        //     $.each(that.category, function (index, value) {
+        //         html += `<option value="${value.term_id}">${value.name}</option>`;
+        //     })
+        //     $(".ems_category").append(html);
+        // }
+        // );
+        fetchEventData();
         var eventCategory = "";
         var orderBy = "";
         var order = "";
