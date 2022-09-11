@@ -11,18 +11,8 @@
           'hide_empty' => false,
         ));
         foreach ($data as $termData) : ?>
-
-          <option value="<?php esc_html_e($termData->term_id) ?>"><?php esc_html_e($termData->name) ?></option>
-
+          <option value="<?php _e($termData->term_id) ?>"><?php esc_html_e($termData->name) ?></option>
         <?php endforeach; ?>
-
-
-
-
-
-
-
-
       </select>
       <label>OrderBy:</label>
       <select name="" class="ems_orderBy">
@@ -42,7 +32,7 @@
   <div class="row ems_row">
 
   </div><br>
-  <h3 class="ems_category_error"></h3>
+  <h3 class="ems_event_error"></h3>
 </div>
 
 
@@ -77,8 +67,11 @@
       </div>
       <div class="modal-body">
         <form id="ems_registration_form">
-          <b>Event: </b>
-          <p class="ems_event_title"></p>
+          <div class="ems_event_name">
+            <b>Event:
+              <p class="ems_event_title"></p>
+            </b>
+          </div>
           <div class="form-group">
             <span class="required">*</span>
             <label for="recipient-name" class="col-form-label">Name:</label>
@@ -87,7 +80,7 @@
           </div>
           <div class="form-group">
             <span class="required">*</span>
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail1" class="col-form-label">Email address:</label>
             <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
             <p class="ems_email_error"></p>
           </div>

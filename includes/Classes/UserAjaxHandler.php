@@ -4,7 +4,6 @@ namespace EMS\Classes;
 
 class UserAjaxHandler extends Models
 {
-
     public function registerEndpoints()
     {
         if (is_user_logged_in()) {
@@ -17,15 +16,12 @@ class UserAjaxHandler extends Models
         $route = sanitize_text_field($_REQUEST['route']);
 
         $validRoutes = array(
-
             'get_event_data'            => 'getEventData',
             'get_single_eventData'      => 'getSingleEventData',
             'get_data_for_user'         => 'getDataForUser',
             'insert_registration_data'  => 'insertRegistrationData',
             'get_category_Data'         => 'getEventCategoryData',
             'delete_organizer'          => 'deleteOrganizer',
-
-
         );
 
         if (isset($validRoutes[$route])) {
@@ -33,20 +29,17 @@ class UserAjaxHandler extends Models
         }
     }
 
-
-
     public function getEventData()
     {
         $this->validateNonce();
-
         parent::fetchEventData();
     }
 
     public function getDataForUser()
     {
-        // $eventCategory = '';
-        // $orderBy =  '';
-        // $order = '';
+        $eventCategory = '';
+        $orderBy =  '';
+        $order = '';
         $this->validateNonce();
 
         if (!empty($_GET['category'])) {
@@ -64,35 +57,30 @@ class UserAjaxHandler extends Models
     public function getSingleEventData()
     {
         $this->validateNonce();
-
         $id = intval($_GET["id"]);
         parent::fetchSingleEventData($id);
     }
 
-
-
     public function getEventCategoryData()
     {
         $this->validateNonce();
-
         $taxonomy = 'eventCategory';
         parent::fetchTermData($taxonomy);
     }
 
-
     public function insertRegistrationData()
     {
         $this->validateNonce();
-
-        $value = ["eventId", "eventTitle", "name", "email"];
-        $field_keys = $this->handleEmptyField($value);
-        $registrationData = $this->senitizeInputValue($field_keys);
+        $value = [
+            "eventId"    => "sanitize_text_field",
+            "eventTitle" => "sanitize_text_field",
+            "name"       => "sanitize_text_field",
+            "email"      => "sanitize_email"
+        ];
+        $this->handleEmptyField($value);
+        $registrationData = $this->sanitizeInputValue($value);
         parent::addRegistrationData($registrationData);
     }
-
-
-
-
 
     public function validateNonce()
     {
@@ -109,30 +97,26 @@ class UserAjaxHandler extends Models
         }
     }
 
-
-
-
-    public function senitizeInputValue($field_keys)
+    public function sanitizeInputValue($field_keys)
     {
-        $inputValue = $field_keys;
         $data = [];
-        foreach ($inputValue as $field_key) {
-
-            if (sanitize_text_field($_POST["data"][$field_key]) != '') {
-                $data[$field_key] = $_POST["data"][$field_key];
-            } else {
-                $this->sanitizationError($field_key);
+        $error = [];
+        foreach ($field_keys as $key => $sanitizer) {
+            $data[$key] = call_user_func($sanitizer, $_POST["data"][$key]);
+            if (!$data[$key]) {
+                $error[$key] = $key;
             }
         }
-
+        if ($error) {
+            $this->sanitizationError($error);
+        }
         return $data;
     }
 
     public function handleEmptyField($value)
     {
-        $inputValue = $value;
         $errors = [];
-        foreach ($inputValue as $field_key) {
+        foreach ($value as $field_key => $sanitizer) {
             if (empty($_POST["data"][$field_key])) {
                 $errors[$field_key] = "Please enter " . $field_key;
             }
@@ -140,17 +124,17 @@ class UserAjaxHandler extends Models
         if (!empty($errors)) {
             return wp_send_json_error($errors, 400);
         }
-        return $inputValue;
+        return $value;
     }
 
     public function sanitizationError($field_key)
     {
-
-        return wp_send_json_error(
-            [
-                $field_key => __('Something suspicious in ' . $field_key, " event-management-system"),
-            ],
-            400
-        );
+        $errors = [];
+        foreach ($field_key as $key => $value) {
+            $errors[$key] = 'Invalid data type for ' . $key;
+        }
+        if ($errors) {
+            return wp_send_json_error($errors, 400);
+        }
     }
 }

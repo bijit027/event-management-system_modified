@@ -24,7 +24,6 @@ class Models
         );
 
         $eventId =  wp_insert_post($data, true);
-
         if (is_wp_error($eventId)) {
 
             return wp_send_json_error(
@@ -51,15 +50,12 @@ class Models
             'order' => 'ASC',
             'post_type' => 'ems_event_data',
             'post_status' => 'publish',
-
         );
         $data = get_posts($args);
-
-
         if (!$data) {
             return wp_send_json_error(
                 [
-                    "error" => __("Error while fetching data", " event-management-system"),
+                    "error" => __("No events were created yet ", " event-management-system"),
                 ],
                 500
             );
@@ -76,8 +72,6 @@ class Models
     {
 
         $eventsId =  get_objects_in_term($eventCategory, 'eventCategory');
-
-
         if (empty($eventsId) && !empty($eventCategory)) {
             return wp_send_json_error(
                 [
@@ -105,14 +99,10 @@ class Models
                 $value->meta_value = null;
             }
         }
-
-
-
-
         if (!$data) {
             return wp_send_json_error(
                 [
-                    "error" => __("Error while fetching data", " event-management-system"),
+                    "error" => __("No events were created yet ", " event-management-system"),
                 ],
                 500
             );
@@ -400,7 +390,7 @@ class Models
             }
             return wp_send_json_success(
                 [
-                    "message" => __("Successfully inserted data", " event-management-system"),
+                    "message" => __("Registration Successful", " event-management-system"),
                 ],
                 200
             );
@@ -426,7 +416,6 @@ class Models
     {
 
         foreach ($postData as $value) {
-
             $metaData = get_post_meta($value->ID, '', true);
             $registeredData = json_decode($metaData["registrationData"][0]);
             if ($registeredData->email == $email && $registeredData->eventId == $eventId) {

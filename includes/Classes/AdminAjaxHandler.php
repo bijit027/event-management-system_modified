@@ -4,7 +4,6 @@ namespace EMS\Classes;
 
 class AdminAjaxHandler extends Models
 {
-
     public function registerEndpoints()
     {
         add_action('wp_ajax_ems_events_admin_ajax', array($this, 'handleEndPoint'));
@@ -39,41 +38,25 @@ class AdminAjaxHandler extends Models
     {
         $this->validateNonce();
 
-
         $value = [
-            "title",  "onlineEvent", "category", "organizer",
-            "startingDate", "startingTime", "endingDate", "endingTime",
-            "location", "deadline"
+            "title" => 'sanitize_text_field',
+            "onlineEvent" => 'sanitize_text_field',
+            "category" => 'sanitize_text_field',
+            "organizer" => 'sanitize_text_field',
+            'limit' => 'sanitize_text_field',
+            "startingDate" => 'sanitize_text_field',
+            "startingTime" => 'sanitize_text_field',
+            "endingDate" => 'sanitize_text_field',
+            "endingTime" => 'sanitize_text_field',
+            "location" => 'sanitize_text_field',
+            "deadline" => 'sanitize_text_field'
         ];
-        $field_keys = $this->handleEmptyField($value);
-        $eventData = $this->senitizeInputValue($field_keys);
 
-        if (!empty($_POST['data']['limit'])) {
-            $limit = sanitize_text_field($_POST['data']['limit']);
-            if (empty($limit)) {
-                $this->sanitizationError('limit');
-            } else {
-                $eventData['limit'] = $limit;
-            }
-        }
+        $this->handleEmptyField($value);
+        $notRequiredValue = array("details" => "sanitize_textarea_field", "url" => "sanitize_url");
+        $value = array_merge($value, $notRequiredValue);
+        $eventData = $this->sanitizeInputValue($value);
 
-        if (!empty($_POST['data']['details'])) {
-            $details = sanitize_textarea_field($_POST['data']['details']);
-            if (empty($details)) {
-                $this->sanitizationError('details');
-            } else {
-                $eventData['details'] = $details;
-            }
-        }
-
-        if (!empty($_POST['data']['url'])) {
-            $url = sanitize_url($_POST['data']['url']);
-            if (empty($url)) {
-                $this->sanitizationError('url');
-            } else {
-                $eventData['url'] = $url;
-            }
-        }
 
         if (isset($_POST["id"])) {
             $id = intval($_POST["id"]);
@@ -82,14 +65,12 @@ class AdminAjaxHandler extends Models
             parent::addEventData($eventData);
         }
     }
+
     public function getEventData()
     {
         $this->validateNonce();
-
         parent::fetchEventData();
     }
-
-
 
     public function getSingleEventData()
     {
@@ -116,9 +97,11 @@ class AdminAjaxHandler extends Models
     public function insertEventCategoryData()
     {
         $this->validateNonce();
-        $value = ["title"];
+        $value = [
+            "title" => "sanitize_text_field"
+        ];
         $field_keys = $this->handleEmptyField($value);
-        $categoryData = $this->senitizeInputValue($field_keys);
+        $categoryData = $this->sanitizeInputValue($field_keys);
 
         if (isset($_POST["id"])) {
             $id = $_POST["id"];
@@ -154,7 +137,7 @@ class AdminAjaxHandler extends Models
         $this->validateNonce();
         $value = ["eventId", "eventTitle", "name", "email"];
         $field_keys = $this->handleEmptyField($value);
-        $registrationData = $this->senitizeInputValue($field_keys);
+        $registrationData = $this->sanitizeInputValue($field_keys);
         parent::addRegistrationData($registrationData);
     }
 
@@ -169,9 +152,12 @@ class AdminAjaxHandler extends Models
     public function insertEventOrganizerData()
     {
         $this->validateNonce();
-        $value = ["name", "details"];
+        $value = [
+            "name" => "sanitize_text_field",
+            "details" => "sanitize_textarea_field"
+        ];
         $field_keys = $this->handleEmptyField($value);
-        $organizerData = $this->senitizeInputValue($field_keys);
+        $organizerData = $this->sanitizeInputValue($field_keys);
         if (isset($_POST["id"])) {
             $id = $_POST["id"];
             parent::updateOrganizerData($id, $organizerData);
@@ -197,35 +183,31 @@ class AdminAjaxHandler extends Models
                 ],
                 400
             );
-        } else {
-            return true;
         }
+        return true;
     }
 
-
-
-
-    public function senitizeInputValue($field_keys)
+    public function sanitizeInputValue($field_keys)
     {
-        $inputValue = $field_keys;
         $data = [];
-        foreach ($inputValue as $field_key) {
-
-            if (sanitize_text_field($_POST["data"][$field_key]) != '') {
-                $data[$field_key] = $_POST["data"][$field_key];
-            } else {
-                $this->sanitizationError($field_key);
+        $error = [];
+        foreach ($field_keys as $key => $sanitizer) {
+            $data[$key] = call_user_func($sanitizer, $_POST["data"][$key]);
+            if (!$data[$key]) {
+                $error[$key] = $key;
             }
         }
-
+        if ($error) {
+            $this->sanitizationError($error);
+        }
         return $data;
     }
 
+
     public function handleEmptyField($value)
     {
-        $inputValue = $value;
         $errors = [];
-        foreach ($inputValue as $field_key) {
+        foreach ($value as $field_key => $sanitizer) {
             if (empty($_POST["data"][$field_key])) {
                 $errors[$field_key] = "Please enter " . $field_key;
             }
@@ -233,17 +215,17 @@ class AdminAjaxHandler extends Models
         if (!empty($errors)) {
             return wp_send_json_error($errors, 400);
         }
-        return $inputValue;
+        return $value;
     }
 
     public function sanitizationError($field_key)
     {
-
-        return wp_send_json_error(
-            [
-                $field_key => __('Something suspicious in ' . $field_key, " event-management-system"),
-            ],
-            400
-        );
+        $errors = [];
+        foreach ($field_key as $key => $value) {
+            $errors[$key] = 'Invalid data type for ' . $key;
+        }
+        if ($errors) {
+            return wp_send_json_error($errors, 400);
+        }
     }
 }

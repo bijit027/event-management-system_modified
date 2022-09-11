@@ -14,6 +14,7 @@
                 <el-form-item label="Event Details" prop="details">
                     <el-col>
                         <el-input type="textarea" v-model="event.details" />
+                         <small class="danger" v-if="errors.details">{{ errors.details }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Category" class="required" prop="category">
@@ -43,6 +44,7 @@
                 <el-form-item label="Banner Url" prop="url">
                     <el-col :span="8">
                         <el-input v-model="event.url" />
+                        <small class="danger" v-if="errors.url">{{ errors.url }}</small>
                     </el-col>
                 </el-form-item>
 
@@ -82,9 +84,10 @@
                         <small class="danger" v-if="errors.location">{{ errors.location }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Limit" prop="limit">
+                <el-form-item label="Limit" class="required" prop="limit">
                     <el-col :span="8">
                         <el-input-number :min="1" v-model="event.limit" />
+                        <small class="danger" v-if="errors.limit">{{ errors.limit }}</small>
                     </el-col>
                 </el-form-item>
                 <el-form-item label="Deadline" class="required" prop="deadline">
