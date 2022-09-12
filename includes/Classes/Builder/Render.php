@@ -24,6 +24,22 @@ class Render
 
     public function render()
     {
+        $args = array(
+            'numberposts' => -1,
+            'orderby' => 'date',
+            'order' => 'ASC',
+            'post_type' => 'ems_event_data',
+            'post_status' => 'publish',
+        );
+        $event = get_posts($args);
+
+        if (!$event) {
+            ob_start();
+            include EMS_CONTACTS_PATH . "/includes/views/error.php";
+            $error =  ob_get_clean();
+            return $error;
+        }
+
         $this->loadAssets();
         //Load Shortcode View Page
         ob_start();

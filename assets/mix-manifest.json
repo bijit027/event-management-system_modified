@@ -1,3 +1,7 @@
 {
-    "/admin/admin.js": "/admin/admin.js"
+    "/admin/admin.js": "/admin/admin.js",
+    "/frontend/js/ems_frontend.js": "/frontend/js/ems_frontend.js",
+    "/frontend/css/frontend.css": "/frontend/css/frontend.css",
+    "/elementPlus/index.css": "/elementPlus/index.css",
+    "/bootstrap/bootstrap.min.css": "/bootstrap/bootstrap.min.css"
 }

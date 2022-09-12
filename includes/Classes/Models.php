@@ -30,7 +30,7 @@ class Models
                 [
                     "error" => __("Error while inserting data", " event-management-system"),
                 ],
-                423
+                500
             );
         }
         wp_set_object_terms($eventId, [$categoryId], 'eventCategory');
@@ -385,7 +385,7 @@ class Models
                     [
                         "error" => __("Error while inserting data", " event-management-system"),
                     ],
-                    423
+                    500
                 );
             }
             return wp_send_json_success(

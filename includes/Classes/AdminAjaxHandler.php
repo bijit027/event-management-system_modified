@@ -57,7 +57,6 @@ class AdminAjaxHandler extends Models
         $value = array_merge($value, $notRequiredValue);
         $eventData = $this->sanitizeInputValue($value);
 
-
         if (isset($_POST["id"])) {
             $id = intval($_POST["id"]);
             parent::updateEventData($id, $eventData);
