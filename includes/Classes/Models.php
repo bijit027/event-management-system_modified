@@ -22,10 +22,18 @@ class Models
             'meta_input'    =>  $metaArray,
             'post_status'   =>  'publish'
         );
-
         $eventId =  wp_insert_post($data, true);
         if (is_wp_error($eventId)) {
-
+            // $errorMessage = $eventId->get_error_message();
+            // $errorCode = $eventId->get_error_code();
+            // var_dump($errorMessage);
+            // var_dump($errorCode);
+            // return wp_send_json_error(
+            //     [
+            //         "error" => __($errorMessage, " event-management-system"),
+            //     ],
+            //     $errorCode
+            // );
             return wp_send_json_error(
                 [
                     "error" => __("Error while inserting data", " event-management-system"),
@@ -126,14 +134,13 @@ class Models
                 ],
                 500
             );
-        } else {
-            return wp_send_json_success(
-                [
-                    'single_event_data'     => $singleEvent,
-                ],
-                200
-            );
         }
+        return wp_send_json_success(
+            [
+                'single_event_data'     => $singleEvent,
+            ],
+            200
+        );
     }
 
     public function addOrganizerData($organizerData)
@@ -175,14 +182,13 @@ class Models
                 ],
                 500
             );
-        } else {
-            return wp_send_json_success(
-                [
-                    "message" => __("Successfully edited data", " event-management-system"),
-                ],
-                200
-            );
         }
+        return wp_send_json_success(
+            [
+                "message" => __("Successfully edited data", " event-management-system"),
+            ],
+            200
+        );
     }
 
     public function updateEventData($id, $eventData)
@@ -294,14 +300,13 @@ class Models
                 ],
                 500
             );
-        } else {
-            return wp_send_json_success(
-                [
-                    'single_category_data'     => $data,
-                ],
-                200
-            );
         }
+        return wp_send_json_success(
+            [
+                'single_category_data'     => $data,
+            ],
+            200
+        );
     }
 
 
@@ -409,7 +414,7 @@ class Models
         $previousData = json_decode($singleEvent["eventData"][0]);
         $previousData->limit = $previousData->limit - 1;
         $updatedMetaDataLimit = json_encode($previousData);
-        $updatedMeta =  update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
+        update_post_meta($eventId, "eventData", $updatedMetaDataLimit);
     }
 
     public function emailAuthentication($postData, $email, $eventId)

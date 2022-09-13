@@ -4,20 +4,20 @@
         <div class="wrap">
             <el-form label-width="100px">
                 <div class="form-item">
-                    <el-form-item label="Event Title" class="required" prop="title" show-message="false">
+                    <el-form-item label="Event Title" class="required" >
                         <el-col>
                             <el-input type="text" size="large" v-model="event.title" />
                             <small class="danger" v-if="errors.title">{{ errors.title }}</small>
                         </el-col>
                     </el-form-item>
                 </div>
-                <el-form-item label="Event Details" prop="details">
+                <el-form-item label="Event Details" >
                     <el-col>
                         <el-input type="textarea" v-model="event.details" />
                          <small class="danger" v-if="errors.details">{{ errors.details }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Category" class="required" prop="category">
+                <el-form-item label="Category" class="required" >
                     <el-col :span="8">
                         <el-select placeholder="Please select your category" v-model="event.category">
                             <el-option v-for="value in category" :key="value.term_id" :label="value.name" :value="value.term_id" />
@@ -25,7 +25,7 @@
                         <small class="danger" v-if="errors.category">{{ errors.category }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Organizer" class="required" prop="organizer">
+                <el-form-item label="Organizer" class="required">
                     <el-col :span="8">
                         <el-select placeholder="Select Organizer" v-model="event.organizer">
                             <el-option v-for="value in organizer" :key="value.ID" :label="value.name" :value="value.name" />
@@ -33,7 +33,7 @@
                         <small class="danger" v-if="errors.organizer">{{ errors.organizer }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Online Event" prop="onlineEvent">
+                <el-form-item label="Online Event">
                     <el-radio-group v-model="event.onlineEvent">
                         <el-radio label="Yes" />
                         <el-radio label="No" />
@@ -41,22 +41,22 @@
                     </el-radio-group>
                     <small class="danger" v-if="errors.onlineEvent">{{ errors.onlineEvent }}</small>
                 </el-form-item>
-                <el-form-item label="Banner Url" prop="url">
+                <el-form-item label="Banner Url">
                     <el-col :span="8">
                         <el-input v-model="event.url" />
                         <small class="danger" v-if="errors.url">{{ errors.url }}</small>
                     </el-col>
                 </el-form-item>
 
-                <el-form-item label="Start Date" class="required" prop="startingDate">
+                <el-form-item label="Start Date" class="required" >
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.startingDate" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="MMM D, YYYY" value-format="MMM D, YYYY" style="width: 100%" v-model="event.startingDate" />
                         <small class="danger" v-if="errors.startingDate">{{ errors.startingDate }}</small>
                     </el-col>
 
                 </el-form-item>
 
-                <el-form-item label="Start Time" class="required" prop="startingTime">
+                <el-form-item label="Start Time" class="required">
 
                     <el-col :span="8">
                         <el-time-picker type="time" placeholder="Pick a time" format="HH:mm:ss" value-format="HH:mm:ss" style="width: 100%" v-model="event.startingTime" />
@@ -65,32 +65,32 @@
 
                 </el-form-item>
 
-                <el-form-item label="End Date" class="required" prop="endingDate">
+                <el-form-item label="End Date" class="required">
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.endingDate" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="MMM D, YYYY" value-format="MMM D, YYYY" style="width: 100%" v-model="event.endingDate" />
                         <small class="danger" v-if="errors.endingDate">{{ errors.endingDate }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="End Time" class="required" prop="endingTime">
+                <el-form-item label="End Time" class="required">
                     <el-col :span="8">
                         <el-time-picker type="time" placeholder="Pick a time" format="HH:mm:ss" value-format="HH:mm:ss" style="width: 100%" v-model="event.endingTime" />
                         <small class="danger" v-if="errors.endingTime">{{ errors.endingTime }}</small>
                     </el-col>
 
                 </el-form-item>
-                <el-form-item label="Location" class="required" prop="location">
+                <el-form-item label="Location" class="required">
                     <el-col :span="8">
                         <el-input type="text" v-model="event.location" />
                         <small class="danger" v-if="errors.location">{{ errors.location }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Limit" class="required" prop="limit">
+                <el-form-item label="Limit" class="required">
                     <el-col :span="8">
                         <el-input-number :min="1" v-model="event.limit" />
                         <small class="danger" v-if="errors.limit">{{ errors.limit }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Deadline" class="required" prop="deadline">
+                <el-form-item label="Deadline" class="required">
                     <el-col :span="8">
                         <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.deadline" />
                         <small class="danger" v-if="errors.deadline">{{ errors.deadline }}</small>

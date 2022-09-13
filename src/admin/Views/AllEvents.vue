@@ -8,9 +8,11 @@
             <el-button type="primary" @click="addEvent()">Add Event</el-button>
         </el-col>
         <el-col :span="10" :offset="8">
-            <div class="message">
-                For view all events use shortcode: <code>[event-management]</code>
-            </div>
+            <el-tooltip effect="dark" content="Click to copy shortcode" title="Click to copy shortcode" placement="top">
+                <code class="copy" :data-clipboard-text='`[event-management]`'>
+                    Use this shortcode [event-management]
+                </code>
+            </el-tooltip>
         </el-col>
     </el-row>
     <el-row>
@@ -47,6 +49,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard';
 import {
     ElButton,
     ElMessage
@@ -72,6 +75,13 @@ export default {
     mounted() {
 
         this.fetchData();
+        var clipboard = new Clipboard('.copy');
+        clipboard.on('success', (e) => {
+            this.$message({
+                message: 'Copied to Clipboard!',
+                type: 'success'
+            });
+        });
     },
     computed: {
         displayData() {
@@ -140,7 +150,6 @@ export default {
                 })
                 .then(response => {
                     that.events = response.data.event_data;
-                    console.log(that.events);
                 })
                 .fail(error => {
                     ElMessage.error(error.responseJSON.data.error)

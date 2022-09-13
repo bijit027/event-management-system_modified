@@ -32,8 +32,10 @@
             e.preventDefault();
             let user = {};
 
-            user.eventId = $(".registerEvent").closest('.wrap').find('.event_id').attr('id');
-            user.eventTitle = $(".registerEvent").closest('.wrap').find('.ems_title').attr('title');
+            // user.eventId = $(".registerEvent").closest('.wrap').find('.event_id').attr('id');
+            // user.eventTitle = $(".registerEvent").closest('.wrap').find('.ems_title').attr('title');
+            user.eventId = $('.wrap').find('.event_id').attr('id');
+            user.eventTitle = $('.wrap').find('.ems_title').attr('title');
 
 
             user.name = $('input[name="name"]').val();
@@ -43,7 +45,8 @@
         });
 
 
-        $(document).on("click", ".ems_register_close", function () {
+        // $(document).on("click", ".ems_register_close", function () {
+        $(document).on("click", ".close", function () {
             $("#ems_registration_form").trigger("reset");
             handleModelMessage();
         });
@@ -80,19 +83,21 @@
                 let title = value.post_title;
                 let content = JSON.parse(value.meta_value);
                 if (content.limit > 0) {
-                    html += `<div class="col-sm-4">`;
-                    html += `<div class="card">`;
+
+                    html += `<div class="col-sm-3">`;
+                    html += `<div class="card" style="cursor: pointer;">`;
                     html += `<div class="card-image"><img class="" src="${content.url}" alt=""></div>`;
                     html += `<div class="card-body card-info">`;
                     html += `<div class="card-text event_id">${Id}</div>`;
-                    html += `<div class="card-text event_title"><b> ${title} </b></div>`;
+                    html += `<div class="card-text event_title stretched-link viewEvent"><b> ${title} </b></div>`;
                     html += `<div class="card-text ems_startingDate"><small><i class="fa fa-calendar" aria-hidden="true"></i> ${content.startingDate}</small></div>`;
-                    html += `<div class="card-text ems_location"><small><i class="fas fa-map-marker-alt"></i> ${content.location}</small></div>`;
+                    html += `<div class="card-text ems_card_location"><small><i class="fas fa-map-marker-alt"></i> ${content.location}</small></div>`;
 
-                    html += `<div><button type="button" class="btn btn-primary float-right btn-sm  viewEvent">View</button></div>`
+                    // html += `<div><button type="button" class="btn btn-primary float-right btn-sm stretched-link viewEvent">View</button></div>`
                     html += `</div>`;
                     html += `</div>`;
                     html += `</div>`;
+
                 }
             });
             $(".ems_row").append(html);
@@ -114,9 +119,14 @@
                     that.singleEvent = data.data.single_event_data;
                     let value = JSON.parse(that.singleEvent.eventData);
                     let html = '';
+                    $('.image').find('img').attr("src", value.url)
+                    $('.ems_starting_date').html(value.startingDate);
+                    $('.ems_ending_date').html(value.endingDate);
+                    $('.ems_location').html(value.location);
+                    $('.ems_event_category').html(value.category);
 
                     html += `<div class="wrap">`;
-                    html += `<div class="image"><img src="${value.url}" alt="" width="800" height="800"></div>`;
+                    // html += `<div class="image"><img src="${value.url}" alt="" ></div>`;
                     html += `<div class="details">`;
                     html += `<div id="${id}" class="event_id"><b>ID:</b> ${id}</div>`;
                     html += `<div title="${value.title}" class="ems_title"><b> ${value.title}</b><hr></div>`;
@@ -128,11 +138,11 @@
                     html += `<div><b>Ending Date:</b> ${value.endingDate}</div>`;
                     html += `<div><b>Ending Time:</b> ${value.endingTime}</div>`;
                     html += `<div><b>Organizer:</b> ${value.organizer}</div>`;
-                    html += `<div><b>Limit:</b> ${value.limit}</div>`;
+                    html += `<div><b>Registration left:</b> ${value.limit}</div>`;
                     html += `<div><b>Location:</b> ${value.location}</div>`;
                     html += `<div><b>Online Event:</b> ${value.onlineEvent}</div>`;
-                    html += `<hr></div>`
-                    html += `<div class="button"><button type="button" class="btn btn-primary  float-right registerEvent">Register</button></div>`
+                    // html += `<hr></div>`
+                    // html += `<div class="button"><button type="button" class="btn btn-primary  float-right registerEvent">Register</button></div>`
 
                     html += `</div>`;
                     html += `</div>`;

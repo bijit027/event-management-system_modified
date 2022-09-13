@@ -1,26 +1,35 @@
 <template>
 <div class="container">
-        <div class="description">
-            <el-card>
-                <div class="image">
-                    <img :src="value.url"  />
-                </div>
-                <el-descriptions title="Event Information">
-                    <el-descriptions-item calss="label" label="Title:"><span class="event_value">{{value.title}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Details:"><span class="event_value">{{value.details}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Category:"><span class="event_value">{{value.category}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Organizer:"><span class="event_value">{{value.organizer}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Online Event:"><span class="event_value">{{value.onlineEvent}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Starting Date:"><span class="event_value">{{value.startingDate}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Starting Time:"><span class="event_value">{{value.startingTime}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Ending Date:"><span class="event_value">{{value.endingDate}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Ending Time:"><span class="event_value">{{value.endingTime}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Location:"><span class="event_value">{{value.location}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Limit:"><span class="event_value">{{value.limit}}</span></el-descriptions-item>
-                    <el-descriptions-item label="Deadline:"><span class="event_value">{{value.deadline}}</span></el-descriptions-item>
-                </el-descriptions>
-            </el-card>
-        </div>
+    <!-- 
+    <el-row>
+        <el-col >
+            <el-button type="primary" @click="addEvent()">Add Event</el-button>
+        </el-col>
+        </el-row> -->
+    <div class="close_button">
+        <el-button type="primary" @click="allEvents()">Close</el-button>
+    </div>
+    <div class="description">
+        <el-card>
+            <div class="image">
+                <img :src="value.url" />
+            </div>
+            <el-descriptions title="Event Information">
+                <el-descriptions-item calss="label" label="Title:"><span class="event_value">{{value.title}}</span></el-descriptions-item>
+                <el-descriptions-item label="Details:"><span class="event_value">{{value.details}}</span></el-descriptions-item>
+                <el-descriptions-item label="Category:"><span class="event_value">{{value.category}}</span></el-descriptions-item>
+                <el-descriptions-item label="Organizer:"><span class="event_value">{{value.organizer}}</span></el-descriptions-item>
+                <el-descriptions-item label="Online Event:"><span class="event_value">{{value.onlineEvent}}</span></el-descriptions-item>
+                <el-descriptions-item label="Starting Date:"><span class="event_value">{{value.startingDate}}</span></el-descriptions-item>
+                <el-descriptions-item label="Starting Time:"><span class="event_value">{{value.startingTime}}</span></el-descriptions-item>
+                <el-descriptions-item label="Ending Date:"><span class="event_value">{{value.endingDate}}</span></el-descriptions-item>
+                <el-descriptions-item label="Ending Time:"><span class="event_value">{{value.endingTime}}</span></el-descriptions-item>
+                <el-descriptions-item label="Location:"><span class="event_value">{{value.location}}</span></el-descriptions-item>
+                <el-descriptions-item label="Limit:"><span class="event_value">{{value.limit}}</span></el-descriptions-item>
+                <el-descriptions-item label="Deadline:"><span class="event_value">{{value.deadline}}</span></el-descriptions-item>
+            </el-descriptions>
+        </el-card>
+    </div>
 </div>
 </template>
 
@@ -37,6 +46,11 @@ export default {
         this.fetchData();
     },
     methods: {
+        allEvents() {
+            this.$router.push({
+                path: `/`
+            })
+        },
         fetchData() {
 
             const that = this;
@@ -85,8 +99,8 @@ export default {
 }
 
 .container {
-    width:60%;
-    height:30%;
+    width: 60%;
+    height: 30%;
     margin: auto;
     margin-top: 50px
 }
@@ -100,6 +114,7 @@ export default {
     margin-left: auto;
 }
 
-
-
+.close_button {
+    text-align: end;
+}
 </style>

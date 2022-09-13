@@ -9,16 +9,31 @@
     max-height: 100%;
 }
 
-.card {
+
+
+/* .card {
 
     background: #fff;
-    width: 200px;
-    margin-left: 50px;
-    margin: 25px 50px;
+    margin-bottom: 20px;
     box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
     border-radius: 10px;
     overflow: hidden;
 
+} */
+.card {
+
+    background: #fff;
+    width: 100%;
+
+    /* box-shadow: 0 5px 25px rgb(1 1 1 / 20%); */
+    border-radius: 10px;
+    overflow: hidden;
+
+}
+
+.card:hover {
+    box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+    transition: .2s;
 }
 
 .image {
@@ -27,8 +42,8 @@
 }
 
 .image img {
-    max-width: 100%;
-    height: 300px;
+    width: 100%;
+    /* height: 200px; */
 }
 
 .viewEvent {
@@ -68,11 +83,11 @@
 
 .ems_filter {
     display: none;
-    margin-left: 30px;
+    /* margin-left: 30px; */
     margin-bottom: 25px;
 }
 
-.ems_location,
+.ems_card_location,
 .ems_startingDate {
     font-size: 15px;
     color: gray;
@@ -97,7 +112,7 @@
 }
 
 .ems_title {
-    text-align: center;
+    /* text-align: center; */
     margin-bottom: 15px;
     font-size: 22px;
 }
@@ -118,6 +133,33 @@
 .ems_row {
     width: fit-content;
     height: fit-content;
+}
+
+.ems_order,
+.ems_orderBy,
+.ems_category {
+    width: 30%;
+}
+
+.ems_filter_table {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ems_event_name {
+    background-color: slategrey;
+    color: white;
+    border-radius: 5px;
+}
+
+.ems_register_form.col-md-4 {
+    margin-top: 10%;
+    margin-right: 15px;
+}
+
+.ems_row.row {
+    width: 100%;
 }
 
 
