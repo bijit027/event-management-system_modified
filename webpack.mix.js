@@ -8,7 +8,7 @@ mix
   // .css("src/public/bootstrap/bootstrap.min.css", "assets/bootstrap/bootstrap.min.css")
   .css("src/public/elementPlus/index.css", "assets/elementPlus/index.css")
   // .css("src/public/fontawesome/all.min.css", "assets/fontawesome/all.min.css")
-  // .css("src/public/frontend/css/frontend.css", "assets/frontend/css/frontend.css")
+  .css("src/public/frontend/css/frontend.css", "assets/frontend/css/frontend.css")
   .js("src/public/frontend/js/ems_frontend.js", "assets/frontend/js/ems_frontend.js")
   .copy("src/public/bootstrap", "assets/bootstrap")
   .copy("src/public/fontawesome", "assets/fontawesome")

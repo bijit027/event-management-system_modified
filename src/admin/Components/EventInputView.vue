@@ -1,23 +1,29 @@
 <template>
-<el-card class="box-card">
+
+<el-card class="box-card input_card">
+    <div class="close_button">
+        <router-link to="/" tag="button">
+            <el-button type="info">Back</el-button>
+        </router-link>
+    </div>
     <div class="container">
-        <div class="wrap">
+        <!-- <div class="wrap"> -->
             <el-form label-width="100px">
                 <div class="form-item">
-                    <el-form-item label="Event Title" class="required" >
-                        <el-col>
+                    <el-form-item label="Event Title" class="required">
+                        <el-col :span="8">
                             <el-input type="text" size="large" v-model="event.title" />
                             <small class="danger" v-if="errors.title">{{ errors.title }}</small>
                         </el-col>
                     </el-form-item>
                 </div>
-                <el-form-item label="Event Details" >
-                    <el-col>
+                <el-form-item label="Event Details">
+                    <el-col :span="8">
                         <el-input type="textarea" v-model="event.details" />
-                         <small class="danger" v-if="errors.details">{{ errors.details }}</small>
+                        <small class="danger" v-if="errors.details">{{ errors.details }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Category" class="required" >
+                <el-form-item label="Category" class="required">
                     <el-col :span="8">
                         <el-select placeholder="Please select your category" v-model="event.category">
                             <el-option v-for="value in category" :key="value.term_id" :label="value.name" :value="value.term_id" />
@@ -33,10 +39,10 @@
                         <small class="danger" v-if="errors.organizer">{{ errors.organizer }}</small>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="Online Event">
+                <el-form-item label=" Event Type">
                     <el-radio-group v-model="event.onlineEvent">
-                        <el-radio label="Yes" />
-                        <el-radio label="No" />
+                        <el-radio label="Online" />
+                        <el-radio label="Offline" />
 
                     </el-radio-group>
                     <small class="danger" v-if="errors.onlineEvent">{{ errors.onlineEvent }}</small>
@@ -48,7 +54,7 @@
                     </el-col>
                 </el-form-item>
 
-                <el-form-item label="Start Date" class="required" >
+                <el-form-item label="Start Date" class="required">
                     <el-col :span="8">
                         <el-date-picker type="date" placeholder="Pick a Date" format="MMM D, YYYY" value-format="MMM D, YYYY" style="width: 100%" v-model="event.startingDate" />
                         <small class="danger" v-if="errors.startingDate">{{ errors.startingDate }}</small>
@@ -92,7 +98,7 @@
                 </el-form-item>
                 <el-form-item label="Deadline" class="required">
                     <el-col :span="8">
-                        <el-date-picker type="date" placeholder="Pick a Date" format="YYYY/MM/DD" value-format="YYYY-MM-DD" style="width: 100%" v-model="event.deadline" />
+                        <el-date-picker type="date" placeholder="Pick a Date" format="MMM D, YYYY" value-format="MMM D, YYYY" style="width: 100%" v-model="event.deadline" />
                         <small class="danger" v-if="errors.deadline">{{ errors.deadline }}</small>
                     </el-col>
                 </el-form-item>
@@ -101,9 +107,11 @@
                     <el-button type="primary" @click="onSubmit">{{ button }}</el-button>
                 </el-form-item>
             </el-form>
-        </div>
+        <!-- </div> -->
     </div>
+
 </el-card>
+
 </template>
 
 <script>
@@ -173,8 +181,8 @@ export default {
     margin-right: 10px;
 }
 
-.box-card {
-    width: 60%;
+.input_card {
+    width: 40%;
     margin: auto;
     margin-top: 50px;
 }

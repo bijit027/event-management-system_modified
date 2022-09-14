@@ -1,47 +1,33 @@
 <template>
-    <div class="wppaymform_global">
-        <div class="wppayform_main_nav">
-            <span class="plugin-name">WPPayForm</span>
-            <router-link v-for="menuItem in topMenus" :key="menuItem.route" active-class="ninja-tab-active" exact :class="['ninja-tab']" :to="{ name: menuItem.route }">
-                {{ menuItem.title }}
-            </router-link>
-        </div>
-        <router-view></router-view>
-    </div>
+<div>
+    <el-form-item>
+       <el-button type="primary" @click="allEvents()">Back</el-button>
+    </el-form-item>
+</div>
 </template>
 
-<script type="text/babel">
-    export default {
-        name: 'global_wrapper',
-        data() {
-            return {
-                topMenus: []
-            }
+<script>
+
+export default {
+
+    props: ['routerLink'],
+    emits: ["form-submit"],
+    methods: {
+                allEvents() {
+            this.$router.push({
+                path: routerLink
+            })
         },
-        methods: {
-            setTopmenu() {
-                this.topMenus = this.applyFilters('wpf_top_level_menu', [
-                    {
-                        route: 'forms',
-                        title: 'All Forms'
-                    },
-                    {
-                        route: 'entries',
-                        title: 'All Entries & Payments'
-                    },
-                    {
-                        route: 'general_settings',
-                        title: 'Settings'
-                    },
-                    {
-                        route: 'support',
-                        title: 'Support'
-                    }
-                ])
-            }
-        },
-        mounted() {
-            this.setTopmenu();
-        }
+
+        // onSubmit() {
+        //     this.$emit("form-submit", this.eventCategory);
+        // }
     }
+}
 </script>
+
+<style scoped>
+.danger {
+    color: red;
+}
+</style>

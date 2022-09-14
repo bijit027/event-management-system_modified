@@ -5,7 +5,7 @@
       <div class="ems_filter_table">
         <!-- <label>Category:</label> -->
         <select name="" class="ems_category">
-          <option value="" selected>All</option>
+          <option value="" selected>Category</option>
           <?php
           $taxonomy = 'eventCategory';
           $data = get_terms(array(
@@ -18,13 +18,15 @@
         </select>
         <!-- <label>OrderBy:</label> -->
         <select name="" class="ems_orderBy">
-          <option value="date" selected>Date</option>
+          <option value="" selected>OrderBy</option>
+          <option value="date" select>Date</option>
           <option value="title" select>Title</option>
           <option value="id" select>ID</option>
         </select>
         <!-- <label>Order:</label> -->
         <select name="" class="ems_order">
-          <option value="ASC" selected>ASC</option>
+          <option value="" selected>Order</option>
+          <option value="ASC" select>ASC</option>
           <option value="DESC" select>DESC</option>
         </select>
       </div>
@@ -34,6 +36,9 @@
   <div class="row ems_row">
 
   </div><br>
+  <!-- <div id="loadMore" style=""> -->
+  <a href="" class="load-more">Load More</a>
+  <!-- </div> -->
   <h3 class="ems_event_error"></h3>
 </div>
 
@@ -50,11 +55,11 @@
         </button>
       </div>
       <div class="image"><img src="" alt=""></div>
-      <div class="row">
-        <div class="col-md-6 modal-body" id="ems_event_data" style="overflow-x: hidden;">
+      <div class="row ems_view">
+        <div class="col-md-6 modal-body" id="ems_event_data" style="overflow-x: hide;">
           //ajax success content here.
         </div>
-        <div class="col-md-4 ems_register_form">
+        <div class=" col-md-4 ems_register_form">
 
 
           <form id="ems_registration_form">
@@ -83,6 +88,12 @@
             </div>
           </form>
 
+          <div class="ems_spots_left">
+            <b>
+              <p class="ems_spots_left_value"></p>
+            </b>
+          </div>
+
           <div class="ems_details">
             <b>Starting Date
             </b>
@@ -93,10 +104,20 @@
             <b>Event Location
             </b>
             <p class="ems_location"></p>
+            <b>Deadline
+            </b>
+            <p class="ems_event_deadline"></p>
+
+            <b>Event Type
+            </b>
+            <p class="ems_event_type"></p>
 
             <b>Event Category
             </b>
             <p class="ems_event_category"></p>
+
+
+
 
             <div>
 

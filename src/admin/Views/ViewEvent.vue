@@ -6,11 +6,17 @@
             <el-button type="primary" @click="addEvent()">Add Event</el-button>
         </el-col>
         </el-row> -->
-    <div class="close_button">
-        <el-button type="primary" @click="allEvents()">Close</el-button>
-    </div>
+    <!-- <div class="close_button">
+        <el-button type="primary" @click="allEvents()">Back</el-button>
+    </div> -->
     <div class="description">
         <el-card>
+            <div class="close_button">
+                <router-link to="/" tag="button">
+                    <!-- <el-icon><Back /></el-icon> -->
+                    <el-button type="info">Back</el-button>
+                </router-link>
+            </div>
             <div class="image">
                 <img :src="value.url" />
             </div>
@@ -19,7 +25,7 @@
                 <el-descriptions-item label="Details:"><span class="event_value">{{value.details}}</span></el-descriptions-item>
                 <el-descriptions-item label="Category:"><span class="event_value">{{value.category}}</span></el-descriptions-item>
                 <el-descriptions-item label="Organizer:"><span class="event_value">{{value.organizer}}</span></el-descriptions-item>
-                <el-descriptions-item label="Online Event:"><span class="event_value">{{value.onlineEvent}}</span></el-descriptions-item>
+                <el-descriptions-item label="Event Type:"><span class="event_value">{{value.onlineEvent}}</span></el-descriptions-item>
                 <el-descriptions-item label="Starting Date:"><span class="event_value">{{value.startingDate}}</span></el-descriptions-item>
                 <el-descriptions-item label="Starting Time:"><span class="event_value">{{value.startingTime}}</span></el-descriptions-item>
                 <el-descriptions-item label="Ending Date:"><span class="event_value">{{value.endingDate}}</span></el-descriptions-item>
@@ -28,7 +34,14 @@
                 <el-descriptions-item label="Limit:"><span class="event_value">{{value.limit}}</span></el-descriptions-item>
                 <el-descriptions-item label="Deadline:"><span class="event_value">{{value.deadline}}</span></el-descriptions-item>
             </el-descriptions>
+            <!-- <div class="close_button">
+                <router-link to="/" tag="button">
+                   
+                    <el-button type="primary">Back</el-button>
+                </router-link>
+            </div> -->
         </el-card>
+
     </div>
 </div>
 </template>
@@ -39,18 +52,15 @@ export default {
         return {
             eventID: this.$route.params.eventID,
             event: {},
-            value: {}
+            value: {},
+
         }
     },
     mounted() {
         this.fetchData();
     },
     methods: {
-        allEvents() {
-            this.$router.push({
-                path: `/`
-            })
-        },
+
         fetchData() {
 
             const that = this;
@@ -115,6 +125,6 @@ export default {
 }
 
 .close_button {
-    text-align: end;
+    text-align: start;
 }
 </style>

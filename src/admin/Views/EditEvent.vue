@@ -1,5 +1,7 @@
 <template>
+
 <EventInputView v-bind:event="value" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
+
 </template>
 
 <script>
@@ -94,5 +96,8 @@ export default {
     width: 60%;
     margin: auto;
     margin-top: 50px;
+}
+.close_button {
+    text-align: end;
 }
 </style>

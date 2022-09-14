@@ -84,7 +84,7 @@
                 let content = JSON.parse(value.meta_value);
                 if (content.limit > 0) {
 
-                    html += `<div class="col-sm-3">`;
+                    html += `<div class="col-sm-3 ems_more_card">`;
                     html += `<div class="card" style="cursor: pointer;">`;
                     html += `<div class="card-image"><img class="" src="${content.url}" alt=""></div>`;
                     html += `<div class="card-body card-info">`;
@@ -100,7 +100,21 @@
 
                 }
             });
+
             $(".ems_row").append(html);
+            let size_li = $(".ems_more_card").size();
+            console.log(size_li);
+            $(".ems_more_card").slice(0, 4).show();
+            $("body").on('click touchstart', '.load-more', function (e) {
+                e.preventDefault();
+                $(".ems_more_card:hidden").slice(0, 4).slideDown();
+                if ($(".ems_more_card:hidden").length == 0) {
+                    $(".load-more").css('visibility', 'hidden');
+                }
+                $('html,body').animate({
+                    scrollTop: $(this).offset().top
+                }, 1000);
+            });
 
         }
 
@@ -119,11 +133,17 @@
                     that.singleEvent = data.data.single_event_data;
                     let value = JSON.parse(that.singleEvent.eventData);
                     let html = '';
-                    $('.image').find('img').attr("src", value.url)
+
+                    $('.image').find('img').attr("src", value.url);
                     $('.ems_starting_date').html(value.startingDate);
                     $('.ems_ending_date').html(value.endingDate);
                     $('.ems_location').html(value.location);
                     $('.ems_event_category').html(value.category);
+                    $('.ems_event_deadline').html(value.deadline);
+                    $('.ems_event_type').html(value.onlineEvent);
+                    $('.ems_spots_left_value').html(value.limit + " spots left");
+
+
 
                     html += `<div class="wrap">`;
                     // html += `<div class="image"><img src="${value.url}" alt="" ></div>`;
@@ -138,9 +158,10 @@
                     html += `<div><b>Ending Date:</b> ${value.endingDate}</div>`;
                     html += `<div><b>Ending Time:</b> ${value.endingTime}</div>`;
                     html += `<div><b>Organizer:</b> ${value.organizer}</div>`;
+                    // html += `<div><b>Deadline:</b> ${value.deadline}</div>`;
                     html += `<div><b>Registration left:</b> ${value.limit}</div>`;
                     html += `<div><b>Location:</b> ${value.location}</div>`;
-                    html += `<div><b>Online Event:</b> ${value.onlineEvent}</div>`;
+                    // html += `<div><b>Online Event:</b> ${value.onlineEvent}</div>`;
                     // html += `<hr></div>`
                     // html += `<div class="button"><button type="button" class="btn btn-primary  float-right registerEvent">Register</button></div>`
 

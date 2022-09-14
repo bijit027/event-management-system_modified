@@ -2,10 +2,15 @@
 <div>
     <!-- <el-card class="box-card"> -->
     <el-form label-width="100px">
+        <div class="close_button">
+            <router-link to="/eventOrganizer" tag="button">
+                <el-button type="info">Back</el-button>
+            </router-link>
+        </div>
         <div class="form-item">
             <el-form-item label="Name" class="required">
                 <el-col>
-                    <el-input type="text" size="large"  v-model="eventOrganizer.name" />
+                    <el-input type="text" size="large" v-model="eventOrganizer.name" />
                     <small class="danger" v-if="errors.name">{{ errors.name }}</small>
                 </el-col>
             </el-form-item>
@@ -30,7 +35,7 @@
 <script>
 export default {
 
-    props: ['eventOrganizer','errors','button'],
+    props: ['eventOrganizer', 'errors', 'button'],
     emits: ["form-submit"],
     methods: {
 
@@ -41,9 +46,8 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .danger {
     color: red;
 }
-
 </style>

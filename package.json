@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.9",
     "@wordpress/hooks": "^3.16.0",
     "clipboard": "^2.0.11",
     "composer": "^4.1.0",
