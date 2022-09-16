@@ -1,33 +1,31 @@
 <template>
-
-<EventInputView v-bind:event="value" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
-
+    <EventInputView
+        v-bind:event="value"
+        v-bind:image="image"
+        v-bind:button="button"
+        v-bind:errors="errors"
+        @form-submit="onSubmit"
+    />
 </template>
 
 <script>
-import {
-    ElButton,
-    ElMessage
-} from 'element-plus';
+import { ElButton, ElMessage } from "element-plus";
 import EventInputView from "../Components/EventInputView.vue";
 export default {
-
     data() {
         return {
             eventID: this.$route.params.eventID,
             events: {},
-            value: {
-               
-            },
-            button: 'Update',
+            value: {},
+            button: "Update",
             organizer: {},
-            ID: '',
+            ID: "",
             errors: [],
-            categoryID: '',
-        }
+            categoryID: "",
+        };
     },
     components: {
-        EventInputView
+        EventInputView,
     },
 
     mounted() {
@@ -37,58 +35,54 @@ export default {
         fetchData() {
             const that = this;
             EMS.adminGet({
-                    route: 'get_single_eventData',
-                    id: that.eventID,
-                    ems_nonce: ajax_url.ems_nonce,
-                })
-                .then(response => {
+                route: "get_single_eventData",
+                id: that.eventID,
+                ems_nonce: ajax_url.ems_nonce,
+            })
+                .then((response) => {
                     that.event = response.data.single_event_data;
-                    
                     that.value = JSON.parse(that.event.eventData);
                     that.categoryID = that.value.categoryID;
-                    console.log(that.value.categoryID);
-                    console.log(that.categoryID);
-
                 })
-                .fail(error => {
-                    ElMessage.error(error.responseJSON.data.error)
-                })
+                .fail((error) => {
+                    ElMessage.error(error.responseJSON.data.error);
+                });
         },
 
         onSubmit() {
-
-            if(typeof this.value.category === 'string'){
+            if (typeof this.value.category === "string") {
                 this.value.category = this.categoryID;
             }
 
-            const that = this
+            const that = this;
+            console.log(that.value);
             EMS.adminPost({
-                    route: 'create_event',
-                    id: that.eventID,
-                    ems_nonce: ajax_url.ems_nonce,
-                    data: that.value,
+                route: "create_event",
+                id: that.eventID,
+                ems_nonce: ajax_url.ems_nonce,
+                data: that.value,
 
-                })
-                .then(response => {
+                // file: that.image,
+            })
+                .then((response) => {
                     ElMessage({
                         showClose: true,
                         message: response.data.message,
-                        type: 'success',
-                    })
+                        type: "success",
+                    });
                     that.$router.push({
-                        name: "AllEvents"
+                        name: "AllEvents",
                     });
                 })
-                .fail(error => {
+                .fail((error) => {
                     that.errors = error.responseJSON.data;
                     if (error.responseJSON.data.error) {
-                        ElMessage.error(error.responseJSON.data.error)
+                        ElMessage.error(error.responseJSON.data.error);
                     }
-                })
-        }
-    }
-
-}
+                });
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -97,6 +91,7 @@ export default {
     margin: auto;
     margin-top: 50px;
 }
+
 .close_button {
     text-align: end;
 }

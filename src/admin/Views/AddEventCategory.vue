@@ -1,29 +1,30 @@
 <template>
-<el-main>
-    <div class="wrap">
-        <h2>Add Category</h2>
-        <el-card class="box-card">
-            <CategoryInputView v-bind:eventCategory="eventCategory" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
-        </el-card>
-    </div>
-</el-main>
+    <el-main>
+        <div class="wrap">
+            <h2>Add Category</h2>
+            <el-card class="box-card">
+                <CategoryInputView
+                    v-bind:eventCategory="eventCategory"
+                    v-bind:button="button"
+                    v-bind:errors="errors"
+                    @form-submit="onSubmit"
+                />
+            </el-card>
+        </div>
+    </el-main>
 </template>
 
 <script>
 import CategoryInputView from "../Components/CategoryInputView.vue";
-import {
-    ElButton,
-    ElMessage
-} from 'element-plus'
+import { ElButton, ElMessage } from "element-plus";
 
 export default {
     components: {
         ElButton,
-        ElMessage
-
+        ElMessage,
     },
     components: {
-        CategoryInputView
+        CategoryInputView,
     },
 
     data() {
@@ -32,46 +33,45 @@ export default {
             events: [],
             category: [],
             eventCategory: {
-                title: '',
-                
+                title: "",
             },
-            button: 'Create',
+            button: "Create",
             errorMessage: null,
-            showSuccess: '',
-            showError: '',
-            errors:[]
-        }
+            showSuccess: "",
+            showError: "",
+            errors: [],
+        };
     },
 
     methods: {
         onSubmit() {
-            const that = this
+            const that = this;
             EMS.adminPost({
-                    route: 'add_event_category',
-                    ems_nonce: ajax_url.ems_nonce,
-                    data: that.eventCategory,
-                })
-                .then(response => {
+                route: "add_event_category",
+                ems_nonce: ajax_url.ems_nonce,
+                data: that.eventCategory,
+            })
+                .then((response) => {
                     ElMessage({
                         showClose: true,
                         message: response.data.message,
-                        type: 'success',
-                    })
+                        type: "success",
+                    });
 
                     that.$router.push({
-                        name: "EventCategories"
+                        name: "EventCategories",
                     });
                 })
-                .fail(error => {
+                .fail((error) => {
                     that.errors = error.responseJSON.data;
-                    
+
                     if (error.responseJSON.data.error) {
-                        ElMessage.error(error.responseJSON.data.error)
+                        ElMessage.error(error.responseJSON.data.error);
                     }
-                })
+                });
         },
-    }
-}
+    },
+};
 </script>
 
 <style scoped>
@@ -80,5 +80,4 @@ export default {
     margin: auto;
     margin-top: 50px;
 }
-
 </style>

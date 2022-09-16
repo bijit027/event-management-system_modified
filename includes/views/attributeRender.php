@@ -37,7 +37,9 @@
 
   </div><br>
   <!-- <div id="loadMore" style=""> -->
-  <a href="" class="load-more">Load More</a>
+  <!-- <a href="" class="load-more">Load More</a> -->
+
+  <div id="pagination-container"></div>
   <!-- </div> -->
   <h3 class="ems_event_error"></h3>
 </div>

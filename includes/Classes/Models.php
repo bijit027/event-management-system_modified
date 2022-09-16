@@ -20,7 +20,7 @@ class Models
             'post_title'    =>  $eventData['title'],
             'post_type'     =>  'ems_event_data',
             'meta_input'    =>  $metaArray,
-            'post_status'   =>  'publish'
+            'post_status'   =>  'publish',
         );
         $eventId =  wp_insert_post($data, true);
         if (is_wp_error($eventId)) {
@@ -76,7 +76,7 @@ class Models
         );
     }
 
-    public function fetchEventDataForUser($eventCategory, $orderBy, $order)
+    public function fetchEventDataForUser($eventCategory, $orderBy, $order, $paged)
     {
 
         $eventsId =  get_objects_in_term($eventCategory, 'eventCategory');
@@ -88,16 +88,41 @@ class Models
                 500
             );
         }
+
+
+
+        // $args = array(
+        //     'numberposts' => 4,
+        //     'orderby' => $orderBy,
+        //     'order' => $order,
+        //     'paged' => $paged,
+        //     'post_type' => 'ems_event_data',
+        //     'post_status' => 'publish',
+
+        //     'tax_query' => array(
+        //         array(
+        //             'taxonomy' => 'eventCategory',
+        //             'terms' => $eventCategory,
+        //         ),
+        //     ),
+        //     // 'category__and' => $eventCategory
+
+        // );
+        // $data = WP_Query($args);
+
+
         $args = array(
-            'numberposts' => -1,
+            'numberposts' => 4,
             'orderby' => $orderBy,
             'order' => $order,
+            'paged' => $paged,
             'post_type' => 'ems_event_data',
             'post_status' => 'publish',
             'include'   => $eventsId,
+            // 'category__and' => $eventCategory
+
         );
         $data = get_posts($args);
-
         //Bind post_meta_data with post_data
         foreach ($data as $value) {
             $meta = get_post_meta($value->ID, '', true);
@@ -107,6 +132,10 @@ class Models
                 $value->meta_value = null;
             }
         }
+
+        // $data["totalPosts"] = wp_count_posts('ems_event_data')->publish;
+        $totalPosts = wp_count_posts('ems_event_data')->publish;
+
         if (!$data) {
             return wp_send_json_error(
                 [
@@ -117,7 +146,8 @@ class Models
         }
         return wp_send_json_success(
             [
-                'event_data'        => $data,
+                'event_data'    => $data,
+                'total_posts'   => $totalPosts
             ],
             200
         );
@@ -193,6 +223,7 @@ class Models
 
     public function updateEventData($id, $eventData)
     {
+        // var_dump($eventData['image']);
         $categoryId = (int)$eventData['category'];
         $term = get_term($eventData['category']);
         $eventData["category"] = $term->name;

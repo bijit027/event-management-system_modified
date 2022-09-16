@@ -40,6 +40,7 @@ class UserAjaxHandler extends Models
         $eventCategory = '';
         $orderBy =  '';
         $order = '';
+        $paged = '';
         $this->validateNonce();
 
         if (!empty($_GET['category'])) {
@@ -51,7 +52,10 @@ class UserAjaxHandler extends Models
         if (!empty($_GET['order'])) {
             $order = sanitize_text_field($_GET['order']);
         }
-        parent::fetchEventDataForUser((int)$eventCategory, $orderBy, $order);
+        if (!empty($_GET['paged'])) {
+            $paged = sanitize_text_field($_GET['paged']);
+        }
+        parent::fetchEventDataForUser((int)$eventCategory, $orderBy, $order, $paged);
     }
 
     public function getSingleEventData()

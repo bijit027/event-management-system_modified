@@ -51,20 +51,32 @@
             handleModelMessage();
         });
 
-        function fetchEventData(eventCategory = "", orderBy = "", order = "") {
-            $.get(ajax_url.ajaxurl, {
+        $(document).on('click', '.paginate', function () {
+            pageno = $(this).attr('ems_page_no');
+            orderBy = $(".ems_orderBy").val();
+            eventCategory = $(".ems_category").val();
+            order = $(".ems_order").val();
+            // pageno = 1;
+            fetchEventData(eventCategory, orderBy, order, pageno);
+            // renderRequest(pageno);
 
+        });
+
+        function fetchEventData(eventCategory = "", orderBy = "", order = "", pageno = "") {
+            $.get(ajax_url.ajaxurl, {
                 action: 'ems_events_user_ajax',
                 route: 'get_data_for_user',
                 category: eventCategory,
                 orderBy: orderBy,
                 order: order,
+                paged: pageno,
                 ems_nonce: ajax_url.ems_nonce,
             }, function (data) {
                 events = data.data.event_data;
+                totalPosts = data.data.total_posts;
                 $(".ems_row").empty();
                 $(".ems_filter").css("display", "block");
-                renderEventCards(events);
+                renderEventCards(events, totalPosts);
 
             }).fail(function (error) {
                 $(".ems_row").empty();
@@ -73,7 +85,9 @@
 
         }
 
-        async function renderEventCards(events) {
+        async function renderEventCards(events, totalPosts) {
+            let reqPerPage = 4;
+            let totalPages = Math.ceil(totalPosts / reqPerPage);
             let html = '';
             $(".card-content").html('');
             let url = window.location.href;
@@ -82,11 +96,12 @@
                 let Id = value.ID;
                 let title = value.post_title;
                 let content = JSON.parse(value.meta_value);
+
                 if (content.limit > 0) {
 
                     html += `<div class="col-sm-3 ems_more_card">`;
                     html += `<div class="card" style="cursor: pointer;">`;
-                    html += `<div class="card-image"><img class="" src="${content.url}" alt=""></div>`;
+                    html += `<div class="card-image"><img class="" src="${content.image}" alt=""></div>`;
                     html += `<div class="card-body card-info">`;
                     html += `<div class="card-text event_id">${Id}</div>`;
                     html += `<div class="card-text event_title stretched-link viewEvent"><b> ${title} </b></div>`;
@@ -100,21 +115,29 @@
 
                 }
             });
-
+            html += `<div class="pagination">`;
+            for (i = 1; i <= totalPages; i++) {
+                html += `<a class="paginate" ems_page_no = ${i}>${i}</a>`;
+            }
+            html += `</div>`;
             $(".ems_row").append(html);
-            let size_li = $(".ems_more_card").size();
-            console.log(size_li);
-            $(".ems_more_card").slice(0, 4).show();
-            $("body").on('click touchstart', '.load-more', function (e) {
-                e.preventDefault();
-                $(".ems_more_card:hidden").slice(0, 4).slideDown();
-                if ($(".ems_more_card:hidden").length == 0) {
-                    $(".load-more").css('visibility', 'hidden');
-                }
-                $('html,body').animate({
-                    scrollTop: $(this).offset().top
-                }, 1000);
-            });
+
+
+
+
+            // let size_li = $(".ems_more_card").size();
+            // console.log(size_li);
+            // $(".ems_more_card").slice(0, 4).show();
+            // $("body").on('click touchstart', '.load-more', function (e) {
+            //     e.preventDefault();
+            //     $(".ems_more_card:hidden").slice(0, 4).slideDown();
+            //     if ($(".ems_more_card:hidden").length == 0) {
+            //         $(".load-more").css('visibility', 'hidden');
+            //     }
+            //     $('html,body').animate({
+            //         scrollTop: $(this).offset().top
+            //     }, 1000);
+            // });
 
         }
 
@@ -134,7 +157,7 @@
                     let value = JSON.parse(that.singleEvent.eventData);
                     let html = '';
 
-                    $('.image').find('img').attr("src", value.url);
+                    $('.image').find('img').attr("src", value.image);
                     $('.ems_starting_date').html(value.startingDate);
                     $('.ems_ending_date').html(value.endingDate);
                     $('.ems_location').html(value.location);
@@ -151,16 +174,16 @@
                     html += `<div id="${id}" class="event_id"><b>ID:</b> ${id}</div>`;
                     html += `<div title="${value.title}" class="ems_title"><b> ${value.title}</b><hr></div>`;
                     html += `<div class="ems_event_details">`
-                    html += `<div><b>Category:</b> ${value.category}</div>`;
+                    // html += `<div><b>Category:</b> ${value.category}</div>`;
                     html += `<div><b>Details:</b> ${value.details}</div>`;
-                    html += `<div><b>Starting Date:</b> ${value.startingDate}</div>`;
-                    html += `<div><b>Starting Time:</b> ${value.startingTime}</div>`;
-                    html += `<div><b>Ending Date:</b> ${value.endingDate}</div>`;
-                    html += `<div><b>Ending Time:</b> ${value.endingTime}</div>`;
-                    html += `<div><b>Organizer:</b> ${value.organizer}</div>`;
+                    // html += `<div><b>Starting Date:</b> ${value.startingDate}</div>`;
+                    // html += `<div><b>Starting Time:</b> ${value.startingTime}</div>`;
+                    // html += `<div><b>Ending Date:</b> ${value.endingDate}</div>`;
+                    // html += `<div><b>Ending Time:</b> ${value.endingTime}</div>`;
+                    // html += `<div><b>Organizer:</b> ${value.organizer}</div>`;
                     // html += `<div><b>Deadline:</b> ${value.deadline}</div>`;
-                    html += `<div><b>Registration left:</b> ${value.limit}</div>`;
-                    html += `<div><b>Location:</b> ${value.location}</div>`;
+                    // html += `<div><b>Registration left:</b> ${value.limit}</div>`;
+                    // html += `<div><b>Location:</b> ${value.location}</div>`;
                     // html += `<div><b>Online Event:</b> ${value.onlineEvent}</div>`;
                     // html += `<hr></div>`
                     // html += `<div class="button"><button type="button" class="btn btn-primary  float-right registerEvent">Register</button></div>`

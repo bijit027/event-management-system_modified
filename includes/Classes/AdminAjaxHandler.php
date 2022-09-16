@@ -26,7 +26,6 @@ class AdminAjaxHandler extends Models
             'get_single_organizer_data' => 'getSingleOrganizerData',
             'delete_organizer'          => 'deleteOrganizer',
             'insert_registration_data'  => 'insertRegistrationData',
-
         );
 
         if (isset($validRoutes[$route])) {
@@ -39,24 +38,36 @@ class AdminAjaxHandler extends Models
         $this->validateNonce();
 
         $value = [
-            "title" => 'sanitize_text_field',
-            "onlineEvent" => 'sanitize_text_field',
-            "category" => 'sanitize_text_field',
-            "organizer" => 'sanitize_text_field',
-            'limit' => 'sanitize_text_field',
-            "startingDate" => 'sanitize_text_field',
-            "startingTime" => 'sanitize_text_field',
-            "endingDate" => 'sanitize_text_field',
-            "endingTime" => 'sanitize_text_field',
-            "location" => 'sanitize_text_field',
-            "deadline" => 'sanitize_text_field'
+            "title"         => 'sanitize_text_field',
+            "onlineEvent"   => 'sanitize_text_field',
+            "category"      => 'sanitize_text_field',
+            "organizer"     => 'sanitize_text_field',
+            'limit'         => 'sanitize_text_field',
+            "startingDate"  => 'sanitize_text_field',
+            "startingTime"  => 'sanitize_text_field',
+            "endingDate"    => 'sanitize_text_field',
+            "endingTime"    => 'sanitize_text_field',
+            "location"      => 'sanitize_text_field',
+            "deadline"      => 'sanitize_text_field'
         ];
+        // $logo         = (isset($_POST['data']['image']) ? $_POST['data']['image'] : '');
+
+
+        // $file = $_POST["data"]["image"];
+        // var_dump($file);
+
+        // $arr_img_ext = array('image/png', 'image/jpeg', 'image/jpg', 'image/gif');
+
+        // $upload = wp_upload_bits("abc/def", null,  $file);
+        // var_dump($upload['url']);
+        //$upload['url'] will gives you uploaded file path
+
 
         $this->handleEmptyField($value);
         $notRequiredValue = array("details" => "sanitize_textarea_field", "url" => "sanitize_url");
         $value = array_merge($value, $notRequiredValue);
         $eventData = $this->sanitizeInputValue($value);
-
+        $eventData['image'] = (isset($_POST['data']['image']) ? $_POST['data']['image'] : '');
         if (isset($_POST["id"])) {
             $id = intval($_POST["id"]);
             parent::updateEventData($id, $eventData);

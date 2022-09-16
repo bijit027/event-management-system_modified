@@ -1,73 +1,69 @@
 <template>
-<EventInputView v-bind:event="event" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
+    <EventInputView v-bind:event="event" v-bind:button="button" v-bind:errors="errors" @form-submit="onSubmit" />
 </template>
 
 <script>
-import {
-    ElButton,
-    ElMessage
-} from 'element-plus';
+import { ElButton, ElMessage } from "element-plus";
 import EventInputView from "../Components/EventInputView.vue";
 export default {
-
     data: function () {
         return {
             event: {
-                title: '',
-                details: '',
-                category: '',
-                organizer: '',
-                onlineEvent: '',
-                url: '',
-                startingDate: '',
-                startingTime: '',
-                endingDate: '',
-                endingTime: '',
-                location: '',
-                limit: '',
-                deadline: '',
-
+                title: "",
+                details: "",
+                category: "",
+                organizer: "",
+                onlineEvent: "",
+                url: "",
+                startingDate: "",
+                startingTime: "",
+                endingDate: "",
+                endingTime: "",
+                location: "",
+                limit: "",
+                deadline: "",
+                image: "",
             },
-            button: 'Create',
-
-            showSuccess: '',
-            showError: '',
+            button: "Create",
+            showSuccess: "",
+            showError: "",
             errors: [],
-        }
+        };
     },
     components: {
-        EventInputView
+        EventInputView,
     },
 
     methods: {
         onSubmit() {
-            const that = this
+            const that = this;
+            console.log(that.event);
             EMS.adminPost({
-                    route: 'create_event',
-                    ems_nonce: ajax_url.ems_nonce,
-                    data: that.event
-                })
-                .then(response => {
+                route: "create_event",
+                ems_nonce: ajax_url.ems_nonce,
+                data: that.event,
+            })
+                .then((response) => {
                     ElMessage({
                         showClose: true,
                         message: response.data.message,
-                        type: 'success',
-                    })
+                        type: "success",
+                    });
 
                     that.$router.push({
-                        name: "AllEvents"
+                        name: "AllEvents",
                     });
                 })
-                .fail(error => {
+                .fail((error) => {
                     that.errors = error.responseJSON.data;
-                    
+
                     if (error.responseJSON.data.error) {
-                        ElMessage.error(error.responseJSON.data.error)
+                        ElMessage.error(error.responseJSON.data.error);
                     }
-                })
-        }
+                });
+        },
     },
-}
+};
 </script>
 
 <style scoped>
