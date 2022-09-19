@@ -155,6 +155,7 @@
     background-color: slategrey;
     color: white;
     border-radius: 5px;
+    padding: 2px;
 }
 
 .ems_register_form.col-md-4 {
@@ -214,21 +215,19 @@
     text-decoration: none;
 }
 
-
-
-
-.pagination {
+.ems_pagination.pagination {
     display: inline-block;
     text-align: center;
+    margin-top: 40px;
 }
 
 .pagination a {
     color: black;
-    float: left;
+    /* float: left; */
     padding: 8px 16px;
     text-decoration: none;
     border: 1px solid #ddd;
-
+    cursor: pointer;
 }
 
 .pagination-active {
@@ -249,6 +248,10 @@
 .pagination a:last-child {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.footer {
+    margin-top: 20px;
 }
 
 

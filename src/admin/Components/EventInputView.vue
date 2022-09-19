@@ -55,12 +55,12 @@
                     </el-radio-group>
                     <small class="danger" v-if="errors.onlineEvent">{{ errors.onlineEvent }}</small>
                 </el-form-item>
-                <el-form-item label="Banner Url">
+                <!-- <el-form-item label="Banner Url">
                     <el-col :span="8">
                         <el-input v-model="event.url" />
                         <small class="danger" v-if="errors.url">{{ errors.url }}</small>
                     </el-col>
-                </el-form-item>
+                </el-form-item> -->
 
                 <!-- <el-form-item label="Image upload">
                     <el-upload
@@ -78,15 +78,16 @@
                     </el-upload>
                 </el-form-item> -->
 
-                <el-form-item label="">
+                <el-form-item label="Event Image">
                     <el-col :span="8">
                         <!-- <el-input type="file" ref="imageurl" id="image" v-model="event.image" @change="uploadImage" /> -->
-                        <span>
-                            {{ event.image ? "Change Logo: " : "Upload Logo: " }}
-                            <img :src="event.image" alt="no image" width="60" height="40" />
-                        </span>
-                        <input ref="imageurl" class="imageurlinput" type="file" @input="uploadImage" />
-                        <small class="danger" v-if="errors.url">{{ errors.url }}</small>
+                        <div class="imagewrap">
+                            <span>
+                                {{ event.image ? "Change Logo: " : "Upload Logo: " }}
+                                <img :src="event.image" width="60" height="40" />
+                            </span>
+                            <input class="imageurlinput" type="file" @input="uploadImage" />
+                        </div>
                     </el-col>
                 </el-form-item>
 
@@ -200,13 +201,6 @@ export default {
     },
 
     methods: {
-        // handleUploadSuccess(response) {
-        //     this.event.image = response.data.file.url;
-        //     console.log(this.event.image);
-        // },
-        // handleUploadError(error) {
-        //     // this.$message.error(error.toString());
-        // },
         fetchCategory() {
             const that = this;
             EMS.adminGet({
@@ -236,9 +230,8 @@ export default {
         onSubmit() {
             this.$emit("form-submit", this.event);
         },
-        uploadImage(e) {
-            let input = this.$refs.imageurl;
-            let file = input.files;
+        uploadImage(event) {
+            let file = event.target.files;
             if (file && file[0]) {
                 let reader = new FileReader();
                 reader.readAsDataURL(file[0]);
@@ -279,6 +272,13 @@ export default {
 </script>
 
 <style scoped>
+.imagewrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
 .container {
     width: 100%;
     padding: 10px;

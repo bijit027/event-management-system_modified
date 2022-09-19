@@ -8,22 +8,7 @@ import EventInputView from "../Components/EventInputView.vue";
 export default {
     data: function () {
         return {
-            event: {
-                title: "",
-                details: "",
-                category: "",
-                organizer: "",
-                onlineEvent: "",
-                url: "",
-                startingDate: "",
-                startingTime: "",
-                endingDate: "",
-                endingTime: "",
-                location: "",
-                limit: "",
-                deadline: "",
-                image: "",
-            },
+            event: {},
             button: "Create",
             showSuccess: "",
             showError: "",

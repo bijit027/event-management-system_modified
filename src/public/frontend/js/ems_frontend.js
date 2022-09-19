@@ -1,6 +1,7 @@
 ; (function ($) {
 
     $(document).ready(function () {
+        let currentPage = 1;
 
         fetchEventData();
         $(".ems_category,.ems_orderBy,.ems_order").each(function () {
@@ -31,35 +32,43 @@
         $('#ems_registration_form').on('submit', function (e) {
             e.preventDefault();
             let user = {};
-
-            // user.eventId = $(".registerEvent").closest('.wrap').find('.event_id').attr('id');
-            // user.eventTitle = $(".registerEvent").closest('.wrap').find('.ems_title').attr('title');
             user.eventId = $('.wrap').find('.event_id').attr('id');
             user.eventTitle = $('.wrap').find('.ems_title').attr('title');
-
-
             user.name = $('input[name="name"]').val();
             user.email = $('input[name="email"]').val();
             handleRegisterEvent(user)
 
         });
 
-
-        // $(document).on("click", ".ems_register_close", function () {
         $(document).on("click", ".close", function () {
             $("#ems_registration_form").trigger("reset");
+            $('.image').find('img').attr("src", "");
             handleModelMessage();
         });
 
         $(document).on('click', '.paginate', function () {
-            pageno = $(this).attr('ems_page_no');
+            currentPage = $(this).attr('ems_page_no');
+            $(".paginate").addClass('active');
             orderBy = $(".ems_orderBy").val();
             eventCategory = $(".ems_category").val();
             order = $(".ems_order").val();
-            // pageno = 1;
-            fetchEventData(eventCategory, orderBy, order, pageno);
-            // renderRequest(pageno);
+            fetchEventData(eventCategory, orderBy, order, currentPage);
+        });
 
+        $(document).on('click', '.ems_prev_page', function () {
+            currentPage = currentPage - 1;
+            orderBy = $(".ems_orderBy").val();
+            eventCategory = $(".ems_category").val();
+            order = $(".ems_order").val();
+            fetchEventData(eventCategory, orderBy, order, currentPage);
+        });
+
+        $(document).on('click', '.ems_next_page', function () {
+            currentPage++;
+            orderBy = $(".ems_orderBy").val();
+            eventCategory = $(".ems_category").val();
+            order = $(".ems_order").val();
+            fetchEventData(eventCategory, orderBy, order, currentPage);
         });
 
         function fetchEventData(eventCategory = "", orderBy = "", order = "", pageno = "") {
@@ -115,16 +124,19 @@
 
                 }
             });
-            html += `<div class="pagination">`;
+
+            html += `<div class="pagination ems_pagination">`;
+            if (currentPage > 1) {
+                html += `<a class="ems_prev_page">&lt;</a>`;
+            }
             for (i = 1; i <= totalPages; i++) {
                 html += `<a class="paginate" ems_page_no = ${i}>${i}</a>`;
             }
+            if (currentPage < totalPages) {
+                html += `<a class="ems_next_page">&gt;</a>`;
+            }
             html += `</div>`;
             $(".ems_row").append(html);
-
-
-
-
             // let size_li = $(".ems_more_card").size();
             // console.log(size_li);
             // $(".ems_more_card").slice(0, 4).show();
@@ -156,7 +168,10 @@
                     that.singleEvent = data.data.single_event_data;
                     let value = JSON.parse(that.singleEvent.eventData);
                     let html = '';
-
+                    if (!value.image) {
+                        $('.image').css('display', 'none');
+                    }
+                    $('.image').css('display', '');
                     $('.image').find('img').attr("src", value.image);
                     $('.ems_starting_date').html(value.startingDate);
                     $('.ems_ending_date').html(value.endingDate);
@@ -165,8 +180,6 @@
                     $('.ems_event_deadline').html(value.deadline);
                     $('.ems_event_type').html(value.onlineEvent);
                     $('.ems_spots_left_value').html(value.limit + " spots left");
-
-
 
                     html += `<div class="wrap">`;
                     // html += `<div class="image"><img src="${value.url}" alt="" ></div>`;
@@ -187,7 +200,6 @@
                     // html += `<div><b>Online Event:</b> ${value.onlineEvent}</div>`;
                     // html += `<hr></div>`
                     // html += `<div class="button"><button type="button" class="btn btn-primary  float-right registerEvent">Register</button></div>`
-
                     html += `</div>`;
                     html += `</div>`;
                     $("#ems_event_view").modal("show");

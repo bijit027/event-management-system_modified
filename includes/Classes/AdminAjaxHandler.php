@@ -64,7 +64,7 @@ class AdminAjaxHandler extends Models
 
 
         $this->handleEmptyField($value);
-        $notRequiredValue = array("details" => "sanitize_textarea_field", "url" => "sanitize_url");
+        $notRequiredValue = array("details" => "sanitize_textarea_field");
         $value = array_merge($value, $notRequiredValue);
         $eventData = $this->sanitizeInputValue($value);
         $eventData['image'] = (isset($_POST['data']['image']) ? $_POST['data']['image'] : '');

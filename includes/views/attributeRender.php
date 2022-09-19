@@ -5,7 +5,7 @@
       <div class="ems_filter_table">
         <!-- <label>Category:</label> -->
         <select name="" class="ems_category">
-          <option value="" selected>Category</option>
+          <option value="" selected>Choose Category</option>
           <?php
           $taxonomy = 'eventCategory';
           $data = get_terms(array(
@@ -13,7 +13,7 @@
             'hide_empty' => false,
           ));
           foreach ($data as $termData) : ?>
-            <option value="<?php _e($termData->term_id) ?>"><?php esc_html_e($termData->name) ?></option>
+            <option value="<?php _e($termData->term_id) ?>"><?php _e($termData->name) ?></option>
           <?php endforeach; ?>
         </select>
         <!-- <label>OrderBy:</label> -->
@@ -84,7 +84,7 @@
             </div>
             <div id="ems_success"></div>
             <div id="ems_error"></div>
-            <div class="modal-footer">
+            <div class="footer">
               <button type="submit" id="ems_register_submit" class="btn btn-primary btn-block btn-sm ems_register_submit">Register</button>
 
             </div>
@@ -117,12 +117,7 @@
             <b>Event Category
             </b>
             <p class="ems_event_category"></p>
-
-
-
-
             <div>
-
             </div>
           </div>
 
