@@ -12,18 +12,6 @@
 				</el-tooltip>
 			</div>
 		</div>
-		<!-- <el-row :gutter="30">
-        <el-col :span="6">
-            <el-button type="primary" @click="addEvent()">Add Event</el-button>
-        </el-col>
-        <el-col :span="10" :offset="8">
-            <el-tooltip effect="dark" content="Click to copy shortcode" title="Click to copy shortcode" placement="top">
-                <code class="copy" :data-clipboard-text='`[event-management]`'>
-                    Use this shortcode [event-management]
-                </code>
-            </el-tooltip>
-        </el-col>
-    </el-row> -->
 		<el-row>
 			<el-table :data="displayData" style="width: 100%">
 				<el-table-column label="ID" prop="ID" />
